@@ -1,0 +1,14 @@
+<h3>口コミ</h3>
+<% @shop.reviews.each do |review| %>
+  <p><%= review.content %> - <%= review.user.name %></p>
+<% end %>
+
+<% if logged_in? %>
+  <%= form_with model: [@shop, Review.new] do |f| %>
+    <%= f.text_area :content %><br>
+    <%= f.number_field :rating, in: 1..5 %><br>
+    <%= f.submit "投稿" %>
+  <% end %>
+<% else %>
+  <p>口コミを投稿するには <%= link_to "ログイン", login_path %> してください。</p>
+<% end %>

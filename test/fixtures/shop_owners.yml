@@ -1,0 +1,12 @@
+# test/fixtures/shop_owners.yml
+one:
+  shop: one
+  email: owner1@example.com
+  name: オーナー1
+  password_digest: <%= BCrypt::Password.create('password') %>
+
+two:
+  shop: two
+  email: owner2@example.com
+  name: オーナー2
+  password_digest: <%= BCrypt::Password.create('password') %>

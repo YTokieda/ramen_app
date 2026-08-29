@@ -1,0 +1,30 @@
+<%= form_with model: @shop_owner, local: true do |f| %>
+  <%= f.label :name, "オーナー名" %>
+  <%= f.text_field :name %>
+
+  <%= f.label :email, "メール" %>
+  <%= f.email_field :email %>
+
+  <%= f.label :password, "パスワード" %>
+  <%= f.password_field :password %>
+
+  <%= f.label :password_confirmation, "確認用パスワード" %>
+  <%= f.password_field :password_confirmation %>
+
+  <%= f.label :business_license, "事業許可証" %>
+  <%= f.file_field :business_license %>
+
+  <h3>店舗情報</h3>
+  <%= f.fields_for :shop do |s| %>
+    <%= s.label :name, "店舗名" %>
+    <%= s.text_field :name %>
+
+    <%= s.label :address, "住所" %>
+    <%= s.text_field :address %>
+
+    <%= s.label :description, "説明" %>
+    <%= s.text_area :description %>
+  <% end %>
+
+  <%= f.submit "登録" %>
+<% end %>

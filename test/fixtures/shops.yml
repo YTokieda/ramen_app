@@ -1,0 +1,12 @@
+# test/fixtures/shops.yml
+one:
+  name: "ラーメン一郎"
+  address: "東京都新宿区1-1-1"
+  description: "こってり系ラーメン"
+  egg_free: false
+
+two:
+  name: "ラーメン二郎"
+  address: "東京都港区2-2-2"
+  description: "あっさり系ラーメン"
+  egg_free: false

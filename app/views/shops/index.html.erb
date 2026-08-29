@@ -1,0 +1,20 @@
+<h1>ラーメン店一覧</h1>
+
+
+<%= form_with url: shops_path, method: :get, local: true do %>
+  <%= text_field_tag :address, params[:address], placeholder: "住所で検索" %>
+  <%= submit_tag "検索" %>
+<% end %>
+
+
+<%= link_to "新しい店舗を追加", new_shop_path %>
+<ul>
+  <% @shops.each do |shop| %>
+    <li>
+      <%= link_to shop.name, shop_path(shop) %>
+      <span><%= shop.address %></span>
+      
+      <% if shop.egg_free %><span>卵不使用</span><% end %>
+    </li>
+  <% end %>
+</ul>

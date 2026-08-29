@@ -1,0 +1,9 @@
+one:
+  shop: one
+  user: michael
+  content: "美味しいラーメンでした"
+
+two:
+  shop: two
+  user: archer
+  content: "卵なしで安心"

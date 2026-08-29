@@ -1,0 +1,11 @@
+<h1><%= @shop.name %> ダッシュボード</h1>
+
+<p>現在の確認状態:
+  <% if @shop.verified? %>
+    <span class="badge">確認済</span>
+  <% else %>
+    <%= button_to "確認済みにする", verify_shop_path(@shop), method: :patch %>
+  <% end %>
+</p>
+
+<p><%= link_to "店舗情報編集", edit_shop_path(@shop) %></p>

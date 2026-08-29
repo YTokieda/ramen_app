@@ -1,0 +1,12 @@
+<h1>店舗ログイン</h1>
+<%= form_with url: shop_owner_login_path, local: true do |f| %>
+  <div>
+    <%= label_tag :email %>
+    <%= text_field_tag "session[email]" %>
+  </div>
+  <div>
+    <%= label_tag :password %>
+    <%= password_field_tag "session[password]" %>
+  </div>
+  <%= submit_tag "ログイン" %>
+<% end %>
