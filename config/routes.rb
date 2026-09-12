@@ -17,21 +17,32 @@ Rails.application.routes.draw do
 
 
   # ラーメン店舗とレビュー
-  resources :shops do
-    resources :reviews, only: [:create, :destroy]
-    member do
-      patch :verify   # /shops/:id/verify → 確認済みにする
-    end
+  # resources :shops do
+  #   resources :reviews, only: [:create, :destroy]
+  #   member do
+  #     patch :verify   # /shops/:id/verify → 確認済みにする
+  #   end
+  # end
+  
+  resources :shops, only: [:index, :show] do
+    resources :reviews, only:[:create, :destroy]
   end
 
   # 店舗オーナー用ルート（修正版）
   resources :shop_owners, only: [:new, :create] do
     get :dashboard, on: :collection
   end
+  
+  resources :shop_submissions, only: [:new, :create]
 
 
-  # 店舗オーナー用ログイン
-  get    'shop_owner/login',  to: 'shop_sessions#new'
-  post   'shop_owner/login',  to: 'shop_sessions#create'
-  delete 'shop_owner/logout', to: 'shop_sessions#destroy'
+  namespace :admin do
+    resources :shop_submissions, only: [:index, :show] do
+      member do
+        patch :approve
+        patch :reject
+      end
+    end
+  end
+
 end

@@ -1,6 +1,8 @@
 class User < ApplicationRecord
     has_many :reviews, dependent: :destroy
-   
+    has_many :shop_owners, dependent: :destroy
+    has_many :owned_shops, through: :shop_owners, source: :shop
+    has_many :shop_submissions, dependent: :destroy
 
     attr_accessor :remember_token, :activation_token, :reset_token
     before_save   :downcase_email

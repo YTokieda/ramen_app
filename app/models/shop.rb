@@ -1,6 +1,7 @@
 class Shop < ApplicationRecord
     has_many :reviews, dependent: :destroy
     has_one :shop_owner, dependent: :destroy
+    has_many :owners, through: :shop_owners, source: :user
     validates :name, presence: true
     validates :address, presence: true
     

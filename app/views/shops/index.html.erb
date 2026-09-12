@@ -1,20 +1,28 @@
-<h1>ラーメン店一覧</h1>
+<h1>卵アレルギー対応ラーメン店</h1>
 
-
-<%= form_with url: shops_path, method: :get, local: true do %>
-  <%= text_field_tag :address, params[:address], placeholder: "住所で検索" %>
-  <%= submit_tag "検索" %>
-<% end %>
-
-
-<%= link_to "新しい店舗を追加", new_shop_path %>
-<ul>
-  <% @shops.each do |shop| %>
-    <li>
-      <%= link_to shop.name, shop_path(shop) %>
-      <span><%= shop.address %></span>
-      
-      <% if shop.egg_free %><span>卵不使用</span><% end %>
-    </li>
+<p>
+  <% if logged_in? %>
+    <%= link_to "掲載されていない店舗を情報提供する",
+                new_shop_submission_path %>
+  <% else %>
+    店舗情報を提供するには
+    <%= link_to "ログイン", login_path %>
+    してください。
   <% end %>
-</ul>
+</p>
+
+<% @shops.each do |shop| %>
+  <div class="shop">
+    <h2>
+      <%= link_to shop.name, shop_path(shop) %>
+    </h2>
+
+    <p>
+      <%= shop.address %>
+    </p>
+
+    <% if shop.egg_free? %>
+      <p>卵不使用情報あり</p>
+    <% end %>
+  </div>
+<% end %>

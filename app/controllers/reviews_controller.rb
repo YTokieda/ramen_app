@@ -1,26 +1,37 @@
 class ReviewsController < ApplicationController
-  before_action :logged_in_user, only: [:create, :destroy]
+  before_action :logged_in_user
 
   def create
     @shop = Shop.find(params[:shop_id])
-    @review = @shop.reviews.build(review_params)
-    @review.user = current_user
+    @review = current_user.reviews.build(review_params)
+    @review.shop = @shop
+
     if @review.save
-      redirect_to @shop, notice: "口コミを投稿しました。"
+      flash[:success] = "口コミを投稿しました"
+      redirect_to @shop
     else
-      redirect_to @shop, alert: "投稿に失敗しました。"
+      @reviews = @shop.reviews
+      render "shops/show", status: :unprocessable_entity
     end
   end
-
+  
+  
   def destroy
-    @review = current_user.reviews.find(params[:id])
-    @review.destroy
-    redirect_to @review.shop, notice: "口コミを削除しました。"
+     @shop = Shop.find(params[:shop_id])
+     @review = current_user.reviews.find_by(id: params[:id])
+      if @review
+        @review.destroy
+        flash[:success] = "口コミを削除しました"
+      else
+        flash[:danger] = "この口コミは削除できません"
+      end
+    
+    redirect_to @shop
   end
 
   private
 
   def review_params
-    params.require(:review).permit(:content, :rating)
+    params.require(:review).permit(:content, images: [])
   end
 end
