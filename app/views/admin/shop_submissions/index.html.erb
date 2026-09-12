@@ -1,0 +1,28 @@
+<h1>店舗情報提供一覧</h1>
+
+<% if @shop_submissions.any? %>
+
+  <% @shop_submissions.each do |submission| %>
+    <div>
+      <p>
+        <strong>
+          <%= link_to submission.name,
+                      admin_shop_submission_path(submission) %>
+        </strong>
+      </p>
+
+      <p>
+        住所：<%= submission.address %>
+      </p>
+
+      <p>
+        ステータス：<%= submission.status %>
+      </p>
+    </div>
+
+    <hr>
+  <% end %>
+
+<% else %>
+  <p>店舗情報提供はありません。</p>
+<% end %>

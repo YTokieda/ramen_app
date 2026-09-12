@@ -1,14 +1,117 @@
-<h3>口コミ</h3>
-<% @shop.reviews.each do |review| %>
-  <p><%= review.content %> - <%= review.user.name %></p>
+<h1><%= @shop.name %></h1>
+
+<p>
+  <strong>住所：</strong>
+  <%= @shop.address %>
+</p>
+
+<% if @shop.description.present? %>
+  <p>
+    <strong>店舗説明：</strong>
+    <%= @shop.description %>
+  </p>
 <% end %>
 
+<p>
+  <strong>卵不使用情報：</strong>
+  <%= @shop.egg_free? ? "あり" : "未確認" %>
+</p>
+
 <% if logged_in? %>
-  <%= form_with model: [@shop, Review.new] do |f| %>
-    <%= f.text_area :content %><br>
-    <%= f.number_field :rating, in: 1..5 %><br>
-    <%= f.submit "投稿" %>
+  <h2>口コミを投稿する</h2>
+  
+  <% if @review.errors.any? %>
+    <div>
+      <p>口コミを投稿できませんでした。</p>
+
+      <ul>
+        <% @review.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form_with(model: [@shop, @review]) do |f| %>
+
+    <div>
+      <%= f.label :content, "口コミ" %>
+      <%= f.text_area :content %>
+    </div>
+    
+    <div>
+      <%= f.label :images, "写真" %>
+      <%= f.file_field :images,
+                       multiple: true,
+                       accept: "image/jpeg,image/png,image/webp" %>
+        <p>
+          JPEG・PNG・WebP形式、最大3枚、1枚5MBまで
+        </p>                 
+                       
+    </div>
+
+  <%= f.submit "口コミを投稿する" %>
+
   <% end %>
 <% else %>
-  <p>口コミを投稿するには <%= link_to "ログイン", login_path %> してください。</p>
+  <p>
+    口コミを投稿するには
+    <%= link_to "ログイン", login_path %>
+    してください。
+  </p>
 <% end %>
+
+
+
+<h2>口コミ</h2>
+
+<% if @reviews.any? %>
+  <% @reviews.each do |review| %>
+    <div class="review">
+      <p>
+        <strong><%= review.user.name %></strong>
+      </p>
+
+      <p>
+        <%= review.content %>
+      </p>
+      
+    <% if review.images.attached? %>
+      <% review.images.each do |image| %>
+        <%= image_tag image, width: 300 %>
+      <% end %>
+    <% end %>
+
+      <p>
+        投稿日：<%= review.created_at.strftime("%Y/%m/%d") %>
+      </p>
+      
+      <% if current_user == review.user %>
+      
+      <%= link_to "削除",
+                    shop_review_path(@shop, review),
+                    data: {
+                      turbo_method: :delete,
+                      turbo_confirm: "本当に削除しますか？"
+                    } %>
+      <% end %>
+        
+    </div>
+
+    <hr>
+  <% end %>
+<% else %>
+  <p>まだ口コミはありません。</p>
+<% end %>
+
+
+<% if logged_in? %>
+  <p>
+    <%= link_to "掲載されていない店舗を情報提供する",
+                new_shop_submission_path %>
+  </p>
+<% end %>
+
+<p>
+  <%= link_to "店舗一覧に戻る", shops_path %>
+</p>

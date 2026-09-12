@@ -1,0 +1,43 @@
+<h1><%= @shop_submission.name %></h1>
+
+<p>
+  <strong>住所：</strong>
+  <%= @shop_submission.address %>
+</p>
+
+<p>
+  <strong>店舗情報：</strong>
+  <%= @shop_submission.description %>
+</p>
+
+<p>
+  <strong>情報提供者：</strong>
+  <%= @shop_submission.user.name %>
+</p>
+
+<p>
+  <strong>ステータス：</strong>
+  <%= @shop_submission.status %>
+</p>
+
+<% if @shop_submission.status == "pending" %>
+
+  <%= button_to "承認して店舗登録",
+                approve_admin_shop_submission_path(@shop_submission),
+                method: :patch,
+                data: {
+                  turbo_confirm: "この店舗情報を承認しますか？"
+                } %>
+
+  <%= button_to "却下",
+                reject_admin_shop_submission_path(@shop_submission),
+                method: :patch,
+                data: {
+                  turbo_confirm: "この店舗情報を却下しますか？"
+                } %>
+
+<% end %>
+
+<p>
+  <%= link_to "一覧へ戻る", admin_shop_submissions_path %>
+</p>
