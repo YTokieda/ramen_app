@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_09_10_143542) do
+ActiveRecord::Schema[7.0].define(version: 2026_09_23_043625) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,6 +39,26 @@ ActiveRecord::Schema[7.0].define(version: 2026_09_10_143542) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "menu_items", force: :cascade do |t|
+    t.integer "shop_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop_id", "name"], name: "index_menu_items_on_shop_id_and_name", unique: true
+    t.index ["shop_id"], name: "index_menu_items_on_shop_id"
+  end
+
+  create_table "review_replies", force: :cascade do |t|
+    t.integer "review_id", null: false
+    t.integer "shop_owner_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["review_id"], name: "index_review_replies_on_review_id", unique: true
+    t.index ["shop_owner_id"], name: "index_review_replies_on_shop_owner_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "shop_id", null: false
@@ -55,6 +75,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_09_10_143542) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
+    t.string "status", default: "pending", null: false
     t.index ["shop_id"], name: "index_shop_owners_on_shop_id"
     t.index ["user_id", "shop_id"], name: "index_shop_owners_on_user_id_and_shop_id", unique: true
     t.index ["user_id"], name: "index_shop_owners_on_user_id"
@@ -97,14 +118,40 @@ ActiveRecord::Schema[7.0].define(version: 2026_09_10_143542) do
     t.datetime "activated_at"
     t.string "reset_digest"
     t.datetime "reset_sent_at"
+    t.datetime "withdrawn_at"
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "verifications", force: :cascade do |t|
+    t.integer "shop_id", null: false
+    t.integer "menu_item_id"
+    t.string "category"
+    t.string "egg_status"
+    t.string "source_type"
+    t.string "verification_method"
+    t.date "verified_on"
+    t.text "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.string "status", default: "pending", null: false
+    t.index ["menu_item_id"], name: "index_verifications_on_menu_item_id"
+    t.index ["shop_id"], name: "index_verifications_on_shop_id"
+    t.index ["status"], name: "index_verifications_on_status"
+    t.index ["user_id"], name: "index_verifications_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "menu_items", "shops"
+  add_foreign_key "review_replies", "reviews"
+  add_foreign_key "review_replies", "shop_owners"
   add_foreign_key "reviews", "shops"
   add_foreign_key "reviews", "users"
   add_foreign_key "shop_owners", "shops"
   add_foreign_key "shop_owners", "users"
   add_foreign_key "shop_submissions", "users"
+  add_foreign_key "verifications", "menu_items"
+  add_foreign_key "verifications", "shops"
+  add_foreign_key "verifications", "users"
 end

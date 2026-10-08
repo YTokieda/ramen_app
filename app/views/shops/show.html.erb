@@ -17,7 +17,221 @@
   <%= @shop.egg_free? ? "あり" : "未確認" %>
 </p>
 
+
+<h2>メニュー</h2>
+
+<% if @menu_items.any? %>
+  <% @menu_items.each do |menu_item| %>
+    <div>
+      <h3><%= menu_item.name %></h3>
+
+      <% if menu_item.description.present? %>
+        <p><%= menu_item.description %></p>
+      <% end %>
+    </div>
+  
+    <% if logged_in? %>
+      <p>
+         <%= link_to "このメニューの卵情報を提供する",
+               new_shop_verification_path(
+                 @shop,
+                 menu_item_id: menu_item.id
+                 ) %>
+      </p>
+    <% end %>
+  <% end %>
+  
+<% else %>
+  <p>メニュー情報はまだ登録されていません。</p>
+<% end %>
+
 <% if logged_in? %>
+  <p>
+    <%= link_to "メニューを追加する", new_shop_menu_item_path(@shop) %>
+  </p>
+<% end %>
+
+<h2>調理環境</h2>
+
+<p>
+  共通の調理器具や茹で湯など、
+  店舗の調理環境についての情報です。
+</p>
+
+
+<h2>卵に関する確認情報</h2>
+
+<% if @approved_verifications.any? %>
+
+  <% @approved_verifications.each do |verification| %>
+
+    <div>
+      <% if verification.menu_item.present? %>
+        <p>
+          <strong>対象メニュー：</strong>
+          <%= verification.menu_item.name %>
+        </p>
+      <% else %>
+        <p>
+          <strong>対象：</strong>
+          店舗の調理環境
+        </p>
+      <% end %>
+
+      <p>
+        <strong>確認項目：</strong>
+        <%= verification_category_label(verification.category) %>
+      </p>
+
+      <p>
+        <strong>卵の使用状況：</strong>
+        <%= egg_status_label(verification.egg_status) %>
+      </p>
+
+      <p>
+        <strong>情報源：</strong>
+        <%= verification_source_label(verification.source_type) %>
+        
+      <p>
+        <strong>確認方法：</strong>
+        <%= verification.verification_method %>
+      </p>
+
+      <p>
+        <strong>確認日：</strong>
+        <%= verification.verified_on %>
+      </p>
+
+      <% if verification.note.present? %>
+        <p>
+          <strong>補足：</strong>
+          <%= verification.note %>
+        </p>
+      <% end %>
+
+      <p>
+        <strong>確認状況：</strong>
+        運営確認済み
+      </p>
+      
+    
+    <% histories = @verification_histories.fetch(
+      [verification.menu_item_id, verification.category], []
+      ) %>
+    
+    <% if histories.any? %>
+      <details>
+        <summary>過去の確認情報を見る（<%= histories.size %>件）</summary>
+    
+        <ul>
+          <% histories.each do |history| %>
+            <li>
+              <p>
+                <strong>確認日：</strong>
+                <%= history.verified_on %>
+              </p>
+    
+              <p>
+                <strong>卵の使用状況：</strong>
+                <%= egg_status_label(history.egg_status) %>
+              </p>
+    
+              <p>
+                <strong>情報源：</strong>
+                <%= verification_source_label(history.source_type) %>
+              </p>
+    
+              <p>
+                <strong>確認方法：</strong>
+                <%= history.verification_method %>
+              </p>
+    
+              <% if history.note.present? %>
+                <p>
+                  <strong>補足：</strong>
+                  <%= history.note %>
+                </p>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </details>
+    <% end %>
+    
+    </div>
+    <hr>
+
+  <% end %>
+
+<% else %>
+
+  <p>現在、運営確認済みの卵情報はありません。</p>
+
+<% end %>
+
+
+<% if logged_in? && @my_unapproved_verifications.any? %>
+
+  <h2>あなたが提供した確認情報</h2>
+
+  <% @my_unapproved_verifications.each do |verification| %>
+
+    <div>
+      <% if verification.menu_item.present? %>
+        <p>
+          <strong>対象メニュー：</strong>
+          <%= verification.menu_item.name %>
+        </p>
+      <% else %>
+        <p>
+          <strong>対象：</strong>
+          店舗の調理環境
+        </p>
+      <% end %>
+
+      <p>
+        <strong>確認項目：</strong>
+        <%= verification_status_label(verification.status) %>
+      </p>
+
+      <p>
+        <strong>確認状況：</strong>
+
+        <% case verification.status %>
+        <% when "pending" %>
+          運営確認待ち
+        <% when "rejected" %>
+          却下
+        <% end %>
+      </p>
+
+      <p>
+        <strong>確認日：</strong>
+        <%= verification.verified_on %>
+      </p>
+    </div>
+
+    <hr>
+
+  <% end %>
+
+<% end %>
+
+<% if logged_in? %>
+  <%= link_to "店舗の調理環境について情報を提供する",
+              new_shop_verification_path(
+                @shop,
+                category: "cooking_environment"
+              ) %>
+<% end %>
+
+<% if logged_in? %>
+
+  <p>
+    <%= link_to "この店舗のオーナーです",
+                new_shop_owner_path(shop_id: @shop.id) %>
+  </p>
+
   <h2>口コミを投稿する</h2>
   
   <% if @review.errors.any? %>
@@ -75,6 +289,39 @@
       <p>
         <%= review.content %>
       </p>
+      
+      
+      <% if review.review_reply %>
+      
+        <div class="owner-reply">
+           <strong>店舗からの返信</strong>
+          <p> 
+            <%= review.review_reply.content %>
+          </p>
+        </div>
+        
+      <% else %>
+          <% shop_owner =
+           current_user&.shop_owners&.find_by(
+             shop: @shop,
+             status: "approved"
+           ) %>
+           
+       <% if shop_owner %>
+            <%= form_with(
+            model: ReviewReply.new,
+            url: shop_review_review_reply_path(
+              @shop,review)
+          ) do |f| %>
+        
+        <%= f.text_area :content %>
+        <%= f.submit "店舗として返信する" %>
+       <% end %>
+       
+     <% end %>
+     
+   <% end %>
+       
       
     <% if review.images.attached? %>
       <% review.images.each do |image| %>

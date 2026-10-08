@@ -1,0 +1,113 @@
+<h1>卵情報を提供する</h1>
+
+<h2><%= @shop.name %></h2>
+
+<% if @menu_item %>
+  <p>
+    対象メニュー：
+    <strong><%= @menu_item.name %></strong>
+  </p>
+<% elsif @verification.category == "cooking_environment" %>
+  <p>
+    対象：店舗の調理環境
+  </p>
+<% end %>
+
+
+<% if @verification.errors.any? %>
+  <div>
+    <p>卵情報を投稿できませんでした。</p>
+
+    <ul>
+      <% @verification.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
+<%= form_with(
+      model: [@shop, @verification]
+    ) do |f| %>
+
+  <% if @menu_item %>
+
+    <%= hidden_field_tag :menu_item_id,
+                         @menu_item.id %>
+
+    <div>
+      <%= f.label :category, "確認した項目" %>
+
+      <%= f.select :category,
+          [
+            ["麺,スープ", "noodle_soup"],
+            ["トッピング(味玉以外)", "topping"],
+            ["その他", "other"]
+          ],
+          { prompt: "選択してください" } %>
+    </div>
+
+  <% elsif @verification.category == "cooking_environment" %>
+
+    <%= f.hidden_field :category,
+                       value: "cooking_environment" %>
+
+  <% end %>
+
+
+  <div>
+    <%= f.label :egg_status, "卵の使用状況" %>
+
+    <%= f.select :egg_status,
+        [
+          ["卵不使用を確認", "egg_free"],
+          ["卵を使用", "contains_egg"],
+          ["未確認", "unknown"]
+        ],
+        { prompt: "選択してください" } %>
+  </div>
+
+
+  <div>
+    <%= f.label :source_type, "情報源" %>
+
+    <%= f.select :source_type,
+        [
+          ["店舗公式情報", "official"],
+          ["店舗オーナー", "shop_owner"],
+          ["店舗スタッフ", "staff"],
+          ["メーカー", "manufacturer"],
+          ["ユーザー報告", "user_report"]
+        ],
+        { prompt: "選択してください" } %>
+  </div>
+
+
+  <div>
+    <%= f.label :verification_method, "確認方法" %>
+
+    <%= f.text_field :verification_method,
+                     placeholder: "例：メーカー成分表" %>
+  </div>
+
+
+  <div>
+    <%= f.label :verified_on, "確認日" %>
+
+    <%= f.date_field :verified_on %>
+  </div>
+
+
+  <div>
+    <%= f.label :note, "補足情報" %>
+
+    <%= f.text_area :note %>
+  </div>
+
+
+  <div>
+    <%= f.submit "卵情報を投稿する" %>
+  </div>
+
+<% end %>

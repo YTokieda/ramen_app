@@ -3,6 +3,9 @@ class Review < ApplicationRecord
   belongs_to :shop
   
   has_many_attached :images
+  
+  has_one :review_reply, dependent: :destroy
+  
   validates :content, presence: true
   
   validate :acceptable_images
