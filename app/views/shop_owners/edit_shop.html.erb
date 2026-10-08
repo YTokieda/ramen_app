@@ -1,0 +1,34 @@
+<h1>店舗情報編集</h1>
+
+<h2><%= @shop.name %></h2>
+
+<% if @shop.errors.any? %>
+  <ul>
+    <% @shop.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @shop,
+              url: update_shop_shop_owner_path(@shop_owner),
+              method: :patch do |f| %>
+
+  <div>
+    <%= f.label :name, "店舗名" %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :address, "住所" %>
+    <%= f.text_field :address %>
+  </div>
+
+  <div>
+    <%= f.label :description, "店舗説明" %>
+    <%= f.text_area :description %>
+  </div>
+
+  <%= f.submit "店舗情報を更新する" %>
+
+<% end %>

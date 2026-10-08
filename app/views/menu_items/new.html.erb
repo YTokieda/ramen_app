@@ -1,0 +1,39 @@
+<h1>メニューを追加する</h1>
+
+<h2><%= @shop.name %></h2>
+
+<% if @menu_item.errors.any? %>
+  <div>
+    <p>メニューを登録できませんでした。</p>
+
+    <ul>
+      <% @menu_item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
+<%= form_with(model: [@shop, @menu_item]) do |f| %>
+
+  <div>
+    <%= f.label :name, "メニュー名" %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :description, "説明" %>
+    <%= f.text_area :description %>
+  </div>
+
+  <div>
+    <%= f.submit "メニューを登録する" %>
+  </div>
+
+<% end %>
+
+
+<p>
+  <%= link_to "店舗詳細へ戻る", @shop %>
+</p>

@@ -1,0 +1,26 @@
+<h1>店舗オーナー申請一覧</h1>
+
+<% if @shop_owners.any? %>
+  <% @shop_owners.each do |shop_owner| %>
+    <div>
+      <p>
+        <strong>
+          <%= link_to shop_owner.shop.name,
+                      admin_shop_owner_path(shop_owner) %>
+        </strong>
+      </p>
+
+      <p>
+        申請者：<%= shop_owner.user.name %>
+      </p>
+
+      <p>
+        ステータス：<%= shop_owner.status %>
+      </p>
+    </div>
+
+    <hr>
+  <% end %>
+<% else %>
+  <p>店舗オーナー申請はありません。</p>
+<% end %>

@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  shop: one
+  user: michael
+  menu_item: one
+  category: noodle_soup
+  egg_status: egg_free
+  source_type: official
+  status: pending
+  verification_method: MyString
+  verified_on: 2026-09-22
+  note: MyText
+
+two:
+  shop: two
+  user: michael
+  menu_item: two
+  category: noodle_soup
+  egg_status: egg_free
+  source_type: official
+  status: pending
+  verification_method: MyString
+  verified_on: 2026-09-22
+  note: MyText

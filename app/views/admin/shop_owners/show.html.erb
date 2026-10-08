@@ -1,0 +1,60 @@
+<h1>店舗オーナー申請</h1>
+
+<p>
+  <strong>店舗：</strong>
+  <%= @shop_owner.shop.name %>
+</p>
+
+<p>
+  <strong>住所：</strong>
+  <%= @shop_owner.shop.address %>
+</p>
+
+<p>
+  <strong>申請者：</strong>
+  <%= @shop_owner.user.name %>
+</p>
+
+<p>
+  <strong>メール：</strong>
+  <%= @shop_owner.user.email %>
+</p>
+
+<p>
+  <strong>ステータス：</strong>
+  <%= @shop_owner.status %>
+</p>
+
+<% if @shop_owner.business_license.attached? %>
+  <p>
+    <strong>店舗確認資料：</strong>
+    <%= link_to @shop_owner.business_license.filename,
+                rails_blob_path(@shop_owner.business_license,
+                                disposition: "attachment") %>
+  </p>
+<% else %>
+  <p>店舗確認資料は提出されていません。</p>
+<% end %>
+
+<% if @shop_owner.status == "pending" %>
+
+  <%= button_to "承認",
+                approve_admin_shop_owner_path(@shop_owner),
+                method: :patch,
+                data: {
+                  turbo_confirm: "この店舗オーナー申請を承認しますか？"
+                } %>
+
+  <%= button_to "却下",
+                reject_admin_shop_owner_path(@shop_owner),
+                method: :patch,
+                data: {
+                  turbo_confirm: "この店舗オーナー申請を却下しますか？"
+                } %>
+
+<% end %>
+
+<p>
+  <%= link_to "申請一覧へ戻る",
+              admin_shop_owners_path %>
+</p>

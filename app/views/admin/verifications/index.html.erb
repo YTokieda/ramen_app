@@ -1,0 +1,49 @@
+<h1>卵情報の確認待ち一覧</h1>
+
+<% if @verifications.any? %>
+
+  <% @verifications.each do |verification| %>
+
+    <div>
+      <p>
+        <strong>店舗：</strong>
+        <%= verification.shop.name %>
+      </p>
+
+      <% if verification.menu_item.present? %>
+        <p>
+          <strong>メニュー：</strong>
+          <%= verification.menu_item.name %>
+        </p>
+      <% else %>
+        <p>
+          <strong>対象：</strong>
+          店舗の調理環境
+        </p>
+      <% end %>
+
+      <p>
+        <strong>確認項目：</strong>
+        <%= verification_category_label(verification.category) %>
+      </p>
+
+      <p>
+        <strong>確認日：</strong>
+        <%= verification.verified_on %>
+      </p>
+
+      <p>
+        <%= link_to "詳細を確認する",
+                    admin_verification_path(verification) %>
+      </p>
+    </div>
+
+    <hr>
+
+  <% end %>
+
+<% else %>
+
+  <p>現在、確認待ちの卵情報はありません。</p>
+
+<% end %>

@@ -15,26 +15,28 @@ Rails.application.routes.draw do
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
-
-  # ラーメン店舗とレビュー
-  # resources :shops do
-  #   resources :reviews, only: [:create, :destroy]
-  #   member do
-  #     patch :verify   # /shops/:id/verify → 確認済みにする
-  #   end
-  # end
   
   resources :shops, only: [:index, :show] do
-    resources :reviews, only:[:create, :destroy]
+    resources :menu_items, only: [:new, :create]
+    resources :reviews, only: [:create, :destroy] do
+      resource :review_reply, only: [:create]
+    end
+    
+    resources :verifications, only: [:new, :create]
+    
   end
-
+  
   # 店舗オーナー用ルート（修正版）
   resources :shop_owners, only: [:new, :create] do
     get :dashboard, on: :collection
+  
+    member do
+      get :edit_shop
+      patch :update_shop
+    end
   end
   
   resources :shop_submissions, only: [:new, :create]
-
 
   namespace :admin do
     resources :shop_submissions, only: [:index, :show] do
@@ -43,6 +45,21 @@ Rails.application.routes.draw do
         patch :reject
       end
     end
+  
+    resources :shop_owners, only: [:index, :show] do
+      member do
+        patch :approve
+        patch :reject
+      end
+    end
+    
+    resources :verifications, only: [:index, :show] do
+      member do
+        patch :approve
+        patch :reject
+      end
+    end
+    
   end
-
+  
 end

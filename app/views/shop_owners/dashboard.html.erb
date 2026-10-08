@@ -1,11 +1,33 @@
-<h1><%= @shop.name %> ダッシュボード</h1>
+<h1>店舗管理</h1>
 
-<p>現在の確認状態:
-  <% if @shop.verified? %>
-    <span class="badge">確認済</span>
-  <% else %>
-    <%= button_to "確認済みにする", verify_shop_path(@shop), method: :patch %>
+<% if @shop_owners.any? %>
+
+  <% @shop_owners.each do |shop_owner| %>
+    <div>
+      <h2>
+        <%= shop_owner.shop.name %>
+      </h2>
+
+      <p>
+        <%= shop_owner.shop.address %>
+      </p>
+      
+      <p>
+        <%= link_to "店舗情報を編集",
+                    edit_shop_shop_owner_path(shop_owner) %>
+      </p>
+
+      <p>
+        <%= link_to "店舗ページを見る",
+                    shop_path(shop_owner.shop) %>
+      </p>
+    </div>
+
+    <hr>
   <% end %>
-</p>
 
-<p><%= link_to "店舗情報編集", edit_shop_path(@shop) %></p>
+<% else %>
+
+  <p>現在、管理できる店舗はありません。</p>
+
+<% end %>

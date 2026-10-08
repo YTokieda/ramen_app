@@ -1,30 +1,41 @@
-<%= form_with model: @shop_owner, local: true do |f| %>
-  <%= f.label :name, "オーナー名" %>
-  <%= f.text_field :name %>
+<h1>店舗オーナー申請</h1>
 
-  <%= f.label :email, "メール" %>
-  <%= f.email_field :email %>
+<h2><%= @shop.name %></h2>
 
-  <%= f.label :password, "パスワード" %>
-  <%= f.password_field :password %>
+<p>
+  <%= @shop.address %>
+</p>
 
-  <%= f.label :password_confirmation, "確認用パスワード" %>
-  <%= f.password_field :password_confirmation %>
+<p>
+  この店舗のオーナー・店舗関係者であることを
+  運営へ申請します。
+</p>
 
-  <%= f.label :business_license, "事業許可証" %>
-  <%= f.file_field :business_license %>
+<% if @shop_owner.errors.any? %>
+  <ul>
+    <% @shop_owner.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
 
-  <h3>店舗情報</h3>
-  <%= f.fields_for :shop do |s| %>
-    <%= s.label :name, "店舗名" %>
-    <%= s.text_field :name %>
+<%= form_with(model: @shop_owner) do |f| %>
 
-    <%= s.label :address, "住所" %>
-    <%= s.text_field :address %>
+  <%= f.hidden_field :shop_id,
+                     value: @shop.id %>
 
-    <%= s.label :description, "説明" %>
-    <%= s.text_area :description %>
-  <% end %>
+  <div>
+    <%= f.label :business_license,
+                "店舗確認資料" %>
 
-  <%= f.submit "登録" %>
+    <%= f.file_field :business_license %>
+  </div>
+
+  <p>
+    営業許可証など、店舗との関係を確認できる資料を
+    アップロードできます。
+  </p>
+
+  <%= f.submit "オーナー申請を送信する" %>
+
 <% end %>
