@@ -63,105 +63,12 @@
 
 <% if @approved_verifications.any? %>
 
-  <% @approved_verifications.each do |verification| %>
-
-    <div>
-      <% if verification.menu_item.present? %>
-        <p>
-          <strong>対象メニュー：</strong>
-          <%= verification.menu_item.name %>
-        </p>
-      <% else %>
-        <p>
-          <strong>対象：</strong>
-          店舗の調理環境
-        </p>
-      <% end %>
-
-      <p>
-        <strong>確認項目：</strong>
-        <%= verification_category_label(verification.category) %>
-      </p>
-
-      <p>
-        <strong>卵の使用状況：</strong>
-        <%= egg_status_label(verification.egg_status) %>
-      </p>
-
-      <p>
-        <strong>情報源：</strong>
-        <%= verification_source_label(verification.source_type) %>
-        
-      <p>
-        <strong>確認方法：</strong>
-        <%= verification.verification_method %>
-      </p>
-
-      <p>
-        <strong>確認日：</strong>
-        <%= verification.verified_on %>
-      </p>
-
-      <% if verification.note.present? %>
-        <p>
-          <strong>補足：</strong>
-          <%= verification.note %>
-        </p>
-      <% end %>
-
-      <p>
-        <strong>確認状況：</strong>
-        運営確認済み
-      </p>
-      
-    
-    <% histories = @verification_histories.fetch(
-      [verification.menu_item_id, verification.category], []
-      ) %>
-    
-    <% if histories.any? %>
-      <details>
-        <summary>過去の確認情報を見る（<%= histories.size %>件）</summary>
-    
-        <ul>
-          <% histories.each do |history| %>
-            <li>
-              <p>
-                <strong>確認日：</strong>
-                <%= history.verified_on %>
-              </p>
-    
-              <p>
-                <strong>卵の使用状況：</strong>
-                <%= egg_status_label(history.egg_status) %>
-              </p>
-    
-              <p>
-                <strong>情報源：</strong>
-                <%= verification_source_label(history.source_type) %>
-              </p>
-    
-              <p>
-                <strong>確認方法：</strong>
-                <%= history.verification_method %>
-              </p>
-    
-              <% if history.note.present? %>
-                <p>
-                  <strong>補足：</strong>
-                  <%= history.note %>
-                </p>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-      </details>
-    <% end %>
-    
-    </div>
-    <hr>
-
-  <% end %>
+   <%= render partial: "verification",
+             collection: @approved_verifications,
+             as: :verification,
+             locals: {
+               verification_histories: @verification_histories
+             } %>
 
 <% else %>
 
@@ -191,9 +98,9 @@
 
       <p>
         <strong>確認項目：</strong>
-        <%= verification_status_label(verification.status) %>
+        <%= verification_category_label(verification.category) %>
       </p>
-
+      
       <p>
         <strong>確認状況：</strong>
 

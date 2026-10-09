@@ -1,0 +1,40 @@
+<% if histories.any? %>
+  <details>
+    <summary>
+      過去の確認情報を見る（<%= histories.size %>件）
+    </summary>
+
+    <ul>
+      <% histories.each do |history| %>
+        <li>
+          <p>
+            <strong>確認日：</strong>
+            <%= history.verified_on %>
+          </p>
+
+          <p>
+            <strong>卵の使用状況：</strong>
+            <%= egg_status_label(history.egg_status) %>
+          </p>
+
+          <p>
+            <strong>情報源：</strong>
+            <%= verification_source_label(history.source_type) %>
+          </p>
+
+          <p>
+            <strong>確認方法：</strong>
+            <%= history.verification_method %>
+          </p>
+
+          <% if history.note.present? %>
+            <p>
+              <strong>補足：</strong>
+              <%= history.note %>
+            </p>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </details>
+<% end %>
