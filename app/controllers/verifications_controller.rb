@@ -37,11 +37,27 @@ class VerificationsController < ApplicationController
       @verification.menu_item = @menu_item
     end
 
-    if @verification.save
+    uploads = verification_params[:evidence_files] || []
+
+    invalid_upload = uploads.any? do |upload|
+      !UploadContentTypeValidator.valid_upload?(
+        upload,
+        allowed_types: Verification::EVIDENCE_CONTENT_TYPES
+      )
+    end
+    
+    if invalid_upload
+      @verification.errors.add(
+        :evidence_files,
+        "のファイル形式が正しくありません"
+      )
+      render :new, status: :unprocessable_entity
+    elsif @verification.save
       redirect_to @shop
     else
       render :new, status: :unprocessable_entity
     end
+
   end
   
   private
@@ -53,7 +69,8 @@ class VerificationsController < ApplicationController
       :source_type,
       :verification_method,
       :verified_on,
-      :note
+      :note,
+      evidence_files: []
     )
   end
   

@@ -1,24 +1,47 @@
 class ReviewsController < ApplicationController
+  include ShopShowData
   before_action :logged_in_user
 
   def create
     @shop = Shop.find(params[:shop_id])
     @review = current_user.reviews.build(review_params)
     @review.shop = @shop
+  
+    uploads = review_params[:images] || []
+  
+    invalid_upload = uploads.any? do |upload|
+      !UploadContentTypeValidator.valid_upload?(
+        upload,
+        allowed_types: %w[image/jpeg image/png image/webp]
+      )
+    end
+  
+    if invalid_upload
+      @review.errors.add(
+        :images,
+        "のファイル形式が正しくありません"
+      )
+    end
+  
 
-    if @review.save
+    if !invalid_upload && @review.save
       flash[:success] = "口コミを投稿しました"
       redirect_to @shop
     else
-      @reviews = @shop.reviews
+      prepare_shop_show_data
+    
       render "shops/show", status: :unprocessable_entity
     end
+    
   end
   
   
   def destroy
      @shop = Shop.find(params[:shop_id])
-     @review = current_user.reviews.find_by(id: params[:id])
+     @review = current_user.reviews.find_by(
+        id: params[:id],
+        shop_id: @shop.id
+      )
       if @review
         @review.destroy
         flash[:success] = "口コミを削除しました"

@@ -1,0 +1,127 @@
+<div class="verification">
+  <% if verification.menu_item.present? %>
+    <p>
+      <strong>対象メニュー：</strong>
+      <%= verification.menu_item.name %>
+    </p>
+  <% else %>
+    <p>
+      <strong>対象：</strong>
+      店舗の調理環境
+    </p>
+  <% end %>
+
+  <p>
+    <strong>確認項目：</strong>
+    <%= verification_category_label(verification.category) %>
+  </p>
+
+  <p>
+    <strong>卵の使用状況：</strong>
+    <%= egg_status_label(verification.egg_status) %>
+  </p>
+
+  <p>
+    <strong>情報源：</strong>
+    <%= verification_source_label(verification.source_type) %>
+  </p>
+
+  <p>
+    <strong>確認方法：</strong>
+    <%= verification.verification_method %>
+  </p>
+
+  <p>
+    <strong>確認日：</strong>
+    <%= verification.verified_on %>
+  </p>
+
+  <% freshness_message =
+       verification_freshness_label(verification.verified_on) %>
+
+  <% if freshness_message.present? %>
+    <p class="verification-freshness-warning">
+      <%= freshness_message %>
+    </p>
+  <% end %>
+
+  <% if verification.note.present? %>
+    <p>
+      <strong>補足：</strong>
+      <%= verification.note %>
+    </p>
+  <% end %>
+
+  <p>
+    <strong>確認状況：</strong>
+    <%= verification_status_label(verification.status) %>
+  </p>
+
+  <% histories = verification_histories.fetch(
+       [verification.menu_item_id, verification.category], []
+     ) %>
+
+  <% same_day_status =
+       verification_same_day_status(verification, histories) %>
+
+  <% history_status =
+       verification_history_status(verification, histories) %>
+
+  <% if same_day_status == :conflict %>
+    <div class="verification-conflict-warning">
+      <p>
+        <strong>
+          同じ確認日に、卵使用と卵不使用の情報が混在しています。
+        </strong>
+      </p>
+      <p>
+        確認情報に明確な食い違いがあります。
+        代表表示だけで判断せず、店舗に直接ご確認ください。
+      </p>
+    </div>
+
+  <% elsif same_day_status == :uncertain %>
+    <div class="verification-freshness-warning">
+      <p>
+        <strong>
+          同じ確認日に、未確認の情報も登録されています。
+        </strong>
+      </p>
+      <p>
+        卵の使用状況について、確認結果が一致していません。
+        情報源と確認方法をご確認ください。
+      </p>
+    </div>
+
+  <% elsif history_status == :changed %>
+    <div class="verification-conflict-warning">
+      <p>
+        <strong>
+          前回の確認情報と卵の使用状況が異なります。
+        </strong>
+      </p>
+      <p>
+        原材料の変更や情報源による違いの可能性があります。
+        現在の使用状況について、店舗に直接ご確認ください。
+      </p>
+    </div>
+
+  <% elsif history_status == :uncertain %>
+    <div class="verification-freshness-warning">
+      <p>
+        <strong>
+          前回と今回で確認状況が異なります。
+        </strong>
+      </p>
+      <p>
+        いずれかの確認情報が「未確認」となっています。
+        情報源と確認日をご確認ください。
+      </p>
+    </div>
+  <% end %>
+
+  <%= render "verification_history",
+             histories: histories %>
+</div>
+
+<hr>

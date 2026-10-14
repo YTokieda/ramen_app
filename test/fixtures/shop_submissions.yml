@@ -1,15 +1,14 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user: one
-  name: MyString
-  address: MyString
-  description: MyText
-  status: MyString
+  user: michael
+  name: テストラーメン店A
+  address: 東京都品川区テスト1-1-1
+  description: テスト用店舗A
+  status: pending
 
 two:
-  user: two
-  name: MyString
-  address: MyString
-  description: MyText
-  status: MyString
+  user: archer
+  name: テストラーメン店B
+  address: 東京都大田区テスト2-2-2
+  description: テスト用店舗B
+  status: pending

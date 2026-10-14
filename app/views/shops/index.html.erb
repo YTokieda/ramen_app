@@ -1,5 +1,41 @@
 <h1>卵アレルギー対応ラーメン店</h1>
 
+<%= form_with url: shops_path, method: :get, local: true do |f| %>
+  <div>
+    <%= f.label :keyword, "店舗名・住所" %>
+    <%= f.text_field :keyword,
+                     value: @keyword,
+                     placeholder: "例：品川" %>
+  </div>
+
+  <div>
+    <%= f.label :egg_status, "卵情報" %>
+    <%= f.select :egg_status,
+      [
+        ["すべて", ""],
+        ["卵不使用の確認情報あり", "egg_free"],
+        ["卵使用の確認情報あり", "contains_egg"],
+        ["未確認の情報あり", "unknown"]
+      ],
+      { selected: @egg_status } %>
+  </div>
+
+  <div>
+    <%= f.label :category, "確認項目" %>
+    <%= f.select :category,
+      [
+        ["すべて", ""],
+        ["麺・スープ", "noodle_soup"],
+        ["トッピング", "topping"],
+        ["調理環境", "cooking_environment"]
+      ],
+      { selected: @category } %>
+  </div>
+
+  <%= f.submit "検索する" %>
+  <%= link_to "条件をクリア", shops_path %>
+<% end %>
+
 <p>
   <% if logged_in? %>
     <%= link_to "掲載されていない店舗を情報提供する",
@@ -11,18 +47,63 @@
   <% end %>
 </p>
 
-<% @shops.each do |shop| %>
-  <div class="shop">
-    <h2>
-      <%= link_to shop.name, shop_path(shop) %>
-    </h2>
+<p>検索結果：<%= @shops.size %>件</p>
 
-    <p>
-      <%= shop.address %>
-    </p>
+<% if @shops.any? %>
+  <% @shops.each do |shop| %>
+    <div class="shop">
+      <h2>
+        <%= link_to shop.name, shop_path(shop) %>
+      </h2>
 
-    <% if shop.egg_free? %>
-      <p>卵不使用情報あり</p>
-    <% end %>
-  </div>
+      <p><%= shop.address %></p>
+      
+      <% summaries = @verification_summaries.fetch(shop.id, []) %>
+      <% visible_summaries = summaries.first(3) %>
+      <% remaining_count = summaries.size - visible_summaries.size %>
+
+      <% if summaries.any? %>
+        <% visible_summaries.each do |summary| %>
+          <%= render "verification_summary",
+                     verification: summary[:verification],
+                     conflicting: summary[:conflicting] %>
+        <% end %>
+      
+        <% if remaining_count > 0 %>
+          <p>
+            ほかに<%= remaining_count %>件の卵情報があります。
+          </p>
+        <% end %>
+      
+        <% if summaries.drop(3).any? { |summary| summary[:conflicting] } %>
+          <p class="verification-conflict-warning">
+            表示されていない情報にも矛盾があります。
+            店舗詳細ページでご確認ください。
+          </p>
+        <% end %>
+      
+        <p>
+          <%= link_to "すべての卵情報を見る", shop_path(shop) %>
+        </p>
+      <% else %>
+        <p>表示できる承認済みの卵情報はありません。</p>
+      <% end %>
+      
+      
+      
+      
+
+      <% if shop.egg_free? %>
+        <p>卵不使用情報あり（店舗登録情報）</p>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <p>条件に一致する店舗はありませんでした。</p>
 <% end %>
+
+<p>
+  卵情報は投稿時点の確認内容です。
+  原材料や調理方法が変更される可能性があります。
+  来店前に店舗へ直接ご確認ください。
+</p>

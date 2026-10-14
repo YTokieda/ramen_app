@@ -95,6 +95,21 @@
 
 <% end %>
 
+<% if @verification.evidence_files.attached? %>
+  <h3>根拠資料</h3>
+
+  <ul>
+    <% @verification.evidence_files.each do |file| %>
+      <li>
+        <%= link_to file.filename.to_s,
+                    verification_evidence_file_path(
+                      @verification, file
+                    ) %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
 
 <p>
   <%= link_to "確認待ち一覧へ戻る",

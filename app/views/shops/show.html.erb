@@ -1,3 +1,4 @@
+
 <h1><%= @shop.name %></h1>
 
 <p>
@@ -29,27 +30,28 @@
         <p><%= menu_item.description %></p>
       <% end %>
     </div>
-  
+
     <% if logged_in? %>
       <p>
-         <%= link_to "このメニューの卵情報を提供する",
-               new_shop_verification_path(
-                 @shop,
-                 menu_item_id: menu_item.id
-                 ) %>
+        <%= link_to "このメニューの卵情報を提供する",
+                    new_shop_verification_path(
+                      @shop,
+                      menu_item_id: menu_item.id
+                    ) %>
       </p>
     <% end %>
   <% end %>
-  
 <% else %>
   <p>メニュー情報はまだ登録されていません。</p>
 <% end %>
 
 <% if logged_in? %>
   <p>
-    <%= link_to "メニューを追加する", new_shop_menu_item_path(@shop) %>
+    <%= link_to "メニューを追加する",
+                new_shop_menu_item_path(@shop) %>
   </p>
 <% end %>
+
 
 <h2>調理環境</h2>
 
@@ -62,9 +64,21 @@
 <h2>卵に関する確認情報</h2>
 
 <% if @approved_verifications.any? %>
+  <%= render partial: "verification",
+             collection: @approved_verifications,
+             as: :verification,
+             locals: {
+               verification_histories: @verification_histories
+             } %>
+<% else %>
+  <p>現在、運営確認済みの卵情報はありません。</p>
+<% end %>
 
-  <% @approved_verifications.each do |verification| %>
 
+<% if logged_in? && @my_unapproved_verifications.any? %>
+  <h2>あなたが提供した確認情報</h2>
+
+  <% @my_unapproved_verifications.each do |verification| %>
     <div>
       <% if verification.menu_item.present? %>
         <p>
@@ -84,17 +98,8 @@
       </p>
 
       <p>
-        <strong>卵の使用状況：</strong>
-        <%= egg_status_label(verification.egg_status) %>
-      </p>
-
-      <p>
-        <strong>情報源：</strong>
-        <%= verification_source_label(verification.source_type) %>
-        
-      <p>
-        <strong>確認方法：</strong>
-        <%= verification.verification_method %>
+        <strong>確認状況：</strong>
+        <%= verification_status_label(verification.status) %>
       </p>
 
       <p>
@@ -102,80 +107,33 @@
         <%= verification.verified_on %>
       </p>
 
-      <% if verification.note.present? %>
+      <% if verification.evidence_files.attached? %>
         <p>
-          <strong>補足：</strong>
-          <%= verification.note %>
+          <strong>添付した根拠資料：</strong>
         </p>
-      <% end %>
 
-      <p>
-        <strong>確認状況：</strong>
-        運営確認済み
-      </p>
-      
-    
-    <% histories = @verification_histories.fetch(
-      [verification.menu_item_id, verification.category], []
-      ) %>
-    
-    <% if histories.any? %>
-      <details>
-        <summary>過去の確認情報を見る（<%= histories.size %>件）</summary>
-    
         <ul>
-          <% histories.each do |history| %>
+          <% verification.evidence_files.each do |file| %>
             <li>
-              <p>
-                <strong>確認日：</strong>
-                <%= history.verified_on %>
-              </p>
-    
-              <p>
-                <strong>卵の使用状況：</strong>
-                <%= egg_status_label(history.egg_status) %>
-              </p>
-    
-              <p>
-                <strong>情報源：</strong>
-                <%= verification_source_label(history.source_type) %>
-              </p>
-    
-              <p>
-                <strong>確認方法：</strong>
-                <%= history.verification_method %>
-              </p>
-    
-              <% if history.note.present? %>
-                <p>
-                  <strong>補足：</strong>
-                  <%= history.note %>
-                </p>
-              <% end %>
+              <%= link_to file.filename.to_s,
+                          verification_evidence_file_path(
+                            verification, file
+                          ) %>
             </li>
           <% end %>
         </ul>
-      </details>
-    <% end %>
-    
+      <% end %>
     </div>
+
     <hr>
-
   <% end %>
-
-<% else %>
-
-  <p>現在、運営確認済みの卵情報はありません。</p>
-
 <% end %>
 
 
-<% if logged_in? && @my_unapproved_verifications.any? %>
+<% if logged_in? && @my_approved_verifications.any? %>
+  <h2>あなたの承認済み確認情報・添付資料</h2>
 
-  <h2>あなたが提供した確認情報</h2>
-
-  <% @my_unapproved_verifications.each do |verification| %>
-
+  <% @my_approved_verifications.each do |verification| %>
     <div>
       <% if verification.menu_item.present? %>
         <p>
@@ -191,49 +149,56 @@
 
       <p>
         <strong>確認項目：</strong>
-        <%= verification_status_label(verification.status) %>
-      </p>
-
-      <p>
-        <strong>確認状況：</strong>
-
-        <% case verification.status %>
-        <% when "pending" %>
-          運営確認待ち
-        <% when "rejected" %>
-          却下
-        <% end %>
+        <%= verification_category_label(verification.category) %>
       </p>
 
       <p>
         <strong>確認日：</strong>
         <%= verification.verified_on %>
       </p>
+
+      <% if verification.evidence_files.attached? %>
+        <p>
+          <strong>添付した根拠資料：</strong>
+        </p>
+
+        <ul>
+          <% verification.evidence_files.each do |file| %>
+            <li>
+              <%= link_to file.filename.to_s,
+                          verification_evidence_file_path(
+                            verification, file
+                          ) %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
     </div>
 
     <hr>
-
   <% end %>
-
 <% end %>
 
+
 <% if logged_in? %>
-  <%= link_to "店舗の調理環境について情報を提供する",
-              new_shop_verification_path(
-                @shop,
-                category: "cooking_environment"
-              ) %>
+  <p>
+    <%= link_to "店舗の調理環境について情報を提供する",
+                new_shop_verification_path(
+                  @shop,
+                  category: "cooking_environment"
+                ) %>
+  </p>
 <% end %>
 
-<% if logged_in? %>
 
+<% if logged_in? %>
   <p>
     <%= link_to "この店舗のオーナーです",
                 new_shop_owner_path(shop_id: @shop.id) %>
   </p>
 
   <h2>口コミを投稿する</h2>
-  
+
   <% if @review.errors.any? %>
     <div>
       <p>口コミを投稿できませんでした。</p>
@@ -247,25 +212,23 @@
   <% end %>
 
   <%= form_with(model: [@shop, @review]) do |f| %>
-
     <div>
       <%= f.label :content, "口コミ" %>
       <%= f.text_area :content %>
     </div>
-    
+
     <div>
       <%= f.label :images, "写真" %>
       <%= f.file_field :images,
                        multiple: true,
                        accept: "image/jpeg,image/png,image/webp" %>
-        <p>
-          JPEG・PNG・WebP形式、最大3枚、1枚5MBまで
-        </p>                 
-                       
+
+      <p>
+        JPEG・PNG・WebP形式、最大3枚、1枚5MBまで
+      </p>
     </div>
 
-  <%= f.submit "口コミを投稿する" %>
-
+    <%= f.submit "口コミを投稿する" %>
   <% end %>
 <% else %>
   <p>
@@ -274,7 +237,6 @@
     してください。
   </p>
 <% end %>
-
 
 
 <h2>口コミ</h2>
@@ -289,60 +251,56 @@
       <p>
         <%= review.content %>
       </p>
-      
-      
+
       <% if review.review_reply %>
-      
         <div class="owner-reply">
-           <strong>店舗からの返信</strong>
-          <p> 
+          <strong>店舗からの返信</strong>
+
+          <p>
             <%= review.review_reply.content %>
           </p>
         </div>
-        
       <% else %>
-          <% shop_owner =
-           current_user&.shop_owners&.find_by(
-             shop: @shop,
-             status: "approved"
-           ) %>
-           
-       <% if shop_owner %>
-            <%= form_with(
-            model: ReviewReply.new,
-            url: shop_review_review_reply_path(
-              @shop,review)
-          ) do |f| %>
-        
-        <%= f.text_area :content %>
-        <%= f.submit "店舗として返信する" %>
-       <% end %>
-       
-     <% end %>
-     
-   <% end %>
-       
-      
-    <% if review.images.attached? %>
-      <% review.images.each do |image| %>
-        <%= image_tag image, width: 300 %>
+        <% shop_owner =
+             current_user&.shop_owners&.find_by(
+               shop: @shop,
+               status: "approved"
+             ) %>
+
+        <% if shop_owner %>
+          <%= form_with(
+                model: ReviewReply.new,
+                url: shop_review_review_reply_path(
+                  @shop, review
+                )
+              ) do |f| %>
+
+            <%= f.text_area :content %>
+            <%= f.submit "店舗として返信する" %>
+          <% end %>
+        <% end %>
       <% end %>
-    <% end %>
+
+      <% if review.images.attached? %>
+        <% review.images.each do |image| %>
+          <%= image_tag review_image_path(review, image),
+                        width: 300,
+                        alt: "口コミ画像" %>
+        <% end %>
+      <% end %>
 
       <p>
         投稿日：<%= review.created_at.strftime("%Y/%m/%d") %>
       </p>
-      
+
       <% if current_user == review.user %>
-      
-      <%= link_to "削除",
+        <%= link_to "削除",
                     shop_review_path(@shop, review),
                     data: {
                       turbo_method: :delete,
                       turbo_confirm: "本当に削除しますか？"
                     } %>
       <% end %>
-        
     </div>
 
     <hr>

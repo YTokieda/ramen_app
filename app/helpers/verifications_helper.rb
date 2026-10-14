@@ -54,4 +54,56 @@ module VerificationsHelper
       status
     end
   end
+  
+  def verification_freshness_label(verified_on)
+    return "確認日不明" if verified_on.blank?
+  
+    if verified_on <= 12.months.ago.to_date
+      "確認から1年以上経過しています。店舗への再確認をおすすめします。"
+    elsif verified_on <= 6.months.ago.to_date
+      "確認から6か月以上経過しています。情報が変更されている可能性があります。"
+    else
+      nil
+    end
+  end
+  
+
+  def verification_same_day_status(verification, histories)
+    same_day_verifications = histories.select do |history|
+      history.verified_on == verification.verified_on
+    end
+  
+    statuses = (
+      [verification] + same_day_verifications
+    ).map(&:egg_status).uniq
+  
+    if statuses.include?("egg_free") &&
+       statuses.include?("contains_egg")
+      :conflict
+    elsif statuses.include?("unknown") && statuses.size > 1
+      :uncertain
+    else
+      :consistent
+    end
+  end
+  
+  def verification_history_status(verification, histories)
+    previous = histories
+      .select { |history| history.verified_on < verification.verified_on }
+      .max_by { |history| [history.verified_on, history.created_at || Time.at(0)] }
+  
+    return :consistent if previous.nil?
+  
+    statuses = [verification.egg_status, previous.egg_status]
+  
+    if statuses.include?("unknown")
+      statuses.uniq.size > 1 ? :uncertain : :consistent
+    elsif statuses.uniq.size > 1
+      :changed
+    else
+      :consistent
+    end
+  end
+  
+    
 end

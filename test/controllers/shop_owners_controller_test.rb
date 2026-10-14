@@ -123,5 +123,108 @@ class ShopOwnersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "店舗オーナーが更新した説明です",
                  @shop.description
   end
+  
+  test "valid PDF business license should be accepted" do
+    log_in_as(@user)
+  
+    file = Tempfile.new(["license", ".pdf"])
+  
+    begin
+      file.binmode
+      file.write("%PDF-1.4\nTest PDF")
+      file.flush
+  
+      upload = Rack::Test::UploadedFile.new(
+        file.path,
+        "application/pdf",
+        original_filename: "license.pdf"
+      )
+  
+      assert_difference("ShopOwner.count", 1) do
+        post shop_owners_path,
+             params: {
+               shop_owner: {
+                 shop_id: @shop.id,
+                 business_license: upload
+               }
+             }
+      end
+  
+      assert_redirected_to shop_path(@shop)
+  
+      shop_owner = ShopOwner.order(:id).last
+      assert_equal @user, shop_owner.user
+      assert shop_owner.business_license.attached?
+    ensure
+      file.close!
+    end
+  end
+  
+  test "fake PDF business license should be rejected" do
+    log_in_as(@user)
+  
+    file = Tempfile.new(["fake", ".pdf"])
+  
+    begin
+      file.binmode
+      file.write("This is not a PDF")
+      file.flush
+  
+      upload = Rack::Test::UploadedFile.new(
+        file.path,
+        "application/pdf",
+        original_filename: "fake.pdf"
+      )
+  
+      assert_no_difference("ShopOwner.count") do
+        post shop_owners_path,
+             params: {
+               shop_owner: {
+                 shop_id: @shop.id,
+                 business_license: upload
+               }
+             }
+      end
+  
+      assert_response :unprocessable_entity
+      assert_select "body", text: /ファイル形式が正しくありません/
+    ensure
+      file.close!
+    end
+  end
+  
+  test "JPEG disguised as PDF business license should be rejected" do
+    log_in_as(@user)
+  
+    file = Tempfile.new(["fake", ".pdf"])
+  
+    begin
+      file.binmode
+      file.write("\xFF\xD8\xFF".b)
+      file.flush
+  
+      upload = Rack::Test::UploadedFile.new(
+        file.path,
+        "application/pdf",
+        original_filename: "fake.pdf"
+      )
+  
+      assert_no_difference("ShopOwner.count") do
+        post shop_owners_path,
+             params: {
+               shop_owner: {
+                 shop_id: @shop.id,
+                 business_license: upload
+               }
+             }
+      end
+  
+      assert_response :unprocessable_entity
+      assert_select "body", text: /ファイル形式が正しくありません/
+    ensure
+      file.close!
+    end
+  end
+  
 end
 
