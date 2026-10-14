@@ -1,0 +1,44 @@
+<div class="verification-summary">
+  <p>
+    <strong>対象：</strong>
+    <%= verification.menu_item&.name || "店舗の調理環境" %>
+  </p>
+
+  <p>
+    <strong>確認項目：</strong>
+    <%= verification_category_label(verification.category) %>
+  </p>
+
+  <% if conflicting %>
+    <p class="verification-conflict-warning">
+      同じ確認日に異なる卵情報が登録されています。
+      店舗に直接ご確認ください。
+    </p>
+  <% else %>
+    <p>
+      <strong>卵の使用状況：</strong>
+      <%= egg_status_label(verification.egg_status) %>
+    </p>
+  <% end %>
+
+  <p>
+    <strong>情報源：</strong>
+    <%= verification_source_label(verification.source_type) %>
+  </p>
+
+  <p>
+    <strong>確認日：</strong>
+    <%= verification.verified_on || "不明" %>
+  </p>
+
+  <% freshness_message =
+       verification_freshness_label(verification.verified_on) %>
+
+  <% if freshness_message.present? %>
+    <p class="verification-freshness-warning">
+      <%= freshness_message %>
+    </p>
+  <% end %>
+
+  <p>運営確認済み（卵アレルギーへの安全性を保証するものではありません）</p>
+</div>

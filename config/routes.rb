@@ -26,6 +26,15 @@ Rails.application.routes.draw do
     
   end
   
+  get "verifications/:verification_id/evidence_files/:id",
+    to: "verification_evidence_files#show",
+    as: :verification_evidence_file
+
+  get "reviews/:review_id/images/:id",
+      to: "review_images#show",
+      as: :review_image
+  
+  
   # 店舗オーナー用ルート（修正版）
   resources :shop_owners, only: [:new, :create] do
     get :dashboard, on: :collection
@@ -46,6 +55,8 @@ Rails.application.routes.draw do
       end
     end
   
+    resources :admin_audit_logs, only: [:index]
+  
     resources :shop_owners, only: [:index, :show] do
       member do
         patch :approve
@@ -59,6 +70,10 @@ Rails.application.routes.draw do
         patch :reject
       end
     end
+    
+    get "shop_owners/:shop_owner_id/business_license",
+    to: "shop_owner_licenses#show",
+    as: :shop_owner_business_license
     
   end
   

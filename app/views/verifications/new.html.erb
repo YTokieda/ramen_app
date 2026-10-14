@@ -42,8 +42,7 @@
       <%= f.select :category,
           [
             ["麺,スープ", "noodle_soup"],
-            ["トッピング(味玉以外)", "topping"],
-            ["その他", "other"]
+            ["トッピング(味玉以外)", "topping"]
           ],
           { prompt: "選択してください" } %>
     </div>
@@ -104,7 +103,24 @@
 
     <%= f.text_area :note %>
   </div>
-
+  
+  <div>
+    <%= f.label :evidence_files, "根拠資料（任意）" %>
+  
+    <%= f.file_field :evidence_files,
+                     multiple: true,
+                     accept: "image/jpeg,image/png,image/webp,application/pdf" %>
+  
+    <p>
+      JPEG・PNG・WebP・PDF形式。
+      最大3ファイル、1ファイル5MBまで。
+    </p>
+  
+    <p>
+      添付資料は投稿者本人と運営管理者のみ閲覧できます。
+      一般には公開されません。
+    </p>
+  </div>
 
   <div>
     <%= f.submit "卵情報を投稿する" %>

@@ -28,9 +28,8 @@
 <% if @shop_owner.business_license.attached? %>
   <p>
     <strong>店舗確認資料：</strong>
-    <%= link_to @shop_owner.business_license.filename,
-                rails_blob_path(@shop_owner.business_license,
-                                disposition: "attachment") %>
+    <%= link_to "営業許可証をダウンロード",
+            admin_shop_owner_business_license_path(@shop_owner) %>
   </p>
 <% else %>
   <p>店舗確認資料は提出されていません。</p>

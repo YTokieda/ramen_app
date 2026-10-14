@@ -149,4 +149,60 @@ class VerificationTest < ActiveSupport::TestCase
     assert @verification.valid?
   end
     
+    
+    
+  test "PDFの証拠資料を添付できる" do
+    verification = verifications(:one)
+  
+    verification.evidence_files.attach(
+      io: StringIO.new("%PDF-1.4\nTest PDF"),
+      filename: "evidence.pdf",
+      content_type: "application/pdf"
+    )
+  
+    assert verification.valid?, verification.errors.full_messages.inspect
+  end
+  
+  test "許可されていない証拠資料は拒否される" do
+    verification = verifications(:one)
+  
+    verification.evidence_files.attach(
+      io: StringIO.new("Invalid file"),
+      filename: "evidence.txt",
+      content_type: "text/plain"
+    )
+  
+    assert_not verification.valid?
+    assert verification.errors[:evidence_files].any?
+  end
+  
+  test "5MBを超える証拠資料は拒否される" do
+    verification = verifications(:one)
+  
+    verification.evidence_files.attach(
+      io: StringIO.new("a" * (5.megabytes + 1)),
+      filename: "large.pdf",
+      content_type: "application/pdf"
+    )
+  
+    assert_not verification.valid?
+    assert verification.errors[:evidence_files].any?
+  end
+  
+  test "証拠資料は4ファイル以上添付できない" do
+    verification = verifications(:one)
+  
+    4.times do |i|
+      verification.evidence_files.attach(
+        io: StringIO.new("Test PDF #{i}"),
+        filename: "evidence_#{i}.pdf",
+        content_type: "application/pdf"
+      )
+    end
+  
+    assert_not verification.valid?
+    assert verification.errors[:evidence_files].any?
+  end  
+    
+    
 end

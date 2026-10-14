@@ -2,6 +2,20 @@ class Verification < ApplicationRecord
   belongs_to :shop
   belongs_to :menu_item, optional: true
   belongs_to :user
+  has_many_attached :evidence_files
+
+  EVIDENCE_CONTENT_TYPES = %w[
+    image/jpeg
+    image/png
+    image/webp
+    application/pdf
+  ].freeze
+  
+  MAX_EVIDENCE_FILES = 3
+  MAX_EVIDENCE_SIZE = 5.megabytes
+  
+  validate :validate_evidence_files
+    
 
   CATEGORIES = %w[
     noodle_soup
@@ -46,6 +60,7 @@ class Verification < ApplicationRecord
             inclusion: { in: STATUSES }
 
   validates :verified_on, presence: true
+  validates :verification_method, presence: true
 
   validate :menu_item_belongs_to_shop
   validate :category_matches_menu_item
@@ -68,6 +83,35 @@ class Verification < ApplicationRecord
     elsif CATEGORIES.include?(category)
       if menu_item.nil?
         errors.add(:menu_item, "を選択してください")
+      end
+    end
+  end
+  
+  def validate_evidence_files
+    return unless evidence_files.attached?
+  
+    if evidence_files.size > MAX_EVIDENCE_FILES
+      errors.add(
+        :evidence_files,
+        "は最大#{MAX_EVIDENCE_FILES}ファイルまでです"
+      )
+    end
+  
+    evidence_files.each do |file|
+      blob = file.blob
+  
+      unless EVIDENCE_CONTENT_TYPES.include?(blob.content_type)
+        errors.add(
+          :evidence_files,
+          "はJPEG、PNG、WebP、PDFのみ添付できます"
+        )
+      end
+  
+      if blob.byte_size > MAX_EVIDENCE_SIZE
+        errors.add(
+          :evidence_files,
+          "は1ファイル5MB以下にしてください"
+        )
       end
     end
   end

@@ -14,15 +14,30 @@ class ShopOwnersController < ApplicationController
 
   def create
     @shop = Shop.find(params[:shop_owner][:shop_id])
-
+  
     @shop_owner = current_user.shop_owners.build(
       shop: @shop
     )
-
-    @shop_owner.business_license =
-      params[:shop_owner][:business_license]
-
-    if @shop_owner.save
+  
+    upload = params[:shop_owner][:business_license]
+  
+    @shop_owner.business_license = upload
+  
+    invalid_upload =
+      upload.present? &&
+      !UploadContentTypeValidator.valid_upload?(
+        upload,
+        allowed_types: ShopOwner::LICENSE_CONTENT_TYPES
+      )
+  
+    if invalid_upload
+      @shop_owner.errors.add(
+        :business_license,
+        "のファイル形式が正しくありません"
+      )
+    end
+  
+    if !invalid_upload && @shop_owner.save
       flash[:success] = "店舗オーナー申請を送信しました"
       redirect_to @shop
     else
