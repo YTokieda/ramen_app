@@ -43,13 +43,13 @@ class VerificationEvidenceFilesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-    test "other user cannot download evidence" do
-      log_in_as(@other_user)
-    
-      assert_raises(ActiveRecord::RecordNotFound) do
-        get @url
-      end
-    end
+  test "other user cannot download evidence" do
+    log_in_as(@other_user)
+  
+    get @url
+  
+    assert_response :not_found
+  end
 
   test "guest must log in" do
     get @url
@@ -62,27 +62,26 @@ class VerificationEvidenceFilesControllerTest < ActionDispatch::IntegrationTest
   
     other_verification = verifications(:two)
   
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get verification_evidence_file_path(
-        other_verification,
-        @attachment
-      )
-    end
+    get verification_evidence_file_path(
+      other_verification,
+      @attachment
+    )
+  
+    assert_response :not_found
   end
     
   test "cannot download nonexistent evidence attachment" do
-      log_in_as(@owner)
-    
-      nonexistent_id =
-        ActiveStorage::Attachment.maximum(:id).to_i + 1000
-    
-      assert_raises(ActiveRecord::RecordNotFound) do
-        get verification_evidence_file_path(
-          @verification,
-          nonexistent_id
-        )
-    end
+    log_in_as(@owner)
   
+    nonexistent_id =
+      ActiveStorage::Attachment.maximum(:id).to_i + 1000
+  
+    get verification_evidence_file_path(
+      @verification,
+      nonexistent_id
+    )
+  
+    assert_response :not_found
   end
     
   test "evidence download has security headers" do

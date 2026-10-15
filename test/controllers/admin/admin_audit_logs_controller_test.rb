@@ -46,20 +46,20 @@ class Admin::AdminAuditLogsControllerTest < ActionDispatch::IntegrationTest
       )
     end
   end
-  
+    
   test "admin should not modify audit logs through HTTP" do
     log_in_as(@admin)
   
     assert_no_difference "AdminAuditLog.count" do
-      assert_raises(ActionController::RoutingError) do
-        post "/admin/admin_audit_logs",
-             params: {
-               admin_audit_log: {
-                 action_type: "approve"
-               }
+      post "/admin/admin_audit_logs",
+           params: {
+             admin_audit_log: {
+               action_type: "approve"
              }
-      end
+           }
     end
+  
+    assert_response :not_found
   end
   
 end

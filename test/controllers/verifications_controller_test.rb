@@ -60,24 +60,24 @@ class VerificationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should not use menu item from another shop" do
     log_in_as(@user)
-
+  
     other_menu_item = menu_items(:two)
-
+  
     assert_no_difference("Verification.count") do
-      assert_raises ActiveRecord::RecordNotFound do
-        post shop_verifications_path(@shop),
-             params: {
-               menu_item_id: other_menu_item.id,
-               verification: {
-                 category: "noodle_soup",
-                 egg_status: "egg_free",
-                 source_type: "manufacturer",
-                 verification_method: "メーカー成分表",
-                 verified_on: Date.current
-               }
+      post shop_verifications_path(@shop),
+           params: {
+             menu_item_id: other_menu_item.id,
+             verification: {
+               category: "noodle_soup",
+               egg_status: "egg_free",
+               source_type: "manufacturer",
+               verification_method: "メーカー成分表",
+               verified_on: Date.current
              }
-      end
+           }
     end
+  
+    assert_response :not_found
   end
 
   test "normal user should not set verification status to approved" do
