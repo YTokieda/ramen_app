@@ -62,25 +62,22 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "foods_app_production"
 
-  config.action_mailer.perform_caching = false
-
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :smtp
-  host = ENV.fetch("APP_HOST", "localhost")
-  config.action_mailer.default_url_options = { host: host, 
-  protocol: "https" }
   
-  config.action_mailer.smtp_settings = {
-  address: "smtp-relay.brevo.com",
-  port: 587,
-  user_name: ENV.fetch("BREVO_SMTP_LOGIN"),
-  password: ENV.fetch("BREVO_SMTP_KEY"),
-  authentication: :plain,
-  enable_starttls_auto: true
-}
-
+  
+  config.action_mailer.perform_caching = false
+  config.action_mailer.raise_delivery_errors = true
+  
+  host = ENV.fetch("APP_HOST", "localhost")
+  config.action_mailer.default_url_options = {
+    host: host,
+    protocol: "https"
+  }
+  
+  require Rails.root.join("app/services/brevo_delivery")
+  
+  config.action_mailer.delivery_method = :brevo
+  config.action_mailer.add_delivery_method :brevo, BrevoDelivery
+  
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
