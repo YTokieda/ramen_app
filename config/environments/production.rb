@@ -71,14 +71,15 @@ Rails.application.configure do
   host = ENV.fetch("APP_HOST", "localhost")
   config.action_mailer.default_url_options = { host: host, 
   protocol: "https" }
-  ActionMailer::Base.smtp_settings = {
-    :port           => 587,
-    :address        => 'smtp.mailgun.org',
-    :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
-    :password       => ENV['MAILGUN_SMTP_PASSWORD'],
-    :domain         => host,
-    :authentication => :plain,
-  }
+  
+  config.action_mailer.smtp_settings = {
+  address: "smtp-relay.brevo.com",
+  port: 587,
+  user_name: ENV.fetch("BREVO_SMTP_LOGIN"),
+  password: ENV.fetch("BREVO_SMTP_KEY"),
+  authentication: :plain,
+  enable_starttls_auto: true
+}
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
