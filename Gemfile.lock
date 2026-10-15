@@ -388,4 +388,4 @@ DEPENDENCIES
   zeitwerk (~> 2.6.0)
 
 BUNDLED WITH
-   2.3.14
+   2.5.23
