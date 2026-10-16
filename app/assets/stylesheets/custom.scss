@@ -910,3 +910,59 @@ $ribbon-red-dark: #A82A20;
     margin: 0;
   }
 }
+
+/* user profile */
+
+.profile-header {
+  margin-bottom: 20px;
+}
+
+.profile-meta {
+  color: #6B4A2B;
+}
+
+.profile-section {
+  margin-bottom: 30px;
+}
+
+.profile-section h2 small {
+  font-size: 0.6em;
+  margin-left: 6px;
+}
+
+.profile-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.profile-item {
+  padding: 10px 14px;
+  margin-bottom: 10px;
+}
+
+.profile-date {
+  color: #7A6250;
+  font-size: 0.9em;
+}
+
+.status-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.85em;
+  border: 1px solid #DDD;
+  background: #F5F5F5;
+  color: #555;
+}
+
+.status-chip--approved {
+  color: $theme-green;
+  background: $theme-green-light;
+  border-color: #B9DFBB;
+}
+
+.status-chip--rejected {
+  color: $theme-red;
+  background: $theme-red-light;
+  border-color: #F5C2BE;
+}

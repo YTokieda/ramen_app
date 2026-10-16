@@ -6,6 +6,17 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
+    redirect_to(root_url, status: :see_other) and return unless @user.activated?
+
+    @reviews = @user.reviews.includes(:shop).order(created_at: :desc)
+                    .paginate(page: params[:page], per_page: 10)
+    return unless current_user?(@user)
+
+    # 本人にだけ見せる投稿の進み具合
+    @shop_submissions = @user.shop_submissions.order(created_at: :desc)
+    @verifications = @user.verifications.includes(:shop, :menu_item)
+                          .order(created_at: :desc)
+    @shop_owners = @user.shop_owners.includes(:shop).order(created_at: :desc)
   end
  
   def new
