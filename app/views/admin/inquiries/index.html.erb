@@ -1,0 +1,27 @@
+<% provide(:title, "お問い合わせ一覧") %>
+<h1>お問い合わせ一覧</h1>
+
+<p>
+  <%= link_to "すべて", admin_inquiries_path %>
+  <% Inquiry::STATUSES.each do |key, label| %>
+    ／ <%= link_to label, admin_inquiries_path(status: key) %>
+  <% end %>
+</p>
+
+<% if @inquiries.any? %>
+  <% @inquiries.each do |inquiry| %>
+    <div class="card inquiry-item">
+      <p>
+        <span class="category-chip"><%= inquiry.category_label %></span>
+        <strong><%= link_to inquiry.name, admin_inquiry_path(inquiry) %></strong>
+        （<%= inquiry.status_label %>）
+      </p>
+      <p class="verification-meta">
+        <%= l(inquiry.created_at, format: "%Y/%m/%d %H:%M") %>
+        ・<%= truncate(inquiry.body, length: 60) %>
+      </p>
+    </div>
+  <% end %>
+<% else %>
+  <p>お問い合わせはありません。</p>
+<% end %>

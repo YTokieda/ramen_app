@@ -8,7 +8,7 @@ class ActiveSupport::TestCase
   #parallelize(workers: :number_of_processors)
 
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  fixtures :shops, :shop_owners, :users, :reviews, :menu_items, :verifications, :shop_submissions
+  fixtures :shops, :shop_owners, :users, :reviews, :menu_items, :verifications, :shop_submissions, :inquiries
 
   # Add more helper methods to be used by all tests here...
   

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root "static_pages#home"
   get  "/help",    to: "static_pages#help"
   get  "/about",   to: "static_pages#about"
-  get  "/contact", to: "static_pages#contact"
+  get  "/contact", to: "inquiries#new"
   get  "/signup",  to: "users#new"
 
   # ユーザーログイン
@@ -46,6 +46,8 @@ Rails.application.routes.draw do
   end
   
   resources :shop_submissions, only: [:new, :create]
+  
+  resources :inquiries, only: [:new, :create]
 
   namespace :admin do
     resources :shop_submissions, only: [:index, :show] do
@@ -56,6 +58,9 @@ Rails.application.routes.draw do
     end
   
     resources :admin_audit_logs, only: [:index]
+
+  
+    resources :inquiries, only: [:index, :show, :update]
   
     resources :shop_owners, only: [:index, :show] do
       member do

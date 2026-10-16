@@ -1,0 +1,6 @@
+wrong_info:
+  category: wrong_info
+  name: 問い合わせ太郎
+  email: taro@example.com
+  body: メニューの卵情報が変わっています。
+  status: new
