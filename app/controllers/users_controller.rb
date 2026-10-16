@@ -1,7 +1,10 @@
 class UsersController < ApplicationController
+  # 登録確認メールの大量送信を防ぐ
+  rate_limit to: 5, within: 10.minutes, only: :create,
+             with: -> { redirect_to signup_path, alert: I18n.t("auth.too_many_attempts"), status: :see_other }
   before_action :logged_in_user, only: [:edit, :update, :destroy]
   before_action :correct_user,   only: [:edit, :update]
-  before_action :admin_user,     only: :destroy
+  before_action :admin_user,     only: [:index, :destroy]
   
   
   def show

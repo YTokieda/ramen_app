@@ -139,3 +139,5 @@ en:
         name: Name
         email: Email address
         body: Message
+  auth:
+    too_many_attempts: Too many attempts. Please try again later.

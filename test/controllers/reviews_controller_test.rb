@@ -166,4 +166,32 @@ class ReviewsControllerTest < ActionDispatch::IntegrationTest
   end
   
   
+
+  test "review photo is saved without GPS metadata" do
+    log_in_as(users(:michael))
+
+    original = file_fixture("kitten.jpg").binread
+    exif = "Exif\x00\x00GPSLatitude35.6812".b
+    app1 = "\xFF\xE1".b + [exif.bytesize + 2].pack("n") + exif
+    file = Tempfile.new(["gps", ".jpg"])
+
+    begin
+      file.binmode
+      file.write(original.byteslice(0, 2) + app1 + original.byteslice(2..))
+      file.flush
+      upload = Rack::Test::UploadedFile.new(file.path, "image/jpeg", true,
+                                            original_filename: "gps.jpg")
+
+      assert_difference("Review.count", 1) do
+        post shop_reviews_path(shops(:one)),
+             params: { review: { content: "写真付き", images: [upload] } }
+      end
+
+      saved = Review.last.images.first.download
+      assert_not_includes saved, "GPSLatitude"
+      assert saved.start_with?("\xFF\xD8".b)
+    ensure
+      file.close!
+    end
+  end
 end

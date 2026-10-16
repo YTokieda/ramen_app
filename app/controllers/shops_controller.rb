@@ -1,6 +1,5 @@
-include ShopShowData
-
 class ShopsController < ApplicationController
+  include ShopShowData
   def index
     @keyword = params[:keyword].to_s.strip
     @egg_status = params[:egg_status].to_s

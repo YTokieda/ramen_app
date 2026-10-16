@@ -60,7 +60,8 @@ class Verification < ApplicationRecord
             inclusion: { in: STATUSES }
 
   validates :verified_on, presence: true
-  validates :verification_method, presence: true
+  validates :verification_method, presence: true, length: { maximum: 200 }
+  validates :note, length: { maximum: 2000 }
 
   validate :menu_item_belongs_to_shop
   validate :category_matches_menu_item

@@ -4,8 +4,6 @@ class ReviewsController < ApplicationController
 
   def create
     @shop = Shop.find(params[:shop_id])
-    @review = current_user.reviews.build(review_params)
-    @review.shop = @shop
   
     uploads = review_params[:images] || []
   
@@ -15,6 +13,12 @@ class ReviewsController < ApplicationController
         allowed_types: %w[image/jpeg image/png image/webp]
       )
     end
+
+    # 写真は公開されるので、撮影場所などの情報を消してから保存する
+    uploads.each { |upload| ImageMetadataStripper.strip_upload!(upload) } unless invalid_upload
+
+    @review = current_user.reviews.build(review_params)
+    @review.shop = @shop
   
     if invalid_upload
       @review.errors.add(
