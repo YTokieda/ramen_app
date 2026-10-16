@@ -21,6 +21,13 @@ class ForgotPasswordFormTest < PasswordResets
     assert_not flash.empty?
     assert_template 'password_resets/new'
   end
+
+  test "unknown email gets the same message and no mail" do
+    post password_resets_path, params: { password_reset: { email: "nobody@example.com" } }
+    assert_redirected_to root_url
+    assert_match "登録済みのメールアドレスであれば", flash[:info]
+    assert_empty ActionMailer::Base.deliveries
+  end
 end
 
 class PasswordResetForm < PasswordResets
@@ -89,10 +96,23 @@ class PasswordUpdateTest < PasswordResetForm
   test "update with valid password and confirmation" do
     patch password_reset_path(@reset_user.reset_token),
           params: { email: @reset_user.email,
-                    user: { password:              "foobaz",
-                            password_confirmation: "foobaz" } }
+                    user: { password:              "foobaz12",
+                            password_confirmation: "foobaz12" } }
     assert is_logged_in?
     assert_not flash.empty?
     assert_redirected_to @reset_user
+  end
+
+  test "reset link works only once and old sessions are invalidated" do
+    old_digest = @user.reload.remember || @user.remember_digest
+    patch password_reset_path(@reset_user.reset_token),
+          params: { email: @reset_user.email,
+                    user: { password: "foobaz12", password_confirmation: "foobaz12" } }
+    assert_nil @user.reload.reset_digest
+    assert_not_equal old_digest, @user.remember_digest
+
+    delete logout_path
+    get edit_password_reset_path(@reset_user.reset_token, email: @reset_user.email)
+    assert_redirected_to root_url
   end
 end

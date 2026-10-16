@@ -1,0 +1,51 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      review: 口コミ
+      shop: 店舗
+      menu_item: メニュー
+      verification: 卵情報
+      shop_submission: 店舗情報提供
+      shop_owner: 店舗オーナー申請
+      inquiry: お問い合わせ
+    attributes:
+      user:
+        name: ニックネーム
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）
+      review:
+        content: 口コミ
+        images: 写真
+      shop:
+        name: 店舗名
+        address: 住所
+        description: 店舗説明
+      menu_item:
+        name: メニュー名
+        description: 説明
+      verification:
+        category: 確認項目
+        egg_status: 卵の使用状況
+        source_type: 情報源
+        verification_method: 確認方法
+        verified_on: 確認日
+        note: 補足
+        menu_item: 対象メニュー
+        evidence_files: 根拠資料
+      shop_submission:
+        name: 店舗名
+        address: 住所
+        description: 店舗説明
+      shop_owner:
+        user_id: ユーザー
+        business_license: 営業許可証など
+      inquiry:
+        category: お問い合わせの種類
+        name: お名前
+        email: メールアドレス
+        body: お問い合わせ内容
+  errors:
+    messages:
+      password_complexity: は8文字以上で、英字と数字をそれぞれ1文字以上含めてください

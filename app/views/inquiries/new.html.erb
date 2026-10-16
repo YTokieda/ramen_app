@@ -1,0 +1,36 @@
+<% provide(:title, t("inquiries.title")) %>
+<h1><%= t("inquiries.title") %></h1>
+
+<div class="inquiry-form card">
+  <p><%= t("inquiries.lead") %></p>
+
+  <%= form_with model: @inquiry, url: inquiries_path do |f| %>
+    <%= render "shared/error_messages", object: f.object %>
+
+    <%= f.label :category, t("inquiries.category") %>
+    <%= f.select :category,
+                 Inquiry::CATEGORIES.keys.map { |key| [t("inquiries.categories.#{key}"), key] },
+                 { include_blank: t("inquiries.select") }, class: "form-control" %>
+
+    <%= f.label :name, t("inquiries.name") %>
+    <%= f.text_field :name, class: "form-control" %>
+
+    <%= f.label :email, t("inquiries.email") %>
+    <%= f.email_field :email, class: "form-control" %>
+
+    <%= f.label :body, t("inquiries.body") %>
+    <%= f.text_area :body, rows: 8, class: "form-control",
+                    placeholder: t("inquiries.body_placeholder") %>
+
+    <div class="inquiry-hp" aria-hidden="true">
+      <label for="website"><%= t("inquiries.honeypot") %></label>
+      <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+    </div>
+
+    <%= f.submit t("inquiries.submit"), class: "btn btn-primary" %>
+  <% end %>
+
+  <p class="inquiry-note">
+    <%= t("inquiries.note_html", link: link_to(t("footer.privacy"), privacy_path)) %>
+  </p>
+</div>

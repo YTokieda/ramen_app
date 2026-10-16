@@ -1,34 +1,24 @@
 <div class="verification-summary">
-  <p>
-    <strong>対象：</strong>
-    <%= verification.menu_item&.name || "店舗の調理環境" %>
-  </p>
-
-  <p>
-    <strong>確認項目：</strong>
-    <%= verification_category_label(verification.category) %>
-  </p>
+  <div class="verification-summary-head">
+    <% if conflicting %>
+      <%= egg_status_conflict_badge %>
+    <% else %>
+      <%= egg_status_badge(verification.egg_status) %>
+    <% end %>
+    <strong><%= verification_target_name(verification) %></strong>
+    <span class="category-chip">
+      <%= verification_category_label(verification.category) %>
+    </span>
+  </div>
 
   <% if conflicting %>
-    <p class="verification-conflict-warning">
-      同じ確認日に異なる卵情報が登録されています。
-      店舗に直接ご確認ください。
-    </p>
-  <% else %>
-    <p>
-      <strong>卵の使用状況：</strong>
-      <%= egg_status_label(verification.egg_status) %>
-    </p>
+    <p class="verification-conflict-warning"><%= t("verification.conflict_short") %></p>
   <% end %>
 
-  <p>
-    <strong>情報源：</strong>
-    <%= verification_source_label(verification.source_type) %>
-  </p>
-
-  <p>
-    <strong>確認日：</strong>
-    <%= verification.verified_on || "不明" %>
+  <p class="verification-meta">
+    <%= t("verification.source") %><%= t("punct.colon") %><%= verification_source_label(verification.source_type) %>
+    <%= t("punct.sep") %><%= t("verification.verified_on") %><%= t("punct.colon") %><%= verification.verified_on || t("verification.unknown_date") %>
+    <%= t("punct.sep") %><%= t("verification.approved_short") %>
   </p>
 
   <% freshness_message =
@@ -39,6 +29,4 @@
       <%= freshness_message %>
     </p>
   <% end %>
-
-  <p>運営確認済み（卵アレルギーへの安全性を保証するものではありません）</p>
 </div>

@@ -1,19 +1,88 @@
-<% if logged_in? %>
+<section class="home-hero">
+  <%= image_tag "logo-art.png", alt: "", class: "home-hero-logo" %>
+  <h1 class="home-hero-title">
+    <span class="ribbon">卵アレルギーの方のための</span>
+    <span class="home-hero-title-main">ラーメンガイド</span>
+  </h1>
+  <p class="home-hero-subtitle"><span><%= site_name_en %></span></p>
+  <p class="home-lead">
+    卵アレルギーのある方とご家族のために、ラーメン店のメニューごとの卵の使用状況を「誰が・いつ・どうやって確認したか」と一緒に掲載しています。
+  </p>
 
-<% else %>
+  <%= form_with url: shops_path, method: :get, local: true,
+                class: "home-search" do |f| %>
+    <%= f.label :keyword, "店舗名・住所で探す", class: "sr-only" %>
+    <%= f.text_field :keyword, placeholder: "例：新宿、鶏白湯" %>
+    <%= f.submit "検索する", class: "btn btn-primary" %>
+  <% end %>
 
-<div class="center jumbotron">
-  <h1>卵アレルギー対応ラーメン店 情報サイト</h1>
+  <p class="home-quick-links">
+    <%= link_to "すべての店舗を見る（#{@shop_count}件）", shops_path %>
+    ／
+    <%= link_to "麺・スープの卵不使用の確認情報がある店舗",
+                shops_path(egg_status: "egg_free", category: "noodle_soup") %>
+  </p>
+</section>
 
-  <h2>
-    This is the home page for the
-    <a href="https://railstutorial.jp/">Ruby on Rails Tutorial</a>
-    sample application.
-  </h2>
-
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+<div class="home-notice">
+  <strong>ご利用前にお読みください</strong>
+  <p>
+    掲載情報は確認時点の内容であり、卵アレルギーに対する安全を保証するものではありません。レシピの変更や、調理器具・茹で湯の共用などによる混入の可能性もあります。来店前に必ず店舗へ直接ご確認ください。
+  </p>
 </div>
 
-<%= link_to image_tag("rails.svg", alt: "Rails logo", width: "200"),
-                      "https://rubyonrails.org/" %>
-<% end %>
+<div class="row home-columns">
+  <div class="col-md-6">
+    <h2>情報の見かた</h2>
+    <dl class="home-guide">
+      <dt>確認項目</dt>
+      <dd>「麺およびスープ」「トッピング（味玉以外）」「調理環境」ごとに確認しています。</dd>
+      <dt>卵の使用状況</dt>
+      <dd>「卵不使用を確認」「卵を使用」「未確認」のいずれかです。未確認は卵不使用という意味ではありません。</dd>
+      <dt>情報源・確認日</dt>
+      <dd>店舗公式情報、店舗オーナー、ユーザー報告などの出どころと確認日を表示します。古い情報には注意を表示します。</dd>
+      <dt>運営確認</dt>
+      <dd>公開されている情報は運営が内容を確認したものです。食い違う情報がある場合はその旨を表示します。</dd>
+    </dl>
+    <p><%= link_to "くわしくはヘルプへ", help_path %></p>
+  </div>
+
+  <div class="col-md-6">
+    <h2>最近確認された情報</h2>
+    <% if @recent_verifications.any? %>
+      <ul class="home-recent">
+        <% @recent_verifications.each do |verification| %>
+          <li>
+            <%= link_to verification.shop.name, shop_path(verification.shop) %>
+            <span class="home-recent-meta">
+              <%= verification.menu_item&.name || "店舗の調理環境" %>
+              ・<%= verification_category_label(verification.category) %>
+              ・確認日 <%= verification.verified_on %>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>まだ確認済みの情報はありません。</p>
+    <% end %>
+  </div>
+</div>
+
+<div class="home-cta">
+  <% if logged_in? %>
+    <h2>情報提供にご協力ください</h2>
+    <p>
+      掲載されていない店舗の情報や、店舗ページからメニューごとの卵情報を提供できます。店舗の方は、オーナー申請をすると店舗情報の更新や口コミへの返信ができます。
+    </p>
+    <%= link_to "掲載されていない店舗を情報提供する", new_shop_submission_path,
+                class: "btn btn-default" %>
+    <%= link_to "店舗オーナー申請", new_shop_owner_path, class: "btn btn-default" %>
+  <% else %>
+    <h2>会員登録すると</h2>
+    <p>
+      口コミや写真の投稿、卵情報の提供ができます。閲覧だけなら登録は不要です。
+    </p>
+    <%= link_to "無料で会員登録", signup_path, class: "btn btn-primary" %>
+    <%= link_to "ログイン", login_path, class: "btn btn-default" %>
+  <% end %>
+</div>

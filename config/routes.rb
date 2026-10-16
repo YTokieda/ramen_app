@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+  scope "(:locale)", locale: /en/ do
   root "static_pages#home"
   get  "/help",    to: "static_pages#help"
   get  "/about",   to: "static_pages#about"
-  get  "/contact", to: "static_pages#contact"
+  get  "/contact", to: "inquiries#new"
+  get  "/privacy", to: "static_pages#privacy"
+  get  "/terms",   to: "static_pages#terms"
   get  "/signup",  to: "users#new"
 
   # ユーザーログイン
@@ -20,6 +23,7 @@ Rails.application.routes.draw do
     resources :menu_items, only: [:new, :create]
     resources :reviews, only: [:create, :destroy] do
       resource :review_reply, only: [:create]
+      resource :reaction, only: [:create, :destroy], controller: "review_reactions"
     end
     
     resources :verifications, only: [:new, :create]
@@ -46,6 +50,8 @@ Rails.application.routes.draw do
   end
   
   resources :shop_submissions, only: [:new, :create]
+  
+  resources :inquiries, only: [:new, :create]
 
   namespace :admin do
     resources :shop_submissions, only: [:index, :show] do
@@ -56,6 +62,9 @@ Rails.application.routes.draw do
     end
   
     resources :admin_audit_logs, only: [:index]
+
+  
+    resources :inquiries, only: [:index, :show, :update]
   
     resources :shop_owners, only: [:index, :show] do
       member do
@@ -76,5 +85,5 @@ Rails.application.routes.draw do
     as: :shop_owner_business_license
     
   end
-  
+  end
 end

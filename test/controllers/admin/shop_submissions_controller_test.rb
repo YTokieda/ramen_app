@@ -88,10 +88,10 @@ class Admin::ShopSubmissionsControllerTest < ActionDispatch::IntegrationTest
     nonexistent_id = ShopSubmission.maximum(:id).to_i + 1
   
     assert_no_difference "Shop.count" do
-      assert_raises(ActiveRecord::RecordNotFound) do
-        patch approve_admin_shop_submission_path(nonexistent_id)
-      end
+      patch approve_admin_shop_submission_path(nonexistent_id)
     end
+  
+    assert_response :not_found
   end
 
   test "approving same submission twice should create only one shop" do

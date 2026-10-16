@@ -37,7 +37,8 @@ class VerificationsController < ApplicationController
       @verification.menu_item = @menu_item
     end
 
-    uploads = verification_params[:evidence_files] || []
+    # 未選択でもフォームから空文字が送られてくるので取り除く
+    uploads = (verification_params[:evidence_files] || []).compact_blank
 
     invalid_upload = uploads.any? do |upload|
       !UploadContentTypeValidator.valid_upload?(

@@ -4,7 +4,7 @@ class AdminAuditLog < ApplicationRecord
   validates :target_type, presence: true
   validates :target_id, presence: true
   validates :action_type,
-            inclusion: { in: %w[approve reject] }
+            inclusion: { in: %w[approve reject update_status] }
 
   validates :previous_status, presence: true
   validates :new_status, presence: true

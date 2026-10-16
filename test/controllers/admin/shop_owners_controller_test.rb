@@ -139,11 +139,10 @@ class Admin::ShopOwnersControllerTest < ActionDispatch::IntegrationTest
     }) do
   
       assert_no_difference "AdminAuditLog.count" do
-        assert_raises(ActiveRecord::RecordInvalid) do
-          patch approve_admin_shop_owner_path(@shop_owner)
-        end
+        patch approve_admin_shop_owner_path(@shop_owner)
       end
   
+      assert_response :unprocessable_entity
     end
   
     assert_equal "pending", @shop_owner.reload.status

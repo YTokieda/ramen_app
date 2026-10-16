@@ -42,9 +42,9 @@ class Admin::ShopOwnerLicensesControllerTest < ActionDispatch::IntegrationTest
   
     @shop_owner.business_license.purge
   
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get @url
-    end
+    get @url
+  
+    assert_response :not_found
   end
   
   test "business license download has security headers" do

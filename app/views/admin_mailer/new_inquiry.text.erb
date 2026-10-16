@@ -1,0 +1,9 @@
+新しいお問い合わせがありました。
+
+種類：<%= @inquiry.category_label %>
+お名前：<%= @inquiry.name %>
+メール：<%= @inquiry.email %>
+
+<%= @inquiry.body %>
+
+管理画面：<%= admin_inquiry_url(@inquiry) %>

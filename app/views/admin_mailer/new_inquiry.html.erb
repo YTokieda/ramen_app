@@ -1,0 +1,8 @@
+<p>新しいお問い合わせがありました。</p>
+<p>
+  種類：<%= @inquiry.category_label %><br>
+  お名前：<%= @inquiry.name %><br>
+  メール：<%= @inquiry.email %>
+</p>
+<p><%= simple_format(@inquiry.body) %></p>
+<p><%= link_to "管理画面で確認する", admin_inquiry_url(@inquiry) %></p>

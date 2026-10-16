@@ -1,13 +1,14 @@
 <footer class="footer">
   <small>
-    The <a href="https://railstutorial.jp/">Ruby on Rails Tutorial</a>
-    by <a href="https://www.michaelhartl.com/">Michael Hartl</a>
+    &copy; <%= Date.current.year %> <%= operator_name %>
   </small>
   <nav>
     <ul>
-      <li><%= link_to "About",   about_path %></li>
-      <li><%= link_to "Contact", contact_path %></li>
-      <li><a href="https://news.railstutorial.org/">News</a></li>
+      <li><%= link_to t("footer.about"), about_path %></li>
+      <li><%= link_to t("footer.help"), help_path %></li>
+      <li><%= link_to t("footer.privacy"), privacy_path %></li>
+      <li><%= link_to t("footer.terms"), terms_path %></li>
+      <li><%= link_to t("footer.contact"), contact_path %></li>
     </ul>
   </nav>
 </footer>

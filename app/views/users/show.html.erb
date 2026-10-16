@@ -1,8 +1,91 @@
 <% provide(:title, @user.name) %>
-<h1>ユーザーページ</h1>
+<% own_page = current_user?(@user) %>
 
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-
-  </div>
+<div class="profile-header">
+  <h1><%= own_page ? "マイページ" : "#{@user.name}さんのページ" %></h1>
+  <p class="profile-meta">
+    ニックネーム：<strong><%= @user.name %></strong>
+    ・ <%= @user.created_at.strftime("%Y年%-m月") %>から利用
+    ・ 口コミ <%= @user.reviews.count %>件
+  </p>
+  <% if own_page %>
+    <p>
+      <%= link_to "ニックネーム・パスワードを変更", edit_user_path(@user), class: "btn btn-default btn-sm" %>
+      <%= link_to "店舗情報を投稿する", new_shop_submission_path, class: "btn btn-default btn-sm" %>
+    </p>
+    <p class="form-hint">「口コミ」はほかの人にも公開されます。下の「投稿の状況」はあなただけに表示されます。</p>
+  <% end %>
 </div>
+
+<section class="profile-section">
+  <h2>口コミ</h2>
+  <% if @reviews.any? %>
+    <% @reviews.each do |review| %>
+      <div class="card profile-item">
+        <p><strong><%= link_to review.shop.name, shop_path(review.shop) %></strong></p>
+        <p><%= review.content %></p>
+        <p class="profile-date"><%= review.created_at.strftime("%Y/%m/%d") %> 投稿</p>
+      </div>
+    <% end %>
+    <%= will_paginate @reviews %>
+  <% elsif own_page %>
+    <p>まだ口コミはありません。行ったお店のページから口コミを書けます。</p>
+    <p><%= link_to "お店を探す", shops_path, class: "btn btn-primary" %></p>
+  <% else %>
+    <p>まだ口コミはありません。</p>
+  <% end %>
+</section>
+
+<% if own_page %>
+  <section class="profile-section">
+    <h2>投稿の状況<small>（あなただけに表示）</small></h2>
+
+    <h3>確認情報</h3>
+    <% if @verifications.any? %>
+      <ul class="profile-list">
+        <% @verifications.each do |v| %>
+          <li class="card profile-item">
+            <%= link_to v.shop.name, shop_path(v.shop) %>
+            <% if v.menu_item %>・<%= v.menu_item.name %><% end %>
+            ・<%= t("verification.categories.#{v.category}") %>
+            <span class="egg-badge egg-badge--<%= v.egg_status %>"><%= t("verification.egg_statuses.#{v.egg_status}") %></span>
+            <span class="status-chip status-chip--<%= v.status %>"><%= t("verification.statuses.#{v.status}") %></span>
+            <span class="profile-date"><%= v.created_at.strftime("%Y/%m/%d") %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>まだ確認情報の投稿はありません。</p>
+    <% end %>
+
+    <h3>店舗情報の投稿</h3>
+    <% if @shop_submissions.any? %>
+      <ul class="profile-list">
+        <% @shop_submissions.each do |s| %>
+          <li class="card profile-item">
+            <strong><%= s.name %></strong>（<%= s.address %>）
+            <span class="status-chip status-chip--<%= s.status %>"><%= t("verification.statuses.#{s.status}") %></span>
+            <span class="profile-date"><%= s.created_at.strftime("%Y/%m/%d") %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>まだ店舗情報の投稿はありません。</p>
+    <% end %>
+
+    <% if @shop_owners.any? %>
+      <h3>店舗オーナー申請</h3>
+      <ul class="profile-list">
+        <% @shop_owners.each do |o| %>
+          <li class="card profile-item">
+            <%= link_to o.shop.name, shop_path(o.shop) %>
+            <span class="status-chip status-chip--<%= o.status %>"><%= t("verification.statuses.#{o.status}") %></span>
+          </li>
+        <% end %>
+      </ul>
+      <% if @shop_owners.any? { |o| o.status == "approved" } %>
+        <p><%= link_to "店舗管理へ", dashboard_shop_owners_path, class: "btn btn-default btn-sm" %></p>
+      <% end %>
+    <% end %>
+  </section>
+<% end %>

@@ -1,0 +1,22 @@
+<% provide(:title, "お問い合わせ詳細") %>
+<h1>お問い合わせ詳細</h1>
+
+<div class="card inquiry-item">
+  <p><strong>種類：</strong><%= @inquiry.category_label %></p>
+  <p><strong>受付日時：</strong><%= l(@inquiry.created_at, format: "%Y/%m/%d %H:%M") %></p>
+  <p><strong>お名前：</strong><%= @inquiry.name %></p>
+  <p><strong>メール：</strong><%= mail_to @inquiry.email %></p>
+  <% if @inquiry.user %>
+    <p><strong>会員：</strong><%= link_to @inquiry.user.name, @inquiry.user %></p>
+  <% end %>
+  <p><strong>内容：</strong></p>
+  <%= simple_format(@inquiry.body) %>
+
+  <%= form_with model: @inquiry, url: admin_inquiry_path(@inquiry), method: :patch do |f| %>
+    <%= f.label :status, "ステータス" %>
+    <%= f.select :status, Inquiry::STATUSES.invert, {}, class: "form-control" %>
+    <%= f.submit "更新する", class: "btn btn-primary" %>
+  <% end %>
+</div>
+
+<p><%= link_to "一覧に戻る", admin_inquiries_path %></p>

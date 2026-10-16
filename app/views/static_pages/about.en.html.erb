@@ -1,0 +1,23 @@
+<% provide(:title, "About") %>
+<h1>About</h1>
+
+<div class="card legal">
+<p>
+  <%= site_name %> is an information site for people with egg allergies, their families, and ramen shops. For ramen shops in Japan, we list whether egg is used in each menu item and component (noodles &amp; soup, toppings, kitchen environment), together with the basis of that information.
+</p>
+
+<h2>What we value</h2>
+<ul>
+  <li>We never declare anything "safe". Even "Confirmed egg-free" applies only to what was confirmed at that time.</li>
+  <li>We always show who confirmed what, how and when.</li>
+  <li>User posts are published after review by our team, and past confirmations are kept as history.</li>
+  <li>We ask shops to provide accurate information through the shop owner program.</li>
+</ul>
+
+<h2>Disclaimer</h2>
+<p>
+  We cannot guarantee that the information is accurate or up to date. Egg may get in through recipe changes or shared cooking tools and noodle-boiling water. Please consult your doctor about allergies and always check directly with the shop before visiting.
+</p>
+
+<p>Operated by <%= operator_name %> — <%= link_to "Contact", contact_path %></p>
+</div>

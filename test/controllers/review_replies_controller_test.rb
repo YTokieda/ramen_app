@@ -171,19 +171,17 @@ class ReviewRepliesControllerTest < ActionDispatch::IntegrationTest
     log_in_as(@user)
   
     assert_no_difference "ReviewReply.count" do
-      assert_raises(ActiveRecord::RecordNotFound) do
-        post shop_review_review_reply_path(other_shop, @review),
-             params: {
-               review_reply: {
-                 content: "別店舗URLからの返信"
-               }
+      post shop_review_review_reply_path(other_shop, @review),
+           params: {
+             review_reply: {
+               content: "別店舗URLからの返信"
              }
-      end
+           }
     end
   
+    assert_response :not_found
     assert_nil @review.reload.review_reply
   end
-  
   
   test "owner should not create duplicate reply" do
     shop_owner = ShopOwner.create!(

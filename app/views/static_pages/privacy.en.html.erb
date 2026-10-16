@@ -1,0 +1,85 @@
+<% provide(:title, "Privacy Policy") %>
+<h1>Privacy Policy</h1>
+
+<div class="card legal">
+<p class="legal-date">Effective: October 16, 2026</p>
+<p class="legal-note">This is an English translation for convenience. If there is any discrepancy, the <%= link_to "Japanese version", privacy_path(locale: nil) %> prevails.</p>
+
+<p><%= operator_name %> ("we") handles personal information of users of "<%= site_name %>" (the "Service") as follows, in accordance with the Act on the Protection of Personal Information of Japan and other applicable laws.</p>
+
+<h2>1. Operator</h2>
+<ul>
+  <li>Name: <%= operator_name %></li>
+  <li>Contact: <%= link_to "contact form", contact_path %> or <%= mail_to contact_email %></li>
+  <li>Address and name of representative: provided without delay upon request.</li>
+</ul>
+
+<h2>2. Information we collect</h2>
+<ol>
+  <li>When you sign up: nickname, email address and password (stored in a form that cannot be reversed; we cannot see your original password)</li>
+  <li>When you post: reviews, photos, egg information, supporting documents and shop suggestions</li>
+  <li>When a shop owner applies: verification documents such as a business license</li>
+  <li>When you contact us: name, email address and message</li>
+  <li>Automatically: IP address, browser type, access time and similar logs, and cookies used to keep you logged in</li>
+</ol>
+
+<h2>3. How we use it</h2>
+<ol>
+  <li>To provide the Service, verify accounts and manage logins</li>
+  <li>To send account confirmation, password reset and similar emails</li>
+  <li>To review, publish and manage posts</li>
+  <li>To verify shop owners</li>
+  <li>To respond to inquiries</li>
+  <li>To prevent misuse and keep the Service secure</li>
+  <li>To deal with violations of the Terms of Use</li>
+  <li>For statistical analysis to improve the Service (without identifying individuals)</li>
+  <li>To send important notices about the Service</li>
+</ol>
+
+<h2>4. Information that is made public</h2>
+<p>Your nickname, reviews, photos and egg information reviewed by us are shown publicly. Email addresses, passwords, shop owner documents and inquiry contents are not made public. Please do not include your real name or other identifying information in your nickname or posts.</p>
+
+<h2>5. Disclosure to third parties</h2>
+<p>We do not provide personal information to third parties without your consent, except where required by law, where necessary to protect life, body or property and consent is difficult to obtain, or as otherwise permitted by law.</p>
+
+<h2>6. Service providers and transfers outside Japan</h2>
+<p>We entrust the handling of personal information to the following providers to the extent necessary to operate the Service. They are located outside Japan or may process data outside Japan.</p>
+<table class="table">
+  <thead><tr><th>Provider</th><th>Country</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td>Render Services, Inc.</td><td>United States</td><td>Servers and database</td></tr>
+    <tr><td>Amazon Web Services, Inc.</td><td>United States</td><td>Storage of photos and documents (stored in the Tokyo region in principle)</td></tr>
+    <tr><td>Sendinblue SAS (Brevo)</td><td>France</td><td>Email delivery</td></tr>
+    <tr><td>Google LLC</td><td>United States</td><td>Web fonts (Google Fonts); your IP address and similar data are sent to Google when you view pages</td></tr>
+  </tbody>
+</table>
+<p>Data protection systems differ by country. Please refer to the information published by the Personal Information Protection Commission of Japan. We select providers after confirming that personal information is handled appropriately and supervise them as necessary.</p>
+
+<h2>7. Security measures</h2>
+<ul>
+  <li>Passwords are stored in an irreversible form.</li>
+  <li>Communication is encrypted with HTTPS.</li>
+  <li>Administrative functions are limited to administrators, and review actions are logged.</li>
+  <li>Shop owner documents and supporting documents for egg information can be viewed only by the submitter and administrators.</li>
+  <li>Providers that handle personal information are selected after checking their security practices.</li>
+</ul>
+
+<h2>8. Cookies</h2>
+<p>We use cookies to keep you logged in and for similar purposes. If you disable cookies, some features such as logging in may not work. We currently do not use analytics or advertising services; if we start, we will update this policy.</p>
+
+<h2>9. Requests for disclosure, correction or deletion</h2>
+<p>If you request notification of the purpose of use, disclosure, correction, addition or deletion, suspension of use or erasure, suspension of provision to third parties, or disclosure of records of provision to third parties, we will respond without delay in accordance with the law after confirming your identity. Please contact us via the <%= link_to "contact form", new_inquiry_path(category: "privacy") %> (topic "Personal data / account deletion") or at <%= mail_to contact_email %>. No fee is charged.</p>
+
+<h2>10. After you delete your account</h2>
+<p>When you delete your account, your account information is deleted or made unusable. Published egg information may be kept, without identifying the contributor, to preserve accuracy and history. Records may also be kept for a necessary period to deal with misuse or as required by law.</p>
+
+<h2>11. Minors</h2>
+<p>Minors should use the Service with the consent of a parent or guardian.</p>
+
+<h2>12. Changes to this policy</h2>
+<p>We may revise this policy as necessary and will announce significant changes on the Service.</p>
+
+<h2>13. Contact and complaints</h2>
+<p><%= operator_name %><br>
+<%= link_to "Contact form", contact_path %> / <%= mail_to contact_email %></p>
+</div>

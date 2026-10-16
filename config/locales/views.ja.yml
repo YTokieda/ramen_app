@@ -1,0 +1,137 @@
+ja:
+  errors:
+    form_summary: 入力内容に%{count}件のエラーがあります。
+  punct:
+    colon: "："
+    sep: "・"
+  site:
+    name: 卵アレルギーの方のためのラーメンガイド
+    ribbon: 卵アレルギーの方のための
+    main: ラーメンガイド
+    switch_to: English
+    switch_locale: en
+  nav:
+    home: ホーム
+    shops: ラーメン店を探す
+    help: ヘルプ
+    login: ログイン
+    menu_open: メニューを開く
+  footer:
+    about: このサイトについて
+    help: ヘルプ
+    contact: お問い合わせ
+    privacy: プライバシーポリシー
+    terms: 利用規約
+  safety_notice: 卵情報は確認時点の内容で、卵アレルギーに対する安全を保証するものではありません。来店前に店舗へ直接ご確認ください。
+  data_language_note: ""
+  verification:
+    categories:
+      noodle_soup: 麺およびスープ
+      topping: トッピング（味玉以外）
+      cooking_environment: 調理環境
+    egg_statuses:
+      egg_free: 卵不使用を確認
+      contains_egg: 卵を使用
+      unknown: 未確認
+      conflict: 情報に食い違いあり
+    sources:
+      official: 店舗公式情報
+      shop_owner: 店舗オーナー
+      staff: 店舗スタッフ
+      manufacturer: メーカー
+      user_report: ユーザー報告
+    statuses:
+      pending: 運営確認待ち
+      approved: 運営確認済み
+      rejected: 却下
+    freshness:
+      unknown: 確認日不明
+      over_year: 確認から1年以上経過しています。店舗への再確認をおすすめします。
+      over_half_year: 確認から6か月以上経過しています。情報が変更されている可能性があります。
+    cooking_environment_target: 店舗の調理環境
+    target: 対象
+    target_menu: 対象メニュー
+    category: 確認項目
+    egg_status: 卵の使用状況
+    source: 情報源
+    method: 確認方法
+    verified_on: 確認日
+    note: 補足
+    status: 確認状況
+    unknown_date: 不明
+    approved_short: 運営確認済み
+    conflict_short: 同じ確認日に異なる卵情報が登録されています。店舗に直接ご確認ください。
+    conflict_title: 同じ確認日に、卵使用と卵不使用の情報が混在しています。
+    conflict_body: 確認情報に明確な食い違いがあります。代表表示だけで判断せず、店舗に直接ご確認ください。
+    same_day_uncertain_title: 同じ確認日に、未確認の情報も登録されています。
+    same_day_uncertain_body: 卵の使用状況について、確認結果が一致していません。情報源と確認方法をご確認ください。
+    changed_title: 前回の確認情報と卵の使用状況が異なります。
+    changed_body: 原材料の変更や情報源による違いの可能性があります。現在の使用状況について、店舗に直接ご確認ください。
+    history_uncertain_title: 前回と今回で確認状況が異なります。
+    history_uncertain_body: いずれかの確認情報が「未確認」となっています。情報源と確認日をご確認ください。
+    history_toggle: 過去の確認情報を見る（%{count}件）
+  shops:
+    index:
+      title: ラーメン店を探す
+      keyword: 店舗名・住所
+      keyword_placeholder: 例：品川
+      egg_status: 卵情報
+      category: 確認項目
+      all: すべて
+      egg_free: 卵不使用の確認情報あり
+      contains_egg: 卵使用の確認情報あり
+      unknown: 未確認の情報あり
+      cat_noodle_soup: 麺・スープ
+      cat_topping: トッピング
+      cat_cooking_environment: 調理環境
+      search: 検索する
+      clear: 条件をクリア
+      submit_shop: 掲載されていない店舗を情報提供する
+      login_to_submit_html: 店舗情報を提供するには %{link} してください。
+      login: ログイン
+      result_count: 検索結果：%{count}件
+      more: ほかに%{count}件の卵情報があります。
+      hidden_conflict: 表示されていない情報にも矛盾があります。店舗詳細ページでご確認ください。
+      see_all: すべての卵情報を見る
+      no_info: 表示できる承認済みの卵情報はありません。
+      no_result: 条件に一致する店舗はありませんでした。
+    show:
+      menu: メニュー
+      no_menu: メニュー情報はまだ登録されていません。
+      cooking_environment: 調理環境
+      cooking_environment_desc: 共通の調理器具や茹で湯など、店舗の調理環境についての情報です。
+      egg_info: 卵に関する確認情報
+      no_egg_info: 現在、運営確認済みの卵情報はありません。
+      login_to_review_html: 口コミを投稿するには %{link} してください。
+      login: ログイン
+      reviews: 口コミ
+      no_reviews: まだ口コミはありません。
+      owner_reply: 店舗からの返信
+      review_image: 口コミ画像
+      posted_on: 投稿日：%{date}
+      helpful: 参考になった
+      helpful_undo: 「参考になった」を取り消す
+      helpful_count: "%{count}人が参考になったと言っています"
+      back: 店舗一覧に戻る
+  inquiries:
+    title: お問い合わせ
+    lead: 掲載情報の誤り、口コミの削除依頼、個人情報の取り扱いなどについては、こちらからお知らせください。内容を確認のうえ、必要に応じてご入力いただいたメールアドレスへご連絡します。
+    category: お問い合わせの種類
+    select: 選択してください
+    name: お名前
+    email: メールアドレス
+    body: お問い合わせ内容
+    body_placeholder: 店舗名やページのURLなど、対象がわかる情報もお書きください。
+    honeypot: ウェブサイト（入力しないでください）
+    submit: 送信する
+    note_html: お送りいただいた内容は、%{link}に従い、お問い合わせへの対応のためにのみ利用します。
+    thanks: お問い合わせを受け付けました。内容を確認のうえ、必要に応じてご連絡します。
+    too_many: 送信回数が多すぎます。しばらくしてからお試しください。
+    categories:
+      wrong_info: 掲載情報の誤り・変更
+      shop: 店舗の方から
+      review: 口コミの削除依頼
+      privacy: 個人情報・退会について
+      other: その他
+  auth:
+    too_many_attempts: 試行回数が多すぎます。しばらくしてからお試しください。

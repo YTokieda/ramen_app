@@ -1,0 +1,148 @@
+en:
+  errors:
+    form_summary:
+      one: Please fix 1 error below.
+      other: Please fix %{count} errors below.
+  punct:
+    colon: ": "
+    sep: " · "
+  site:
+    name: Ramen Guide for People with Egg Allergies
+    ribbon: For people with egg allergies
+    main: Ramen Guide
+    switch_to: 日本語
+    switch_locale: ja
+  nav:
+    home: Home
+    shops: Find ramen shops
+    help: Help
+    login: Log in
+    menu_open: Open menu
+  footer:
+    about: About
+    help: Help
+    contact: Contact
+    privacy: Privacy Policy
+    terms: Terms of Use
+  safety_notice: Egg information reflects what was confirmed at the time and does not guarantee safety for people with egg allergies. Please always check directly with the shop before ordering.
+  data_language_note: Shop names, menus and notes are shown in Japanese as submitted.
+  verification:
+    categories:
+      noodle_soup: Noodles & soup
+      topping: Toppings (excluding seasoned egg)
+      cooking_environment: Kitchen environment
+    egg_statuses:
+      egg_free: Confirmed egg-free
+      contains_egg: Contains egg
+      unknown: Not confirmed
+      conflict: Conflicting information
+    sources:
+      official: Shop's official info
+      shop_owner: Shop owner
+      staff: Shop staff
+      manufacturer: Manufacturer
+      user_report: User report
+    statuses:
+      pending: Awaiting review
+      approved: Reviewed by our team
+      rejected: Rejected
+    freshness:
+      unknown: Date unknown
+      over_year: Confirmed more than a year ago. Please re-check with the shop.
+      over_half_year: Confirmed more than 6 months ago. Information may have changed.
+    cooking_environment_target: Shop kitchen environment
+    target: Item
+    target_menu: Menu item
+    category: Category
+    egg_status: Egg status
+    source: Source
+    method: How it was confirmed
+    verified_on: Confirmed on
+    note: Note
+    status: Review status
+    unknown_date: Unknown
+    approved_short: Reviewed by our team
+    conflict_short: Different egg information was recorded on the same date. Please check directly with the shop.
+    conflict_title: Both "contains egg" and "egg-free" were recorded on the same date.
+    conflict_body: The information clearly conflicts. Do not rely on the summary; please check directly with the shop.
+    same_day_uncertain_title: Unconfirmed information was also recorded on the same date.
+    same_day_uncertain_body: Results do not agree. Please check the source and how it was confirmed.
+    changed_title: Egg status differs from the previous confirmation.
+    changed_body: Ingredients or sources may have changed. Please check the current status directly with the shop.
+    history_uncertain_title: Status differs from the previous confirmation.
+    history_uncertain_body: One of the confirmations is "not confirmed". Please check the source and date.
+    history_toggle: Show previous confirmations (%{count})
+  shops:
+    index:
+      title: Find ramen shops
+      keyword: Shop name or address
+      keyword_placeholder: "e.g. Shinagawa, 品川"
+      egg_status: Egg information
+      category: Category
+      all: All
+      egg_free: Has egg-free confirmation
+      contains_egg: Has contains-egg confirmation
+      unknown: Has unconfirmed information
+      cat_noodle_soup: Noodles & soup
+      cat_topping: Toppings
+      cat_cooking_environment: Kitchen environment
+      search: Search
+      clear: Clear filters
+      submit_shop: Suggest a shop that is not listed
+      login_to_submit_html: "%{link} to suggest a shop."
+      login: Log in
+      result_count: "%{count} shops found"
+      more: "%{count} more egg information entries."
+      hidden_conflict: Some entries not shown here also conflict. Please see the shop page.
+      see_all: See all egg information
+      no_info: No reviewed egg information yet.
+      no_result: No shops matched your search.
+    show:
+      menu: Menu
+      no_menu: No menu items have been added yet.
+      cooking_environment: Kitchen environment
+      cooking_environment_desc: Information about shared cooking tools, noodle-boiling water and other kitchen conditions.
+      egg_info: Egg information
+      no_egg_info: No reviewed egg information yet.
+      login_to_review_html: "%{link} to post a review."
+      login: Log in
+      reviews: Reviews
+      no_reviews: No reviews yet.
+      owner_reply: Reply from the shop
+      review_image: Review photo
+      posted_on: "Posted on %{date}"
+      helpful: Helpful
+      helpful_undo: Remove "Helpful"
+      helpful_count:
+        one: "1 person found this helpful"
+        other: "%{count} people found this helpful"
+      back: Back to shop list
+  inquiries:
+    title: Contact
+    lead: Please use this form to report incorrect information, request removal of a review, or ask about personal data. We will reply to the email address you enter if needed.
+    category: Topic
+    select: Please select
+    name: Name
+    email: Email address
+    body: Message
+    body_placeholder: Please include the shop name or page URL if relevant.
+    honeypot: Website (leave blank)
+    submit: Send
+    note_html: Your message is used only to respond to your inquiry, in accordance with our %{link}.
+    thanks: Thank you. We have received your message and will contact you if needed.
+    too_many: Too many submissions. Please try again later.
+    categories:
+      wrong_info: Incorrect or outdated information
+      shop: From a shop
+      review: Review removal request
+      privacy: Personal data / account deletion
+      other: Other
+  activerecord:
+    attributes:
+      inquiry:
+        category: Topic
+        name: Name
+        email: Email address
+        body: Message
+  auth:
+    too_many_attempts: Too many attempts. Please try again later.

@@ -22,11 +22,11 @@ class ReviewImagesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "sample image", response.body
   end
 
-    test "cannot download image from another review" do
-      other_review = reviews(:two)
-    
-      assert_raises(ActiveRecord::RecordNotFound) do
-        get review_image_path(other_review, @attachment)
-      end
-    end
+  test "cannot download image from another review" do
+    other_review = reviews(:two)
+  
+    get review_image_path(other_review, @attachment)
+  
+    assert_response :not_found
+  end
 end

@@ -119,17 +119,17 @@ class Admin::VerificationsControllerTest < ActionDispatch::IntegrationTest
       assert_redirected_to root_url
     end
     
-    test "admin should not approve nonexistent verification" do
-      log_in_as(@admin)
-    
-      nonexistent_id = Verification.maximum(:id).to_i + 1
-    
-      assert_no_difference 'Verification.where(status: "approved").count' do
-        assert_raises(ActiveRecord::RecordNotFound) do
-          patch approve_admin_verification_path(nonexistent_id)
-        end
-      end
+  test "admin should not approve nonexistent verification" do
+    log_in_as(@admin)
+  
+    nonexistent_id = Verification.maximum(:id).to_i + 1
+  
+    assert_no_difference 'Verification.where(status: "approved").count' do
+      patch approve_admin_verification_path(nonexistent_id)
     end
+  
+    assert_response :not_found
+  end
     
     test "approved verification should not be approved again" do
       log_in_as(@admin)
@@ -177,22 +177,21 @@ class Admin::VerificationsControllerTest < ActionDispatch::IntegrationTest
       assert_equal "rejected", log.new_status
     end
         
-    test "approval should rollback when audit log creation fails" do
-      log_in_as(@admin)
-    
-      AdminAuditLog.stub(:create!, ->(*) {
-        raise ActiveRecord::RecordInvalid
-      }) do
-    
-        assert_no_difference "AdminAuditLog.count" do
-          assert_raises(ActiveRecord::RecordInvalid) do
-            patch approve_admin_verification_path(@verification)
-          end
-        end
-    
+   test "approval should rollback when audit log creation fails" do
+    log_in_as(@admin)
+  
+    AdminAuditLog.stub(:create!, ->(*) {
+      raise ActiveRecord::RecordInvalid
+    }) do
+  
+      assert_no_difference "AdminAuditLog.count" do
+        patch approve_admin_verification_path(@verification)
       end
-    
-      assert_equal "pending", @verification.reload.status
+  
+      assert_response :unprocessable_entity
     end
+  
+    assert_equal "pending", @verification.reload.status
+  end
     
 end

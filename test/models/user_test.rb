@@ -4,7 +4,7 @@ class UserTest < ActiveSupport::TestCase
   # test "the truth" do
   def setup
        @user = User.new(name: "Example User", email: "user@example.com",
-                     password: "foobar", password_confirmation: "foobar")
+                     password: "foobar12", password_confirmation: "foobar12")
   end
 
   test "should be valid" do
@@ -68,6 +68,29 @@ class UserTest < ActiveSupport::TestCase
   test "authenticated? should return false for a user with nil digest" do
     assert_not @user.authenticated?(:remember, '')
   end
-  
-  
+
+  test "password must be at least 8 characters with letters and digits" do
+    %w[abc1234 abcdefgh 12345678].each do |weak|
+      @user.password = @user.password_confirmation = weak
+      assert_not @user.valid?, "#{weak} should be invalid"
+      assert_includes @user.errors[:password], "は8文字以上で、英字と数字をそれぞれ1文字以上含めてください"
+    end
+    %w[abcd1234 Ramen2026 egg-free9].each do |strong|
+      @user.password = @user.password_confirmation = strong
+      assert @user.valid?, "#{strong} should be valid"
+    end
+  end
+
+  test "nickname should not be longer than 30 characters" do
+    @user.name = "あ" * 31
+    assert_not @user.valid?
+    @user.name = "あ" * 30
+    assert @user.valid?
+  end
+
+  test "validation messages are in Japanese" do
+    @user.name = ""
+    @user.valid?
+    assert_includes @user.errors.full_messages, "ニックネームを入力してください"
+  end
 end

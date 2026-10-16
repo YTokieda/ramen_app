@@ -4,18 +4,27 @@ class User < ApplicationRecord
     has_many :owned_shops, through: :shop_owners, source: :shop
     has_many :shop_submissions, dependent: :destroy
     has_many :verifications
+    has_many :review_reactions, dependent: :destroy
 
     attr_accessor :remember_token, :activation_token, :reset_token
     before_save   :downcase_email
     before_create :create_activation_digest
-    validates :name, presence:true, length: { maximum:50}
+    # name は公開されるニックネーム（本名は入力しない運用）
+    validates :name, presence:true, length: { maximum:30}
     VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
     validates :email, presence: true, length: { maximum: 255 },
                                 format: { with: VALID_EMAIL_REGEX },
                                 uniqueness: true
     has_secure_password
-    validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+    PASSWORD_FORMAT = /\A(?=.*[A-Za-z])(?=.*\d).{8,72}\z/
+    validates :password, presence: true, allow_nil: true,
+                         format: { with: PASSWORD_FORMAT, message: :password_complexity }
     
+  # 運営に承認された店舗オーナーか（店舗管理メニューの表示に使う）
+  def approved_shop_owner?
+    shop_owners.where(status: "approved").exists?
+  end
+
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                   BCrypt::Engine.cost

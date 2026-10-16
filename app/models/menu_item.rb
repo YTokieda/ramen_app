@@ -4,6 +4,8 @@ class MenuItem < ApplicationRecord
               scope: :shop_id,
               message: "はすでに登録されています"
             }
+  validates :name, length: { maximum: 100 }
+  validates :description, length: { maximum: 1000 }
   has_many :verifications, dependent: :destroy
   
 end
