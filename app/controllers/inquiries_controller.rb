@@ -1,7 +1,7 @@
 class InquiriesController < ApplicationController
   # 短時間の大量送信を防ぐ
   rate_limit to: 5, within: 10.minutes, only: :create,
-             with: -> { redirect_to new_inquiry_path, alert: "送信回数が多すぎます。しばらくしてからお試しください。" }
+             with: -> { redirect_to new_inquiry_path, alert: I18n.t("inquiries.too_many") }
 
   def new
     @inquiry = Inquiry.new(category: params[:category])
@@ -14,7 +14,7 @@ class InquiriesController < ApplicationController
   def create
     # ボット対策：人には見えない入力欄に値が入っていたら保存しない
     if params[:website].present?
-      redirect_to root_path, notice: "お問い合わせを受け付けました。"
+      redirect_to root_path, notice: t("inquiries.thanks")
       return
     end
 
@@ -23,7 +23,7 @@ class InquiriesController < ApplicationController
 
     if @inquiry.save
       notify_admin(@inquiry)
-      redirect_to root_path, notice: "お問い合わせを受け付けました。内容を確認のうえ、必要に応じてご連絡します。"
+      redirect_to root_path, notice: t("inquiries.thanks")
     else
       render :new, status: :unprocessable_entity
     end

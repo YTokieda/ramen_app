@@ -14,6 +14,12 @@ class UsersController < ApplicationController
   
   def create
     @user = User.new(user_params)
+    unless params[:agree_terms] == "1"
+      @user.valid?
+      @user.errors.add(:base, "利用規約とプライバシーポリシーへの同意が必要です")
+      render 'new', status: :unprocessable_entity
+      return
+    end
     if @user.save
       @user.send_activation_email
       flash[:info] = "確認メールを送信しました。メール内のリンクを開いて、登録を完了してください。"

@@ -1,0 +1,78 @@
+<% provide(:title, "Terms of Use") %>
+<h1>Terms of Use</h1>
+
+<div class="card legal">
+<p class="legal-date">Effective: October 16, 2026</p>
+<p class="legal-note">This is an English translation for convenience. If there is any discrepancy, the <%= link_to "Japanese version", terms_path(locale: nil) %> prevails.</p>
+
+<p>These Terms of Use (the "Terms") set out the conditions for using "<%= site_name %>" (the "Service") provided by <%= operator_name %> ("we"). By using the Service, you agree to these Terms.</p>
+
+<h2>Article 1 (The Service)</h2>
+<p>The Service lists, for each menu item or component at ramen shops, whether egg is used and the basis of that information (source, method and date of confirmation).</p>
+
+<h2>Article 2 (Important notice about allergy information)</h2>
+<ol>
+  <li>Information is what was obtained from shops, manufacturers, users and others at the time of confirmation, and does not guarantee safety for people with egg allergies.</li>
+  <li>Ingredients or recipes may change, and cross-contact may occur through shared cooking tools or noodle-boiling water. "Confirmed egg-free" does not mean there is no risk of cross-contact.</li>
+  <li>Always check directly with the shop before visiting or ordering, and consult a doctor about allergy symptoms and management.</li>
+  <li>The final decision whether to eat is your own responsibility (including that of parents or guardians).</li>
+</ol>
+
+<h2>Article 3 (Registration)</h2>
+<ol>
+  <li>Registration is required to post reviews or egg information. Browsing is available without registration.</li>
+  <li>Please register an accurate email address. Your nickname is public, so do not use your real name or other identifying information.</li>
+  <li>We may refuse registration if we consider it inappropriate, such as in the case of past violations of these Terms.</li>
+</ol>
+
+<h2>Article 4 (Account management)</h2>
+<p>You are responsible for managing your password and must not let others use your account. We are not liable for damage caused by a third party's use of your account, except in cases of our intentional misconduct or gross negligence.</p>
+
+<h2>Article 5 (Posts)</h2>
+<ol>
+  <li>Please post accurate, fact-based content and state the source and method of confirmation for egg information correctly.</li>
+  <li>Copyright in posts remains with the poster. You grant us a royalty-free right to use your posts (including display, translation, summarization and editing) to provide, improve and promote the Service, and agree not to exercise moral rights against us or those authorized by us.</li>
+  <li>Egg information is published after review by us. We do not guarantee its accuracy.</li>
+  <li>We may hide or delete posts without notice if they violate these Terms or are otherwise inappropriate.</li>
+</ol>
+
+<h2>Article 6 (Shop owners)</h2>
+<p>Shop staff may register as shop owners after verification by us. Shop owners should keep their shop information accurate and must not edit information of other shops. Being listed on the Service, or being a listed shop, does not mean that we certify the shop's handling of egg allergies or its safety.</p>
+
+<h2>Article 7 (Prohibited conduct)</h2>
+<ol>
+  <li>Posting false or unverified information as if it were fact</li>
+  <li>Damaging the reputation or credibility of shops, users or others, or invading their privacy</li>
+  <li>Infringing copyrights or other rights (including posting photos taken by others without permission)</li>
+  <li>Posting real names, contact details or other identifying information</li>
+  <li>Posting for sales, advertising or solicitation, or posting in exchange for compensation without disclosing it</li>
+  <li>Impersonating others or misusing multiple accounts</li>
+  <li>Interfering with the operation of the Service, unauthorized access, or placing excessive load</li>
+  <li>Any conduct that violates laws or public order and morals</li>
+  <li>Any other conduct we consider inappropriate</li>
+</ol>
+
+<h2>Article 8 (Suspension and account deletion)</h2>
+<ol>
+  <li>If you violate these Terms, we may delete posts, suspend use or delete your account without notice.</li>
+  <li>You may request account deletion via the <%= link_to "contact form", new_inquiry_path(category: "privacy") %>. Information after deletion is handled as set out in the <%= link_to "Privacy Policy", privacy_path %>.</li>
+</ol>
+
+<h2>Article 9 (Changes to and suspension of the Service)</h2>
+<p>We may change, suspend or end the Service without prior notice.</p>
+
+<h2>Article 10 (Disclaimer)</h2>
+<ol>
+  <li>We do not guarantee the accuracy, completeness, currency or fitness for a particular purpose of the information.</li>
+  <li>We are not liable for damage arising from use of the Service or from eating based on the information, except in cases of our intentional misconduct or gross negligence.</li>
+  <li>Disputes between users and shops, or between users, shall be resolved between the parties.</li>
+</ol>
+
+<h2>Article 11 (Changes to these Terms)</h2>
+<p>We may change these Terms as necessary. We will announce the effective date and content in advance on the Service. Continued use after the change constitutes agreement to the changed Terms.</p>
+
+<h2>Article 12 (Governing law and jurisdiction)</h2>
+<p>These Terms are governed by the laws of Japan. The district court having jurisdiction over our location shall have exclusive jurisdiction in the first instance over any dispute relating to the Service.</p>
+
+<p class="legal-contact"><%= operator_name %> — <%= link_to "Contact form", contact_path %> / <%= mail_to contact_email %></p>
+</div>

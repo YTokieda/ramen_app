@@ -1,0 +1,79 @@
+<section class="home-hero">
+  <%= image_tag "logo-art.png", alt: "", class: "home-hero-logo" %>
+  <h1 class="home-hero-title">
+    <span class="ribbon"><%= t("site.ribbon") %></span>
+    <span class="home-hero-title-main"><%= t("site.main") %></span>
+  </h1>
+  <p class="home-lead">
+    For people with egg allergies and their families: egg information for each menu item at ramen shops in Japan, together with who confirmed it, when and how.
+  </p>
+
+  <%= form_with url: shops_path, method: :get, local: true,
+                class: "home-search" do |f| %>
+    <%= f.label :keyword, "Search by shop name or address", class: "sr-only" %>
+    <%= f.text_field :keyword, placeholder: "e.g. Shinjuku, 新宿" %>
+    <%= f.submit "Search", class: "btn btn-primary", name: nil %>
+  <% end %>
+
+  <p class="home-quick-links">
+    <%= link_to "See all shops (#{@shop_count})", shops_path %>
+    /
+    <%= link_to "Shops with egg-free confirmation for noodles & soup",
+                shops_path(egg_status: "egg_free", category: "noodle_soup") %>
+  </p>
+</section>
+
+<div class="home-notice">
+  <strong>Please read before use</strong>
+  <p>
+    Information reflects what was confirmed at the time and does not guarantee safety for people with egg allergies. Recipes may change, and egg may get in through shared cooking tools or noodle-boiling water. Always check directly with the shop before ordering.
+  </p>
+</div>
+
+<div class="row home-columns">
+  <div class="col-md-6">
+    <h2>How to read the information</h2>
+    <dl class="home-guide">
+      <dt>Categories</dt>
+      <dd>We check "Noodles &amp; soup", "Toppings (excluding seasoned egg)" and "Kitchen environment" separately.</dd>
+      <dt>Egg status</dt>
+      <dd>"Confirmed egg-free", "Contains egg" or "Not confirmed". "Not confirmed" does not mean egg-free.</dd>
+      <dt>Source and date</dt>
+      <dd>We show where the information came from (the shop, its owner, users, etc.) and when it was confirmed, and warn when it is old.</dd>
+      <dt>Review</dt>
+      <dd>Published information has been reviewed by our team. Conflicting information is clearly marked.</dd>
+    </dl>
+    <p><%= link_to "More in Help", help_path %></p>
+  </div>
+
+  <div class="col-md-6">
+    <h2>Recently confirmed</h2>
+    <% if @recent_verifications.any? %>
+      <ul class="home-recent">
+        <% @recent_verifications.each do |verification| %>
+          <li>
+            <%= link_to verification.shop.name, shop_path(verification.shop) %>
+            <span class="home-recent-meta">
+              <%= verification_target_name(verification) %>
+              · <%= verification_category_label(verification.category) %>
+              · confirmed <%= verification.verified_on %>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No confirmed information yet.</p>
+    <% end %>
+    <p class="data-language-note"><%= t("data_language_note") %></p>
+  </div>
+</div>
+
+<div class="home-cta">
+  <h2>For visitors to Japan</h2>
+  <p>
+    Japanese allergy labeling at restaurants is limited. When you visit a shop, showing a note such as
+    <strong>「卵アレルギーがあります。卵を使っていないメニューはありますか？」</strong>
+    ("I have an egg allergy. Do you have any dishes without egg?") can help.
+  </p>
+  <%= link_to "Contact us", contact_path, class: "btn btn-default" %>
+</div>

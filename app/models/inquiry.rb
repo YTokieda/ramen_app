@@ -23,7 +23,7 @@ class Inquiry < ApplicationRecord
   validates :status, inclusion: { in: STATUSES.keys }
 
   def category_label
-    CATEGORIES[category]
+    I18n.t("inquiries.categories.#{category}", default: CATEGORIES[category])
   end
 
   def status_label

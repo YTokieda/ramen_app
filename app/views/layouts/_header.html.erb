@@ -3,14 +3,14 @@
     <%= link_to root_path, id: "logo" do %>
       <%= image_tag "logo-icon.png", alt: "", class: "logo-icon" %>
       <span class="logo-text">
-        <span class="logo-ribbon">卵アレルギーの方のための</span>
-        <span class="logo-main">ラーメンガイド</span>
+        <span class="logo-ribbon"><%= t("site.ribbon") %></span>
+        <span class="logo-main"><%= t("site.main") %></span>
       </span>
     <% end %>
     <nav>
       <div class="navbar-header">
         <button id="hamburger" type="button" class="navbar-toggle collapsed">
-          <span class="sr-only">メニューを開く</span>
+          <span class="sr-only"><%= t("nav.menu_open") %></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -18,9 +18,9 @@
       </div>
       <ul id="navbar-menu"
           class="nav navbar-nav navbar-right collapse navbar-collapse">
-        <li><%= link_to "ホーム", root_path %></li>
-        <li><%= link_to "ラーメン店を探す", shops_path %></li>
-        <li><%= link_to "ヘルプ", help_path %></li>
+        <li><%= link_to t("nav.home"), root_path %></li>
+        <li><%= link_to t("nav.shops"), shops_path %></li>
+        <li><%= link_to t("nav.help"), help_path %></li>
 
         <% if logged_in? %>
           <% if current_user.admin? %>
@@ -56,8 +56,12 @@
             </ul>
           </li>
         <% else %>
-          <li><%= link_to "ログイン", login_path %></li>
+          <li><%= link_to t("nav.login"), login_path(locale: nil) %></li>
         <% end %>
+        <li class="locale-switch">
+          <%= link_to t("site.switch_to"), switch_locale_path(t("site.switch_locale")),
+                      lang: t("site.switch_locale"), hreflang: t("site.switch_locale") %>
+        </li>
       </ul>
     </nav>
   </div>

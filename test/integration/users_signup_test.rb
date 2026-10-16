@@ -27,7 +27,7 @@ class UsersSignupTest < UsersSignup
       post users_path, params: { user: { name:  "Example User",
                                          email: "user@example.com",
                                          password:              "password1",
-                                         password_confirmation: "password1" } }
+                                         password_confirmation: "password1" }, agree_terms: "1" }
     end
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
@@ -40,7 +40,7 @@ class AccountActivationTest < UsersSignup
     post users_path, params: { user: { name:  "Example User",
                                        email: "user@example.com",
                                        password:              "password1",
-                                       password_confirmation: "password1" } }
+                                       password_confirmation: "password1" }, agree_terms: "1" }
     @user = assigns(:user)
   end
 
@@ -69,5 +69,18 @@ class AccountActivationTest < UsersSignup
     follow_redirect!
     assert_template 'users/show'
     assert is_logged_in?
+  end
+
+  test "signup requires agreeing to the terms and privacy policy" do
+    get signup_path
+    assert_select "input[type=checkbox][name=agree_terms]"
+    assert_select "a[href=?]", terms_path
+    assert_select "a[href=?]", privacy_path
+    assert_no_difference "User.count" do
+      post users_path, params: { user: { name: "ニックネーム", email: "agree@example.com",
+                                         password: "password1", password_confirmation: "password1" } }
+    end
+    assert_response :unprocessable_entity
+    assert_match "利用規約とプライバシーポリシーへの同意が必要です", response.body
   end
 end

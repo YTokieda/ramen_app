@@ -1,37 +1,36 @@
-<% provide(:title, "お問い合わせ") %>
-<h1>お問い合わせ</h1>
+<% provide(:title, t("inquiries.title")) %>
+<h1><%= t("inquiries.title") %></h1>
 
 <div class="inquiry-form card">
-  <p>
-    掲載情報の誤り、口コミの削除依頼、個人情報の取り扱いなどについては、こちらからお知らせください。
-    内容を確認のうえ、必要に応じてご入力いただいたメールアドレスへご連絡します。
-  </p>
+  <p><%= t("inquiries.lead") %></p>
 
   <%= form_with model: @inquiry, url: inquiries_path do |f| %>
     <%= render "shared/error_messages", object: f.object %>
 
-    <%= f.label :category, "お問い合わせの種類" %>
-    <%= f.select :category, Inquiry::CATEGORIES.invert, { include_blank: "選択してください" }, class: "form-control" %>
+    <%= f.label :category, t("inquiries.category") %>
+    <%= f.select :category,
+                 Inquiry::CATEGORIES.keys.map { |key| [t("inquiries.categories.#{key}"), key] },
+                 { include_blank: t("inquiries.select") }, class: "form-control" %>
 
-    <%= f.label :name, "お名前" %>
+    <%= f.label :name, t("inquiries.name") %>
     <%= f.text_field :name, class: "form-control" %>
 
-    <%= f.label :email, "メールアドレス" %>
+    <%= f.label :email, t("inquiries.email") %>
     <%= f.email_field :email, class: "form-control" %>
 
-    <%= f.label :body, "お問い合わせ内容" %>
+    <%= f.label :body, t("inquiries.body") %>
     <%= f.text_area :body, rows: 8, class: "form-control",
-                    placeholder: "店舗名やページのURLなど、対象がわかる情報もお書きください。" %>
+                    placeholder: t("inquiries.body_placeholder") %>
 
     <div class="inquiry-hp" aria-hidden="true">
-      <label for="website">ウェブサイト（入力しないでください）</label>
+      <label for="website"><%= t("inquiries.honeypot") %></label>
       <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
     </div>
 
-    <%= f.submit "送信する", class: "btn btn-primary" %>
+    <%= f.submit t("inquiries.submit"), class: "btn btn-primary" %>
   <% end %>
 
   <p class="inquiry-note">
-    お送りいただいた内容は、お問い合わせへの対応のためにのみ利用します。
+    <%= t("inquiries.note_html", link: link_to(t("footer.privacy"), privacy_path)) %>
   </p>
 </div>

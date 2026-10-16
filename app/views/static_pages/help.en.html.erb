@@ -1,0 +1,31 @@
+<% provide(:title, "Help") %>
+<h1>Help</h1>
+
+<div class="card legal">
+<h2>Finding shops</h2>
+<p>
+  On "<%= link_to "Find ramen shops", shops_path %>", you can search by shop name or address and filter by egg status and category. Shops with conflicting information are excluded from egg status filters. Shop names and addresses are in Japanese, so searching in Japanese (e.g. 新宿) works best.
+</p>
+
+<h2>Reading egg information</h2>
+<dl class="home-guide">
+  <dt>Categories</dt>
+  <dd>Noodles &amp; soup / Toppings (excluding seasoned egg) / Kitchen environment (shared cooking tools, noodle-boiling water, etc.). Items that obviously contain egg, such as seasoned eggs, are not treated as a category.</dd>
+  <dt>Egg status</dt>
+  <dd>Confirmed egg-free / Contains egg / Not confirmed. "Not confirmed" does not mean egg-free.</dd>
+  <dt>Source</dt>
+  <dd>Shop's official info, shop owner, shop staff, manufacturer, or user report.</dd>
+  <dt>Date and warnings</dt>
+  <dd>We show a warning when information is more than 6 months or more than a year old.</dd>
+  <dt>Conflicting information</dt>
+  <dd>If different information was recorded on the same date, we say so. Please check directly with the shop.</dd>
+</dl>
+
+<h2>Contributing</h2>
+<p>
+  Posting reviews and egg information requires an account (currently available in Japanese only). Egg information is published after review by our team.
+</p>
+
+<h2>Questions</h2>
+<p>Please use the <%= link_to "contact form", contact_path %>.</p>
+</div>

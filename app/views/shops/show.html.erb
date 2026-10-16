@@ -8,11 +8,14 @@
   <% end %>
 </div>
 
-<p class="home-notice">卵情報は確認時点の内容で、卵アレルギーに対する安全を保証するものではありません。来店前に店舗へ直接ご確認ください。</p>
+<p class="home-notice"><%= t("safety_notice") %></p>
+<% if t("data_language_note").present? %>
+  <p class="data-language-note"><%= t("data_language_note") %></p>
+<% end %>
 
 
 
-<h2>メニュー</h2>
+<h2><%= t("shops.show.menu") %></h2>
 
 <% if @menu_items.any? %>
   <div class="menu-list">
@@ -37,7 +40,7 @@
     <% end %>
   </div>
 <% else %>
-  <p>メニュー情報はまだ登録されていません。</p>
+  <p><%= t("shops.show.no_menu") %></p>
 <% end %>
 
 <% if logged_in? %>
@@ -48,15 +51,12 @@
 <% end %>
 
 
-<h2>調理環境</h2>
+<h2><%= t("shops.show.cooking_environment") %></h2>
 
-<p>
-  共通の調理器具や茹で湯など、
-  店舗の調理環境についての情報です。
-</p>
+<p><%= t("shops.show.cooking_environment_desc") %></p>
 
 
-<h2>卵に関する確認情報</h2>
+<h2><%= t("shops.show.egg_info") %></h2>
 
 <% if @approved_verifications.any? %>
   <%= render partial: "verification",
@@ -66,7 +66,7 @@
                verification_histories: @verification_histories
              } %>
 <% else %>
-  <p>現在、運営確認済みの卵情報はありません。</p>
+  <p><%= t("shops.show.no_egg_info") %></p>
 <% end %>
 
 
@@ -227,14 +227,12 @@
   <% end %>
 <% else %>
   <p>
-    口コミを投稿するには
-    <%= link_to "ログイン", login_path %>
-    してください。
+    <%= t("shops.show.login_to_review_html", link: link_to(t("shops.show.login"), login_path(locale: nil))) %>
   </p>
 <% end %>
 
 
-<h2>口コミ</h2>
+<h2><%= t("shops.show.reviews") %></h2>
 
 <% if @reviews.any? %>
   <% @reviews.each do |review| %>
@@ -249,7 +247,7 @@
 
       <% if review.review_reply %>
         <div class="owner-reply">
-          <strong>店舗からの返信</strong>
+          <strong><%= t("shops.show.owner_reply") %></strong>
 
           <p>
             <%= review.review_reply.content %>
@@ -280,12 +278,12 @@
         <% review.images.each do |image| %>
           <%= image_tag review_image_path(review, image),
                         width: 300,
-                        alt: "口コミ画像" %>
+                        alt: t("shops.show.review_image") %>
         <% end %>
       <% end %>
 
       <p>
-        投稿日：<%= review.created_at.strftime("%Y/%m/%d") %>
+        <%= t("shops.show.posted_on", date: review.created_at.strftime("%Y/%m/%d")) %>
       </p>
 
       <% if current_user == review.user %>
@@ -301,7 +299,7 @@
     <hr>
   <% end %>
 <% else %>
-  <p>まだ口コミはありません。</p>
+  <p><%= t("shops.show.no_reviews") %></p>
 <% end %>
 
 
@@ -313,5 +311,5 @@
 <% end %>
 
 <p>
-  <%= link_to "店舗一覧に戻る", shops_path %>
+  <%= link_to t("shops.show.back"), shops_path %>
 </p>

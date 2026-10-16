@@ -1,6 +1,20 @@
 class ApplicationController < ActionController::Base
   include SessionsHelper
   helper_method :current_shop_owner, :shop_owner_logged_in?
+
+  around_action :switch_locale
+
+  # 日本語は接頭辞なし、英語は /en/... で表示する
+  def switch_locale(&action)
+    locale = params[:locale] == "en" ? :en : I18n.default_locale
+    I18n.with_locale(locale, &action)
+  end
+
+  # locale キーを常に含めることで、shop_path(shop) のような位置引数が
+  # 省略可能な (:locale) セグメントに割り当てられるのを防ぐ
+  def default_url_options
+    { locale: I18n.locale == I18n.default_locale ? nil : I18n.locale }
+  end
   
   
   def current_shop_owner

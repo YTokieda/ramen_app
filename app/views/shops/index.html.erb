@@ -1,59 +1,59 @@
-<% provide(:title, "ラーメン店を探す") %>
-<h1>ラーメン店を探す</h1>
+<% provide(:title, t("shops.index.title")) %>
+<h1><%= t("shops.index.title") %></h1>
 
-<p class="home-notice">卵情報は確認時点の内容で、卵アレルギーに対する安全を保証するものではありません。来店前に店舗へ直接ご確認ください。</p>
+<p class="home-notice"><%= t("safety_notice") %></p>
+<% if t("data_language_note").present? %>
+  <p class="data-language-note"><%= t("data_language_note") %></p>
+<% end %>
 
 <%= form_with url: shops_path, method: :get, local: true, class: "shop-search" do |f| %>
   <div>
-    <%= f.label :keyword, "店舗名・住所" %>
+    <%= f.label :keyword, t("shops.index.keyword") %>
     <%= f.text_field :keyword,
                      value: @keyword,
-                     placeholder: "例：品川",
+                     placeholder: t("shops.index.keyword_placeholder"),
                      class: "form-control" %>
   </div>
 
   <div>
-    <%= f.label :egg_status, "卵情報" %>
+    <%= f.label :egg_status, t("shops.index.egg_status") %>
     <%= f.select :egg_status,
       [
-        ["すべて", ""],
-        ["卵不使用の確認情報あり", "egg_free"],
-        ["卵使用の確認情報あり", "contains_egg"],
-        ["未確認の情報あり", "unknown"]
+        [t("shops.index.all"), ""],
+        [t("shops.index.egg_free"), "egg_free"],
+        [t("shops.index.contains_egg"), "contains_egg"],
+        [t("shops.index.unknown"), "unknown"]
       ],
       { selected: @egg_status },
       { class: "form-control" } %>
   </div>
 
   <div>
-    <%= f.label :category, "確認項目" %>
+    <%= f.label :category, t("shops.index.category") %>
     <%= f.select :category,
       [
-        ["すべて", ""],
-        ["麺・スープ", "noodle_soup"],
-        ["トッピング", "topping"],
-        ["調理環境", "cooking_environment"]
+        [t("shops.index.all"), ""],
+        [t("shops.index.cat_noodle_soup"), "noodle_soup"],
+        [t("shops.index.cat_topping"), "topping"],
+        [t("shops.index.cat_cooking_environment"), "cooking_environment"]
       ],
       { selected: @category },
       { class: "form-control" } %>
   </div>
 
-  <%= f.submit "検索する", class: "btn btn-primary" %>
-  <%= link_to "条件をクリア", shops_path %>
+  <%= f.submit t("shops.index.search"), class: "btn btn-primary", name: nil %>
+  <%= link_to t("shops.index.clear"), shops_path %>
 <% end %>
 
 <p>
   <% if logged_in? %>
-    <%= link_to "掲載されていない店舗を情報提供する",
-                new_shop_submission_path %>
+    <%= link_to t("shops.index.submit_shop"), new_shop_submission_path %>
   <% else %>
-    店舗情報を提供するには
-    <%= link_to "ログイン", login_path %>
-    してください。
+    <%= t("shops.index.login_to_submit_html", link: link_to(t("shops.index.login"), login_path(locale: nil))) %>
   <% end %>
 </p>
 
-<p>検索結果：<%= @shops.size %>件</p>
+<p><%= t("shops.index.result_count", count: @shops.size) %></p>
 
 <% if @shops.any? %>
   <% @shops.each do |shop| %>
@@ -63,7 +63,7 @@
       </h2>
 
       <p class="shop-address"><%= shop.address %></p>
-      
+
       <% summaries = @verification_summaries.fetch(shop.id, []) %>
       <% visible_summaries = summaries.first(3) %>
       <% remaining_count = summaries.size - visible_summaries.size %>
@@ -74,29 +74,23 @@
                      verification: summary[:verification],
                      conflicting: summary[:conflicting] %>
         <% end %>
-      
+
         <% if remaining_count > 0 %>
-          <p>
-            ほかに<%= remaining_count %>件の卵情報があります。
-          </p>
+          <p><%= t("shops.index.more", count: remaining_count) %></p>
         <% end %>
-      
+
         <% if summaries.drop(3).any? { |summary| summary[:conflicting] } %>
-          <p class="verification-conflict-warning">
-            表示されていない情報にも矛盾があります。
-            店舗詳細ページでご確認ください。
-          </p>
+          <p class="verification-conflict-warning"><%= t("shops.index.hidden_conflict") %></p>
         <% end %>
-      
+
         <p>
-          <%= link_to "すべての卵情報を見る", shop_path(shop) %>
+          <%= link_to t("shops.index.see_all"), shop_path(shop) %>
         </p>
       <% else %>
-        <p>表示できる承認済みの卵情報はありません。</p>
+        <p><%= t("shops.index.no_info") %></p>
       <% end %>
     </div>
   <% end %>
 <% else %>
-  <p>条件に一致する店舗はありませんでした。</p>
+  <p><%= t("shops.index.no_result") %></p>
 <% end %>
-

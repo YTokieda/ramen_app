@@ -22,6 +22,9 @@ class ActiveSupport::TestCase
 end
 
 class ActionDispatch::IntegrationTest
+  # 位置引数のパスヘルパーが (:locale) に割り当てられないようにする
+  setup { default_url_options[:locale] = nil }
+
 
   # テストユーザーとしてログインする
   def log_in_as(user, password: 'password', remember_me: '1')
