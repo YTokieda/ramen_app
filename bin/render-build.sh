@@ -12,3 +12,6 @@ bundle exec rails assets:clean
 
 # 未適用のマイグレーションだけを実行する（既存データは消えない）
 bundle exec rails db:migrate
+
+# ADMIN_EMAILS に書かれた登録済みユーザーを管理者にする（未設定なら何もしない）
+bundle exec rails admin:grant_from_env
