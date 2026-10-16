@@ -19,6 +19,11 @@ class User < ApplicationRecord
     validates :password, presence: true, allow_nil: true,
                          format: { with: PASSWORD_FORMAT, message: :password_complexity }
     
+  # 運営に承認された店舗オーナーか（店舗管理メニューの表示に使う）
+  def approved_shop_owner?
+    shop_owners.where(status: "approved").exists?
+  end
+
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                   BCrypt::Engine.cost

@@ -39,7 +39,9 @@
             </li>
           <% end %>
 
-          <li><%= link_to "店舗管理", dashboard_shop_owners_path %></li>
+          <% if current_user.approved_shop_owner? %>
+            <li><%= link_to "店舗管理", dashboard_shop_owners_path %></li>
+          <% end %>
 
           <li class="dropdown">
             <a href="#" id="account" class="dropdown-toggle">
