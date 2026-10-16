@@ -1,8 +1,8 @@
 class StaticPagesController < ApplicationController
   def home
-    @shop_count = Shop.count
+    @shop_count = Shop.visible.count
     @recent_verifications = Verification
-      .where(status: "approved")
+      .where(status: "approved", shop: Shop.visible)
       .includes(:shop, :menu_item)
       .order(verified_on: :desc, id: :desc)
       .limit(5)

@@ -22,7 +22,7 @@ class AdminAuditLogTest < ActiveSupport::TestCase
   end
 
   test "action type should be valid" do
-    @log.action_type = "delete"
+    @log.action_type = "publish_everything"
     assert_not @log.valid?
   end
 end

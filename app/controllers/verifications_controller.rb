@@ -2,7 +2,7 @@ class VerificationsController < ApplicationController
   before_action :logged_in_user
 
   def new
-    @shop = Shop.find(params[:shop_id])
+    @shop = find_shop(params[:shop_id])
 
     @verification = current_user.verifications.build(
       shop: @shop
@@ -22,7 +22,7 @@ class VerificationsController < ApplicationController
   end
   
   def create
-    @shop = Shop.find(params[:shop_id])
+    @shop = find_shop(params[:shop_id])
 
     @verification =
       current_user.verifications.build(verification_params)

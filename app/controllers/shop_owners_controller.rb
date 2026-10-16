@@ -5,7 +5,7 @@ class ShopOwnersController < ApplicationController
   
 
   def new
-    @shop = Shop.find(params[:shop_id])
+    @shop = find_shop(params[:shop_id])
 
     @shop_owner = current_user.shop_owners.build(
       shop: @shop
@@ -13,7 +13,7 @@ class ShopOwnersController < ApplicationController
   end
 
   def create
-    @shop = Shop.find(params[:shop_owner][:shop_id])
+    @shop = find_shop(params[:shop_owner][:shop_id])
   
     @shop_owner = current_user.shop_owners.build(
       shop: @shop

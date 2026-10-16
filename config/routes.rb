@@ -63,6 +63,15 @@ Rails.application.routes.draw do
   
     resources :admin_audit_logs, only: [:index]
 
+    resources :shops, only: [:index] do
+      member do
+        patch :hide
+        patch :unhide
+      end
+    end
+    resources :reviews, only: [:index, :destroy]
+    resources :menu_items, only: [:destroy]
+
   
     resources :inquiries, only: [:index, :show, :update]
   

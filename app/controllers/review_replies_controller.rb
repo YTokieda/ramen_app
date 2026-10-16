@@ -2,7 +2,7 @@ class ReviewRepliesController < ApplicationController
   before_action :logged_in_user
 
   def create
-      @shop = Shop.find(params[:shop_id])
+      @shop = find_shop(params[:shop_id])
       @review = @shop.reviews.find(params[:review_id])
   
       @shop_owner = current_user.shop_owners.find_by(

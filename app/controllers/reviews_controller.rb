@@ -3,7 +3,7 @@ class ReviewsController < ApplicationController
   before_action :logged_in_user
 
   def create
-    @shop = Shop.find(params[:shop_id])
+    @shop = find_shop(params[:shop_id])
   
     # 未選択でもフォームから空文字が送られてくるので取り除く
     uploads = (review_params[:images] || []).compact_blank
@@ -42,7 +42,7 @@ class ReviewsController < ApplicationController
   
   
   def destroy
-     @shop = Shop.find(params[:shop_id])
+     @shop = find_shop(params[:shop_id])
      @review = current_user.reviews.find_by(
         id: params[:id],
         shop_id: @shop.id

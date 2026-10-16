@@ -10,9 +10,16 @@ class Shop < ApplicationRecord
     validates :description, length: { maximum: 5000 }
     
     validates :name, uniqueness: { scope: :address, message: "この店舗はすでに登録されています" }
+
+    # 運営が非公開にした店舗は、一般の利用者には見せない
+    scope :visible, -> { where(hidden_at: nil) }
+
+    def hidden?
+      hidden_at.present?
+    end
     
     def self.search(keyword:, egg_status:, category:)
-      shops = all
+      shops = visible
     
       # 店舗名・住所による検索
       if keyword.present?

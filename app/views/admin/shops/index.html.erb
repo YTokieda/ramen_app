@@ -1,0 +1,41 @@
+<% provide(:title, "店舗の管理") %>
+<h1>店舗の管理</h1>
+
+<p>非公開にした店舗は、一覧・検索・店舗ページに表示されなくなります。口コミや卵情報は消えず、再公開すると元どおり表示されます。</p>
+
+<% if @shops.any? %>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr><th>店舗</th><th>住所</th><th>状態</th><th></th></tr>
+      </thead>
+      <tbody>
+        <% @shops.each do |shop| %>
+          <tr>
+            <td><%= link_to shop.name, shop_path(shop) %></td>
+            <td><%= shop.address %></td>
+            <td>
+              <% if shop.hidden? %>
+                <span class="status-chip status-chip--rejected">非公開</span>
+              <% else %>
+                <span class="status-chip status-chip--approved">公開中</span>
+              <% end %>
+            </td>
+            <td>
+              <% if shop.hidden? %>
+                <%= button_to "再公開する", unhide_admin_shop_path(shop), method: :patch,
+                              class: "btn btn-default btn-sm" %>
+              <% else %>
+                <%= button_to "非公開にする", hide_admin_shop_path(shop), method: :patch,
+                              class: "btn btn-danger btn-sm",
+                              form: { data: { turbo_confirm: "「#{shop.name}」を非公開にしますか？" } } %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p>店舗はまだありません。</p>
+<% end %>

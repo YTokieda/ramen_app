@@ -1,4 +1,7 @@
 
+<% if @shop.hidden? %>
+  <p class="alert alert-warning">この店舗は非公開です（管理者にだけ表示されています）。</p>
+<% end %>
 <div class="shop-header">
   <h1><%= @shop.name %></h1>
   <p class="shop-address"><%= @shop.address %></p>
@@ -25,6 +28,12 @@
 
         <% if menu_item.description.present? %>
           <p><%= menu_item.description %></p>
+        <% end %>
+
+        <% if logged_in? && current_user.admin? %>
+          <%= button_to "メニューを削除（運営）", admin_menu_item_path(menu_item), method: :delete,
+                        class: "btn btn-danger btn-xs",
+                        form: { data: { turbo_confirm: "「#{menu_item.name}」を削除しますか？このメニューの卵情報もすべて消え、元に戻せません。" } } %>
         <% end %>
 
         <% if logged_in? %>
@@ -308,6 +317,12 @@
           <span class="reaction-summary">👍 <%= t("shops.show.helpful_count", count: helpful_count) %></span>
         <% end %>
       </div>
+
+      <% if logged_in? && current_user.admin? && current_user != review.user %>
+        <%= button_to "口コミを削除（運営）", admin_review_path(review), method: :delete,
+                      class: "btn btn-danger btn-xs",
+                      form: { data: { turbo_confirm: "この口コミを削除しますか？元に戻せません。" } } %>
+      <% end %>
 
       <% if current_user == review.user %>
         <%= link_to "削除",

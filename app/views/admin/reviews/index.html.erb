@@ -1,0 +1,26 @@
+<% provide(:title, "口コミの管理") %>
+<h1>口コミの管理</h1>
+
+<p>新しい順に表示しています。削除した口コミは元に戻せません。</p>
+
+<% if @reviews.any? %>
+  <% @reviews.each do |review| %>
+    <div class="card profile-item">
+      <p>
+        <strong><%= link_to review.shop.name, shop_path(review.shop, anchor: "review-#{review.id}") %></strong>
+        ・ <%= review.user.name %>
+        <span class="profile-date"><%= review.created_at.strftime("%Y/%m/%d %H:%M") %></span>
+      </p>
+      <p><%= review.content %></p>
+      <% if review.images.attached? %>
+        <p class="profile-date">写真 <%= review.images.count %>枚</p>
+      <% end %>
+      <%= button_to "この口コミを削除", admin_review_path(review), method: :delete,
+                    class: "btn btn-danger btn-sm",
+                    form: { data: { turbo_confirm: "この口コミを削除しますか？元に戻せません。" } } %>
+    </div>
+  <% end %>
+  <%= will_paginate @reviews %>
+<% else %>
+  <p>口コミはまだありません。</p>
+<% end %>

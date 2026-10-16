@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     redirect_to(root_url, status: :see_other) and return unless @user.activated?
 
-    @reviews = @user.reviews.includes(:shop).order(created_at: :desc)
+    @reviews = @user.reviews.where(shop: Shop.visible).includes(:shop).order(created_at: :desc)
                     .paginate(page: params[:page], per_page: 10)
     return unless current_user?(@user)
 

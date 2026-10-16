@@ -45,7 +45,7 @@ class ShopsController < ApplicationController
   end
   
   def show
-    @shop = Shop.find(params[:id])
+    @shop = find_shop(params[:id])
     @review = Review.new
   
     prepare_shop_show_data

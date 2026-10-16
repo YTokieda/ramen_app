@@ -37,6 +37,12 @@ class ApplicationController < ActionController::Base
       end
     end
     
+    # 非公開の店舗は管理者にだけ見せる（ほかの人には存在しない扱い）
+    def find_shop(id)
+      scope = logged_in? && current_user.admin? ? Shop.all : Shop.visible
+      scope.find(id)
+    end
+
     def admin_user
       unless logged_in? && current_user.admin?
         redirect_to(root_url, status: :see_other)

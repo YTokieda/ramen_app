@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_10_16_070000) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_16_071000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -138,6 +138,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_16_070000) do
     t.datetime "updated_at", null: false
     t.boolean "verified", default: false, null: false
     t.string "owner_code"
+    t.datetime "hidden_at"
     t.index ["name", "address"], name: "index_shops_on_name_and_address", unique: true
     t.index ["owner_code"], name: "index_shops_on_owner_code", unique: true
   end

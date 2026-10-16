@@ -18,7 +18,7 @@ class ReviewReactionsController < ApplicationController
   private
 
   def set_review
-    @shop = Shop.find(params[:shop_id])
+    @shop = find_shop(params[:shop_id])
     @review = @shop.reviews.find(params[:review_id])
   end
 
