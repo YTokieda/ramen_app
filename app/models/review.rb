@@ -6,7 +6,7 @@ class Review < ApplicationRecord
   
   has_one :review_reply, dependent: :destroy
   
-  validates :content, presence: true
+  validates :content, presence: true, length: { maximum: 2000 }
   
   validate :acceptable_images
   

@@ -130,3 +130,5 @@ ja:
       review: 口コミの削除依頼
       privacy: 個人情報・退会について
       other: その他
+  auth:
+    too_many_attempts: 試行回数が多すぎます。しばらくしてからお試しください。

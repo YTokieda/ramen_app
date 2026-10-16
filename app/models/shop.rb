@@ -5,8 +5,9 @@ class Shop < ApplicationRecord
     has_many :menu_items, dependent: :destroy   
     has_many :verifications, dependent: :destroy
     
-    validates :name, presence: true
-    validates :address, presence: true
+    validates :name, presence: true, length: { maximum: 100 }
+    validates :address, presence: true, length: { maximum: 200 }
+    validates :description, length: { maximum: 5000 }
     
     validates :name, uniqueness: { scope: :address, message: "この店舗はすでに登録されています" }
     

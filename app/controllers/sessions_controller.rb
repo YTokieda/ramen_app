@@ -1,4 +1,8 @@
 class SessionsController < ApplicationController
+  # パスワードの総当たりを防ぐ
+  rate_limit to: 10, within: 3.minutes, only: :create,
+             with: -> { redirect_to login_path, alert: I18n.t("auth.too_many_attempts"), status: :see_other }
+
   def new
     
   end
