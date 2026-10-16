@@ -652,7 +652,33 @@ footer.footer {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding-top: 8px;
+  padding-top: 5px;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.logo-ribbon {
+  background: #D7372B;
+  color: #fff;
+  font-family: "Zen Maru Gothic", $font-family-sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 3px 7px;
+  border-radius: 2px;
+  margin-bottom: 2px;
+}
+
+.logo-main {
+  font-family: "Noto Sans JP", $font-family-sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: 0.05em;
 }
 
 .logo-icon {
@@ -672,11 +698,60 @@ footer.footer {
   margin-bottom: 5px;
 }
 
+/* 赤いリボン（帯） */
+$ribbon-red: #D7372B;
+$ribbon-red-dark: #A82A20;
+
+.ribbon {
+  position: relative;
+  display: inline-block;
+  background: $ribbon-red;
+  color: #fff;
+  font-family: "Zen Maru Gothic", $font-family-sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  z-index: 1;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    border-style: solid;
+    border-color: $ribbon-red-dark;
+  }
+}
+
 .home-hero h1.home-hero-title {
-  font-size: 2.6em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: -14px 0 6px;
+  .ribbon {
+    font-size: 0.42em;
+    padding: 8px 34px;
+    &::before,
+    &::after {
+      top: 8px;
+      border-width: 21px;
+    }
+    &::before {
+      left: -26px;
+      border-left-color: transparent;
+    }
+    &::after {
+      right: -26px;
+      border-right-color: transparent;
+    }
+  }
+}
+
+.home-hero-title-main {
+  font-family: "Noto Sans JP", $font-family-sans-serif;
+  font-weight: 900;
+  font-size: 1.3em;
+  letter-spacing: 0.06em;
   line-height: 1.25;
-  margin-bottom: 8px;
-  letter-spacing: 0.04em;
+  margin-top: 10px;
 }
 
 .home-hero-subtitle {
@@ -700,14 +775,9 @@ footer.footer {
 
 @media (max-width: 767px) {
   #logo {
-    padding-top: 9px;
-    font-size: 1.05em;
+    padding-top: 7px;
     max-width: calc(100% - 70px);
     white-space: nowrap;
-    span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
   }
   .logo-icon {
     width: 28px;
@@ -718,6 +788,21 @@ footer.footer {
   }
   .home-hero h1.home-hero-title {
     font-size: 1.9em;
+    .ribbon {
+      font-size: 0.5em;
+      padding: 6px 22px;
+      &::before,
+      &::after {
+        top: 6px;
+        border-width: 17px;
+      }
+      &::before {
+        left: -20px;
+      }
+      &::after {
+        right: -20px;
+      }
+    }
   }
   .home-hero-subtitle {
     font-size: 0.85em;
