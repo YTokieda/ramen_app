@@ -5,7 +5,8 @@ class ReviewsController < ApplicationController
   def create
     @shop = Shop.find(params[:shop_id])
   
-    uploads = review_params[:images] || []
+    # 未選択でもフォームから空文字が送られてくるので取り除く
+    uploads = (review_params[:images] || []).compact_blank
   
     invalid_upload = uploads.any? do |upload|
       !UploadContentTypeValidator.valid_upload?(

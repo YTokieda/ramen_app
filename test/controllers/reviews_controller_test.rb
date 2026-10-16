@@ -194,4 +194,14 @@ class ReviewsControllerTest < ActionDispatch::IntegrationTest
       file.close!
     end
   end
+
+  test "review without photos is accepted (browser sends an empty value)" do
+    log_in_as(@user)
+
+    assert_difference "Review.count", 1 do
+      post shop_reviews_path(@shop),
+           params: { review: { content: "写真なし", images: [""] } }
+    end
+    assert_redirected_to @shop
+  end
 end

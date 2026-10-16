@@ -260,4 +260,23 @@ class VerificationsControllerTest < ActionDispatch::IntegrationTest
     }
   end
 
+
+  test "verification without evidence files is accepted (browser sends an empty value)" do
+    log_in_as(@user)
+
+    assert_difference("Verification.count", 1) do
+      post shop_verifications_path(@shop),
+           params: {
+             menu_item_id: @menu_item.id,
+             verification: {
+               category: "noodle_soup",
+               egg_status: "egg_free",
+               source_type: "staff",
+               verification_method: "店員に確認",
+               verified_on: Date.current,
+               evidence_files: [""]
+             }
+           }
+    end
+  end
 end
