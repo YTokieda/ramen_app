@@ -1,4 +1,8 @@
 
+<% provide(:title, @shop.name) %>
+<% provide(:description, shop_meta_description(@shop, @approved_verifications)) %>
+<% content_for(:structured_data, shop_structured_data(@shop)) %>
+<% content_for(:noindex, "1") if @shop.hidden? %>
 <% if @shop.hidden? %>
   <p class="alert alert-warning">この店舗は非公開です（管理者にだけ表示されています）。</p>
 <% end %>

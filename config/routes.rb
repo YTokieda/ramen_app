@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "/robots.txt",  to: "seo_files#robots", format: false
+  get "/sitemap.xml", to: "seo_files#sitemap", defaults: { format: :xml }, format: false
+
   scope "(:locale)", locale: /en/ do
   root "static_pages#home"
   get  "/help",    to: "static_pages#help"

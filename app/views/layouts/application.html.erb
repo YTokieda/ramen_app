@@ -4,6 +4,26 @@
     <title><%= full_title(yield(:title)) %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
+    <meta name="description" content="<%= page_description %>">
+    <% if indexable_page? %>
+      <link rel="canonical" href="<%= canonical_url %>">
+      <% if request.get? %>
+        <link rel="alternate" hreflang="ja" href="<%= alternate_locale_url(:ja) %>">
+        <link rel="alternate" hreflang="en" href="<%= alternate_locale_url(:en) %>">
+        <link rel="alternate" hreflang="x-default" href="<%= alternate_locale_url(:ja) %>">
+      <% end %>
+    <% else %>
+      <meta name="robots" content="noindex">
+    <% end %>
+    <meta property="og:site_name" content="<%= site_name %>">
+    <meta property="og:title" content="<%= full_title(yield(:title)) %>">
+    <meta property="og:description" content="<%= page_description %>">
+    <meta property="og:type" content="<%= controller_path == "static_pages" && action_name == "home" ? "website" : "article" %>">
+    <meta property="og:url" content="<%= canonical_url %>">
+    <meta property="og:image" content="<%= og_image_url %>">
+    <meta property="og:locale" content="<%= I18n.locale == :en ? "en_US" : "ja_JP" %>">
+    <meta name="twitter:card" content="summary_large_image">
+    <%= yield(:structured_data) %>
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <%= csrf_meta_tags %>

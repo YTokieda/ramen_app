@@ -133,5 +133,14 @@ ja:
       review: 口コミの削除依頼
       privacy: 個人情報・退会について
       other: その他
+  seo:
+    default_description: 卵アレルギーの方のためのラーメン店ガイド。麺・スープ・トッピング・調理環境の卵の使用状況を、確認日と情報源つきで探せます。
+    shops_description: 卵アレルギーの方向けに、ラーメン店の卵の使用状況を一覧で探せます。卵不使用の確認があるお店で絞り込みもできます。
+    shop_lead: "%{name}（%{address}）の卵アレルギー情報。"
+    shop_egg_free: "卵不使用を確認：%{items}。"
+    shop_contains_egg: "卵を使用：%{items}。"
+    shop_none: 卵の使用状況はまだ確認されていません。
+    separator: "、"
+    sentence_separator: ""
   auth:
     too_many_attempts: 試行回数が多すぎます。しばらくしてからお試しください。
