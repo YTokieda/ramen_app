@@ -20,6 +20,11 @@ class User < ApplicationRecord
     validates :password, presence: true, allow_nil: true,
                          format: { with: PASSWORD_FORMAT, message: :password_complexity }
     
+  # 店舗のメニューなどを編集できるか（承認済みのオーナーか運営）
+  def can_manage_shop?(shop)
+    admin? || shop_owners.where(shop: shop, status: "approved").exists?
+  end
+
   # 運営に承認された店舗オーナーか（店舗管理メニューの表示に使う）
   def approved_shop_owner?
     shop_owners.where(status: "approved").exists?

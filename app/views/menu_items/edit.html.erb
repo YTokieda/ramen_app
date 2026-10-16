@@ -1,0 +1,41 @@
+<% provide(:title, "メニューを編集") %>
+<h1>メニューを編集する</h1>
+
+<h2><%= @shop.name %></h2>
+
+<% if @menu_item.errors.any? %>
+  <div>
+    <p>メニューを更新できませんでした。</p>
+    <ul>
+      <% @menu_item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<% if @menu_item.verifications.exists? %>
+  <p class="alert alert-warning">
+    このメニューには卵情報が登録されています。表記の修正（誤字や呼び方の変更）にとどめてください。
+    中身が違う別のメニューにする場合は、名前を変えずに新しいメニューとして追加してください。
+    卵情報が別のメニューのものとして表示されてしまいます。
+  </p>
+<% end %>
+
+<%= form_with(model: [@shop, @menu_item]) do |f| %>
+  <div>
+    <%= f.label :name, "メニュー名" %>
+    <%= f.text_field :name, class: "form-control", maxlength: 100 %>
+  </div>
+
+  <div>
+    <%= f.label :description, "説明" %>
+    <%= f.text_area :description, class: "form-control", maxlength: 1000 %>
+  </div>
+
+  <div>
+    <%= f.submit "メニューを更新する", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<p><%= link_to "店舗ページへ戻る", @shop %></p>

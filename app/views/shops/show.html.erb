@@ -30,6 +30,10 @@
           <p><%= menu_item.description %></p>
         <% end %>
 
+        <% if logged_in? && current_user.can_manage_shop?(@shop) %>
+          <p><%= link_to "メニューを編集", edit_shop_menu_item_path(@shop, menu_item) %></p>
+        <% end %>
+
         <% if logged_in? && current_user.admin? %>
           <%= button_to "メニューを削除（運営）", admin_menu_item_path(menu_item), method: :delete,
                         class: "btn btn-danger btn-xs",

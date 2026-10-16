@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
   
   resources :shops, only: [:index, :show] do
-    resources :menu_items, only: [:new, :create]
+    resources :menu_items, only: [:new, :create, :edit, :update]
     resources :reviews, only: [:create, :destroy] do
       resource :review_reply, only: [:create]
       resource :reaction, only: [:create, :destroy], controller: "review_reactions"

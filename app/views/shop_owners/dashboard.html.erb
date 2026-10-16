@@ -21,6 +21,25 @@
         <%= link_to "店舗ページを見る",
                     shop_path(shop_owner.shop) %>
       </p>
+
+      <h3>メニュー</h3>
+      <% menu_items = shop_owner.shop.menu_items.order(:id) %>
+      <% if menu_items.any? %>
+        <ul>
+          <% menu_items.each do |menu_item| %>
+            <li>
+              <%= menu_item.name %>
+              （<%= link_to "編集", edit_shop_menu_item_path(shop_owner.shop, menu_item) %>）
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>メニューはまだ登録されていません。</p>
+      <% end %>
+      <p>
+        <%= link_to "メニューを追加する", new_shop_menu_item_path(shop_owner.shop),
+                    class: "btn btn-default btn-sm" %>
+      </p>
     </div>
 
     <hr>
