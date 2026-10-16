@@ -26,8 +26,8 @@ class UsersSignupTest < UsersSignup
     assert_difference 'User.count', 1 do
       post users_path, params: { user: { name:  "Example User",
                                          email: "user@example.com",
-                                         password:              "password",
-                                         password_confirmation: "password" } }
+                                         password:              "password1",
+                                         password_confirmation: "password1" } }
     end
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
@@ -39,8 +39,8 @@ class AccountActivationTest < UsersSignup
     super
     post users_path, params: { user: { name:  "Example User",
                                        email: "user@example.com",
-                                       password:              "password",
-                                       password_confirmation: "password" } }
+                                       password:              "password1",
+                                       password_confirmation: "password1" } }
     @user = assigns(:user)
   end
 

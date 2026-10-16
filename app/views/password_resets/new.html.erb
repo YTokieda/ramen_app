@@ -1,13 +1,14 @@
-<% provide(:title, "Forgot password") %>
-<h1>Forgot password</h1>
+<% provide(:title, "パスワードの再設定") %>
+<h1>パスワードの再設定</h1>
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
+  <div class="col-md-6 col-md-offset-3 card auth-card">
+    <p>登録したメールアドレスを入力してください。パスワード再設定用のリンクをお送りします。</p>
     <%= form_with(url: password_resets_path, scope: :password_reset) do |f| %>
-      <%= f.label :email %>
-      <%= f.email_field :email, class: 'form-control' %>
+      <%= f.label :email, "メールアドレス" %>
+      <%= f.email_field :email, class: 'form-control', autocomplete: "email" %>
 
-      <%= f.submit "Submit", class: "btn btn-primary" %>
+      <%= f.submit "送信する", class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>

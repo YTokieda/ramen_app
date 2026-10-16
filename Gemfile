@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "aws-sdk-s3", require: false
 gem "rails",           "7.2.4"
+gem "rails-i18n",      "~> 7.0"
 gem "zeitwerk", "~> 2.6.0"
 gem "image_processing",           "1.12.2"
 gem "active_storage_validations", "0.9.8"

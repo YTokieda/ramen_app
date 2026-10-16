@@ -89,8 +89,8 @@ class PasswordUpdateTest < PasswordResetForm
   test "update with valid password and confirmation" do
     patch password_reset_path(@reset_user.reset_token),
           params: { email: @reset_user.email,
-                    user: { password:              "foobaz",
-                            password_confirmation: "foobaz" } }
+                    user: { password:              "foobaz12",
+                            password_confirmation: "foobaz12" } }
     assert is_logged_in?
     assert_not flash.empty?
     assert_redirected_to @reset_user

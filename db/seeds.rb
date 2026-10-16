@@ -4,8 +4,8 @@
 def seed_user(name:, email:, admin: false)
   User.find_or_create_by!(email: email) do |user|
     user.name = name
-    user.password = "foobar"
-    user.password_confirmation = "foobar"
+    user.password = "foobar12"
+    user.password_confirmation = "foobar12"
     user.admin = admin
     user.activated = true
     user.activated_at = Time.zone.now

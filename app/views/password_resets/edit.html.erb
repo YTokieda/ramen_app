@@ -1,23 +1,21 @@
-<% provide(:title, 'Reset password') %>
-<h1>Reset password</h1>
+<% provide(:title, "新しいパスワードの設定") %>
+<h1>新しいパスワードの設定</h1>
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
+  <div class="col-md-6 col-md-offset-3 card auth-card">
     <%= form_with(model: @user, url: password_reset_path(params[:id])) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
-       <%= hidden_field_tag :email, @user.email %> 
+      <%= hidden_field_tag :email, @user.email %>
 
-      <%#= f.label :email %>
-      <%#= f.email_field :email, class: 'form-control' %>
+      <%= f.label :password, "パスワード" %>
+      <%= f.password_field :password, class: 'form-control', autocomplete: "new-password" %>
+      <p class="form-hint">8文字以上で、英字と数字をそれぞれ1文字以上含めてください。</p>
 
-      <%= f.label :password %>
-      <%= f.password_field :password, class: 'form-control' %>
+      <%= f.label :password_confirmation, "パスワード（確認）" %>
+      <%= f.password_field :password_confirmation, class: 'form-control', autocomplete: "new-password" %>
 
-      <%= f.label :password_confirmation, "Confirmation" %>
-      <%= f.password_field :password_confirmation, class: 'form-control' %>
-
-      <%= f.submit "Update password", class: "btn btn-primary" %>
+      <%= f.submit "パスワードを変更する", class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>

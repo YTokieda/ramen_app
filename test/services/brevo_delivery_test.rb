@@ -63,7 +63,7 @@ class BrevoDeliveryTest < ActiveSupport::TestCase
     payload = JSON.parse(request.body)
     assert_equal "y.tokieda@gmail.com", payload["sender"]["email"]
     assert_equal [{ "email" => @user.email }], payload["to"]
-    assert_equal "Account activation", payload["subject"]
+    assert_equal "【卵アレルギーの方のためのラーメンガイド】アカウントの有効化", payload["subject"]
     assert_match @user.activation_token, payload["htmlContent"]
     assert_match @user.activation_token, payload["textContent"]
   end

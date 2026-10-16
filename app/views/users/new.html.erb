@@ -1,24 +1,30 @@
-<% provide(:title, 'Sign up') %>
-<h1>Sign up</h1>
+<% provide(:title, "会員登録") %>
+<h1>会員登録</h1>
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
+  <div class="col-md-6 col-md-offset-3 card auth-card">
     <%= form_with(model: @user) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label :name %>
-      <%= f.text_field :name, class: 'form-control' %>
+      <%= f.label :name, "ニックネーム（公開されます）" %>
+      <%= f.text_field :name, class: 'form-control', maxlength: 30,
+                       placeholder: "例：卵アレルギーの子の親" %>
+      <p class="form-hint">口コミなどに表示されます。本名やメールアドレスは入力しないでください。</p>
 
-      <%= f.label :email %>
-      <%= f.email_field :email, class: 'form-control' %>
+      <%= f.label :email, "メールアドレス" %>
+      <%= f.email_field :email, class: 'form-control', autocomplete: "email" %>
+      <p class="form-hint">公開されません。登録確認のメールが届きます。</p>
 
-      <%= f.label :password %>
-      <%= f.password_field :password, class: 'form-control' %>
+      <%= f.label :password, "パスワード" %>
+      <%= f.password_field :password, class: 'form-control', autocomplete: "new-password" %>
+      <p class="form-hint">8文字以上で、英字と数字をそれぞれ1文字以上含めてください。</p>
 
-      <%= f.label :password_confirmation, "Confirmation" %>
-      <%= f.password_field :password_confirmation, class: 'form-control' %>
+      <%= f.label :password_confirmation, "パスワード（確認）" %>
+      <%= f.password_field :password_confirmation, class: 'form-control', autocomplete: "new-password" %>
 
-      <%= f.submit "Create my account", class: "btn btn-primary" %>
+      <%= f.submit "登録する", class: "btn btn-primary" %>
     <% end %>
+
+    <p class="auth-links">すでに登録済みの方は <%= link_to "ログイン", login_path %></p>
   </div>
 </div>

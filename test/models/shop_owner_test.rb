@@ -4,7 +4,7 @@ class ShopOwnerTest < ActiveSupport::TestCase
   include ActionDispatch::TestProcess
   
   def setup
-    @user = User.create!(name:"山田",email:"owner@example.com",password:"password",password_confirmation: "password")
+    @user = User.create!(name:"山田",email:"owner@example.com",password:"password1",password_confirmation: "password1")
     @shop = Shop.create!(name: "テストラーメン", address: "東京都渋谷区1-2-3")
     @shop_owner = ShopOwner.new(
       user: @user,
