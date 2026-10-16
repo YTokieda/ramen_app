@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ラーメンどんぶりのロゴ">
+  <circle cx="32" cy="32" r="31" fill="#FFF8EE"/>
+  <!-- 湯気 -->
+  <g class="logo-steam" fill="none" stroke="#E9A46A" stroke-width="2.4" stroke-linecap="round">
+    <path d="M20 22c-3-3 3-5 0-8s3-5 0-8"/>
+    <path d="M27 21c-3-3 3-5 0-8"/>
+  </g>
+  <!-- 海苔 -->
+  <rect x="15" y="22" width="8" height="12" rx="1" fill="#2E5E3A" transform="rotate(-12 19 28)"/>
+  <!-- スープ -->
+  <ellipse cx="32" cy="34" rx="22" ry="5.5" fill="#F9D9A6" stroke="#B9530A" stroke-width="1.5"/>
+  <!-- 麺 -->
+  <g fill="none" stroke="#FFF3C4" stroke-width="1.8" stroke-linecap="round">
+    <path d="M18 34c2-2 4 2 6 0s4 2 6 0 4 2 6 0"/>
+    <path d="M22 36.5c2-2 4 2 6 0s4 2 6 0 4 2 6 0"/>
+  </g>
+  <!-- なると -->
+  <circle cx="44" cy="33.5" r="3.6" fill="#fff" stroke="#F3B7C3" stroke-width="0.8"/>
+  <path d="M44 33.5m-1.6 0a1.6 1.6 0 1 1 1.6 1.6" fill="none" stroke="#E46A87" stroke-width="1"/>
+  <!-- 箸 -->
+  <g stroke="#8B5A2B" stroke-width="2.6" stroke-linecap="round">
+    <line x1="42" y1="7" x2="33" y2="37"/>
+    <line x1="48" y1="9" x2="37" y2="37"/>
+  </g>
+  <!-- どんぶり -->
+  <path d="M10 35A22 19 0 0 0 54 35Z" fill="#F07818"/>
+  <path d="M15 42h34" stroke="#FFF1E3" stroke-width="2" stroke-dasharray="3 3" stroke-linecap="round"/>
+  <rect x="24" y="52" width="16" height="4" rx="2" fill="#B9530A"/>
+</svg>

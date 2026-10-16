@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <!-- 掲載店シール デザイン案（直径約8cm想定）。印刷時は文字をアウトライン化すること -->
+  <defs>
+    <path id="arc-top" d="M30 300a270 270 0 0 1 540 0"/>
+    <path id="arc-bottom" d="M18 300a282 282 0 0 0 564 0"/>
+  </defs>
+  <circle cx="300" cy="300" r="295" fill="#F07818"/>
+  <circle cx="300" cy="300" r="262" fill="#FFF8EE"/>
+  <circle cx="300" cy="300" r="250" fill="none" stroke="#F07818" stroke-width="3" stroke-dasharray="10 8"/>
+
+  <text font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic',sans-serif" font-size="27" font-weight="bold" fill="#FFFFFF" letter-spacing="4">
+    <textPath href="#arc-top" startOffset="50%" text-anchor="middle">卵アレルギー ラーメン情報</textPath>
+  </text>
+
+  <!-- ロゴ -->
+  <g transform="translate(217 105) scale(2.6)">
+    <circle cx="32" cy="32" r="31" fill="#FFF8EE"/>
+    <g fill="none" stroke="#E9A46A" stroke-width="2.4" stroke-linecap="round">
+      <path d="M20 22c-3-3 3-5 0-8s3-5 0-8"/>
+      <path d="M27 21c-3-3 3-5 0-8"/>
+    </g>
+    <rect x="15" y="22" width="8" height="12" rx="1" fill="#2E5E3A" transform="rotate(-12 19 28)"/>
+    <ellipse cx="32" cy="34" rx="22" ry="5.5" fill="#F9D9A6" stroke="#B9530A" stroke-width="1.5"/>
+    <g fill="none" stroke="#FFF3C4" stroke-width="1.8" stroke-linecap="round">
+      <path d="M18 34c2-2 4 2 6 0s4 2 6 0 4 2 6 0"/>
+      <path d="M22 36.5c2-2 4 2 6 0s4 2 6 0 4 2 6 0"/>
+    </g>
+    <circle cx="44" cy="33.5" r="3.6" fill="#fff" stroke="#F3B7C3" stroke-width="0.8"/>
+    <path d="M44 33.5m-1.6 0a1.6 1.6 0 1 1 1.6 1.6" fill="none" stroke="#E46A87" stroke-width="1"/>
+    <g stroke="#8B5A2B" stroke-width="2.6" stroke-linecap="round">
+      <line x1="42" y1="7" x2="33" y2="37"/>
+      <line x1="48" y1="9" x2="37" y2="37"/>
+    </g>
+    <path d="M10 35A22 19 0 0 0 54 35Z" fill="#F07818"/>
+    <path d="M15 42h34" stroke="#FFF1E3" stroke-width="2" stroke-dasharray="3 3" stroke-linecap="round"/>
+    <rect x="24" y="52" width="16" height="4" rx="2" fill="#B9530A"/>
+  </g>
+
+  <text x="300" y="335" text-anchor="middle" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic',sans-serif" font-size="64" font-weight="bold" fill="#2B1A0B">卵情報 掲載店</text>
+  <text x="300" y="375" text-anchor="middle" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic',sans-serif" font-size="24" fill="#5A3A22">メニューごとの卵の使用状況を公開中</text>
+
+  <!-- QRコード（店舗ページURL）を入れる位置 -->
+  <rect x="250" y="398" width="100" height="100" rx="8" fill="#FFFFFF" stroke="#B9530A" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="300" y="455" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#B9530A">QR</text>
+
+  <text font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic',sans-serif" font-size="19" font-weight="bold" fill="#FFFFFF" letter-spacing="1">
+    <textPath href="#arc-bottom" startOffset="50%" text-anchor="middle">ご注文前に店舗スタッフへご確認ください</textPath>
+  </text>
+</svg>

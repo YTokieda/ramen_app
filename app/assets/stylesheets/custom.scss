@@ -645,3 +645,43 @@ footer.footer {
     margin-bottom: 8px;
   }
 }
+
+/* logo */
+
+#logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.logo-icon {
+  width: 34px;
+  height: 34px;
+  transition: transform 0.2s;
+}
+
+#logo:hover .logo-icon {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+.home-hero-logo {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 4px 8px rgba(120, 60, 0, 0.15));
+}
+
+@media (max-width: 767px) {
+  #logo {
+    padding-top: 10px;
+  }
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .home-hero-logo {
+    width: 90px;
+    height: 90px;
+  }
+}
