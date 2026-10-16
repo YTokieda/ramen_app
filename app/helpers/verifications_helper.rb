@@ -12,6 +12,16 @@ module VerificationsHelper
     end
   end
 
+  def egg_status_badge(egg_status)
+    content_tag(:span, egg_status_label(egg_status),
+                class: "egg-badge egg-badge--#{egg_status}")
+  end
+
+  def egg_status_conflict_badge
+    content_tag(:span, "情報に食い違いあり",
+                class: "egg-badge egg-badge--conflict")
+  end
+
   def egg_status_label(egg_status)
     case egg_status
     when "egg_free"

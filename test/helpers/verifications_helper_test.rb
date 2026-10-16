@@ -199,6 +199,19 @@ class VerificationsHelperTest < ActionView::TestCase
     assert_equal :consistent,
                  verification_history_status(latest, histories)
   end
-  
-  
+
+  test "egg_status_badge renders label with status-specific class" do
+    badge = egg_status_badge("egg_free")
+    assert_includes badge, "卵不使用を確認"
+    assert_includes badge, "egg-badge--egg_free"
+
+    assert_includes egg_status_badge("contains_egg"), "egg-badge--contains_egg"
+    assert_includes egg_status_badge("unknown"), "未確認"
+  end
+
+  test "egg_status_conflict_badge does not show a single egg status" do
+    badge = egg_status_conflict_badge
+    assert_includes badge, "egg-badge--conflict"
+    assert_not_includes badge, "卵不使用"
+  end
 end

@@ -1,25 +1,22 @@
 <div class="verification">
-  <% if verification.menu_item.present? %>
-    <p>
-      <strong>対象メニュー：</strong>
-      <%= verification.menu_item.name %>
-    </p>
-  <% else %>
-    <p>
-      <strong>対象：</strong>
-      店舗の調理環境
-    </p>
-  <% end %>
+  <% histories = verification_histories.fetch(
+       [verification.menu_item_id, verification.category], []
+     ) %>
 
-  <p>
-    <strong>確認項目：</strong>
-    <%= verification_category_label(verification.category) %>
-  </p>
+  <% same_day_status =
+       verification_same_day_status(verification, histories) %>
 
-  <p>
-    <strong>卵の使用状況：</strong>
-    <%= egg_status_label(verification.egg_status) %>
-  </p>
+  <div class="verification-summary-head">
+    <% if same_day_status == :conflict %>
+      <%= egg_status_conflict_badge %>
+    <% else %>
+      <%= egg_status_badge(verification.egg_status) %>
+    <% end %>
+    <strong><%= verification.menu_item&.name || "店舗の調理環境" %></strong>
+    <span class="category-chip">
+      <%= verification_category_label(verification.category) %>
+    </span>
+  </div>
 
   <p>
     <strong>情報源：</strong>
@@ -57,12 +54,6 @@
     <%= verification_status_label(verification.status) %>
   </p>
 
-  <% histories = verification_histories.fetch(
-       [verification.menu_item_id, verification.category], []
-     ) %>
-
-  <% same_day_status =
-       verification_same_day_status(verification, histories) %>
 
   <% history_status =
        verification_history_status(verification, histories) %>
@@ -123,5 +114,3 @@
   <%= render "verification_history",
              histories: histories %>
 </div>
-
-<hr>

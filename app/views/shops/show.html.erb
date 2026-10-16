@@ -1,42 +1,41 @@
 
-<h1><%= @shop.name %></h1>
+<div class="shop-header">
+  <h1><%= @shop.name %></h1>
+  <p class="shop-address"><%= @shop.address %></p>
 
-<p>
-  <strong>住所：</strong>
-  <%= @shop.address %>
-</p>
+  <% if @shop.description.present? %>
+    <p><%= @shop.description %></p>
+  <% end %>
+</div>
 
-<% if @shop.description.present? %>
-  <p>
-    <strong>店舗説明：</strong>
-    <%= @shop.description %>
-  </p>
-<% end %>
+<p class="home-notice">卵情報は確認時点の内容で、卵アレルギーに対する安全を保証するものではありません。来店前に店舗へ直接ご確認ください。</p>
 
 
 
 <h2>メニュー</h2>
 
 <% if @menu_items.any? %>
-  <% @menu_items.each do |menu_item| %>
-    <div>
-      <h3><%= menu_item.name %></h3>
+  <div class="menu-list">
+    <% @menu_items.each do |menu_item| %>
+      <div class="card">
+        <h3><%= menu_item.name %></h3>
 
-      <% if menu_item.description.present? %>
-        <p><%= menu_item.description %></p>
-      <% end %>
-    </div>
+        <% if menu_item.description.present? %>
+          <p><%= menu_item.description %></p>
+        <% end %>
 
-    <% if logged_in? %>
-      <p>
-        <%= link_to "このメニューの卵情報を提供する",
-                    new_shop_verification_path(
-                      @shop,
-                      menu_item_id: menu_item.id
-                    ) %>
-      </p>
+        <% if logged_in? %>
+          <p>
+            <%= link_to "このメニューの卵情報を提供する",
+                        new_shop_verification_path(
+                          @shop,
+                          menu_item_id: menu_item.id
+                        ) %>
+          </p>
+        <% end %>
+      </div>
     <% end %>
-  <% end %>
+  </div>
 <% else %>
   <p>メニュー情報はまだ登録されていません。</p>
 <% end %>

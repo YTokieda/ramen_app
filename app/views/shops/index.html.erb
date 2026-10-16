@@ -1,11 +1,15 @@
-<h1>卵アレルギー対応ラーメン店</h1>
+<% provide(:title, "ラーメン店を探す") %>
+<h1>ラーメン店を探す</h1>
 
-<%= form_with url: shops_path, method: :get, local: true do |f| %>
+<p class="home-notice">卵情報は確認時点の内容で、卵アレルギーに対する安全を保証するものではありません。来店前に店舗へ直接ご確認ください。</p>
+
+<%= form_with url: shops_path, method: :get, local: true, class: "shop-search" do |f| %>
   <div>
     <%= f.label :keyword, "店舗名・住所" %>
     <%= f.text_field :keyword,
                      value: @keyword,
-                     placeholder: "例：品川" %>
+                     placeholder: "例：品川",
+                     class: "form-control" %>
   </div>
 
   <div>
@@ -17,7 +21,8 @@
         ["卵使用の確認情報あり", "contains_egg"],
         ["未確認の情報あり", "unknown"]
       ],
-      { selected: @egg_status } %>
+      { selected: @egg_status },
+      { class: "form-control" } %>
   </div>
 
   <div>
@@ -29,10 +34,11 @@
         ["トッピング", "topping"],
         ["調理環境", "cooking_environment"]
       ],
-      { selected: @category } %>
+      { selected: @category },
+      { class: "form-control" } %>
   </div>
 
-  <%= f.submit "検索する" %>
+  <%= f.submit "検索する", class: "btn btn-primary" %>
   <%= link_to "条件をクリア", shops_path %>
 <% end %>
 
@@ -56,7 +62,7 @@
         <%= link_to shop.name, shop_path(shop) %>
       </h2>
 
-      <p><%= shop.address %></p>
+      <p class="shop-address"><%= shop.address %></p>
       
       <% summaries = @verification_summaries.fetch(shop.id, []) %>
       <% visible_summaries = summaries.first(3) %>
@@ -94,8 +100,3 @@
   <p>条件に一致する店舗はありませんでした。</p>
 <% end %>
 
-<p>
-  卵情報は投稿時点の確認内容です。
-  原材料や調理方法が変更される可能性があります。
-  来店前に店舗へ直接ご確認ください。
-</p>
