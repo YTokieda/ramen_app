@@ -1,5 +1,5 @@
 module ApplicationHelper
-  SITE_NAME = "卵アレルギー対応ラーメンガイド".freeze
+  SITE_NAME = "卵アレルギーの方のためのラーメンガイド".freeze
   SITE_NAME_EN = "EGG ALLERGY RAMEN GUIDE".freeze
 
   def site_name
