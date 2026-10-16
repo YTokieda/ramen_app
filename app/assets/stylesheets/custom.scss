@@ -311,3 +311,102 @@ span.image {
     border: 0;
   }
 }
+
+/* home */
+
+.home-hero {
+  text-align: center;
+  padding: 30px 0 10px;
+  h1 {
+    font-size: 2.4em;
+    letter-spacing: 0;
+    margin-bottom: 15px;
+  }
+}
+
+.home-lead {
+  max-width: 640px;
+  margin: 0 auto 20px;
+}
+
+.home-search {
+  display: flex;
+  gap: 8px;
+  max-width: 520px;
+  margin: 0 auto 10px;
+  input[type="text"] {
+    flex: 1;
+    margin-bottom: 0;
+    padding: 6px 10px;
+  }
+  input[type="submit"] {
+    width: auto;
+    margin-bottom: 0;
+  }
+}
+
+.home-quick-links {
+  font-size: 0.95em;
+}
+
+.home-notice {
+  background: #fcf8e3;
+  border: 1px solid #faebcc;
+  border-radius: 4px;
+  color: #8a6d3b;
+  padding: 12px 16px;
+  margin: 20px 0 30px;
+  p {
+    margin: 4px 0 0;
+    font-size: 1em;
+  }
+}
+
+.home-columns h2,
+.home-cta h2 {
+  text-align: left;
+  color: $gray-dark;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.home-guide {
+  dt {
+    margin-top: 10px;
+  }
+  dd {
+    color: $gray;
+  }
+}
+
+.home-recent {
+  list-style: none;
+  padding: 0;
+  li {
+    padding: 8px 0;
+    border-bottom: 1px solid $gray-lighter;
+  }
+}
+
+.home-recent-meta {
+  display: block;
+  color: $gray-light;
+  font-size: 0.9em;
+}
+
+.home-cta {
+  margin-top: 30px;
+  padding: 20px;
+  background: $gray-lighter;
+  border-radius: 4px;
+  .btn {
+    margin: 0 8px 8px 0;
+  }
+}
+
+@media (max-width: 767px) {
+  #logo {
+    font-size: 1.2em;
+    padding-top: 14px;
+  }
+}

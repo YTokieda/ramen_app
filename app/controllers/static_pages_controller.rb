@@ -1,8 +1,11 @@
 class StaticPagesController < ApplicationController
   def home
-    if logged_in?
-
-    end
+    @shop_count = Shop.count
+    @recent_verifications = Verification
+      .where(status: "approved")
+      .includes(:shop, :menu_item)
+      .order(verified_on: :desc, id: :desc)
+      .limit(5)
   end
 
   def help
