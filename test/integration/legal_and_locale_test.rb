@@ -6,7 +6,7 @@ class LegalAndLocaleTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "title", "プライバシーポリシー | 卵アレルギーの方のためのラーメンガイド"
     assert_match "TOK Works", response.body
-    assert_select "a[href=?]", "mailto:contact@tokworks.jp"
+    assert_select "a[href=?]", "mailto:ramen-guide@tokworks.jp"
     assert_match "外国にある事業者", response.body
   end
 

@@ -2,7 +2,7 @@ module ApplicationHelper
   SITE_NAME = "卵アレルギーの方のためのラーメンガイド".freeze
   SITE_NAME_EN = "EGG ALLERGY RAMEN GUIDE".freeze
   OPERATOR_NAME = "TOK Works".freeze
-  CONTACT_EMAIL = "contact@tokworks.jp".freeze
+  CONTACT_EMAIL = "ramen-guide@tokworks.jp".freeze
 
   def site_name
     I18n.t("site.name")
