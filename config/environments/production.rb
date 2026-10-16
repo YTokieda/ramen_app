@@ -73,10 +73,8 @@ Rails.application.configure do
     protocol: "https"
   }
   
-  require Rails.root.join("app/services/brevo_delivery")
-  
+  # :brevo の登録は config/initializers/brevo_delivery.rb で行う
   config.action_mailer.delivery_method = :brevo
-  config.action_mailer.add_delivery_method :brevo, BrevoDelivery
   
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

@@ -5,6 +5,13 @@ require "json"
 class BrevoDelivery
   API_URL = URI("https://api.brevo.com/v3/smtp/email")
 
+  # Mail gem は delivery_method.new(settings) で生成し、送信後に settings を参照する
+  attr_accessor :settings
+
+  def initialize(settings = {})
+    @settings = settings
+  end
+
   def deliver!(message)
     payload = {
       sender: {
@@ -43,5 +50,7 @@ class BrevoDelivery
     unless response.is_a?(Net::HTTPSuccess)
       raise "Brevo API error: HTTP #{response.code} - #{response.body}"
     end
+
+    response
   end
 end
