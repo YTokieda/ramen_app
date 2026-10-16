@@ -5,6 +5,7 @@ class Review < ApplicationRecord
   has_many_attached :images
   
   has_one :review_reply, dependent: :destroy
+  has_many :review_reactions, dependent: :destroy
   
   validates :content, presence: true, length: { maximum: 2000 }
   

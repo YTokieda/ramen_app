@@ -111,6 +111,11 @@ en:
       owner_reply: Reply from the shop
       review_image: Review photo
       posted_on: "Posted on %{date}"
+      helpful: Helpful
+      helpful_undo: Remove "Helpful"
+      helpful_count:
+        one: "1 person found this helpful"
+        other: "%{count} people found this helpful"
       back: Back to shop list
   inquiries:
     title: Contact

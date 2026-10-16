@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_10_16_000000) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_16_070000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -73,6 +73,17 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_16_000000) do
     t.datetime "updated_at", null: false
     t.index ["shop_id", "name"], name: "index_menu_items_on_shop_id_and_name", unique: true
     t.index ["shop_id"], name: "index_menu_items_on_shop_id"
+  end
+
+  create_table "review_reactions", force: :cascade do |t|
+    t.integer "review_id", null: false
+    t.integer "user_id", null: false
+    t.string "kind", default: "helpful", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["review_id", "user_id", "kind"], name: "index_review_reactions_on_review_id_and_user_id_and_kind", unique: true
+    t.index ["review_id"], name: "index_review_reactions_on_review_id"
+    t.index ["user_id"], name: "index_review_reactions_on_user_id"
   end
 
   create_table "review_replies", force: :cascade do |t|
@@ -172,6 +183,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_16_000000) do
   add_foreign_key "admin_audit_logs", "users", column: "admin_user_id"
   add_foreign_key "inquiries", "users"
   add_foreign_key "menu_items", "shops"
+  add_foreign_key "review_reactions", "reviews"
+  add_foreign_key "review_reactions", "users"
   add_foreign_key "review_replies", "reviews"
   add_foreign_key "review_replies", "shop_owners"
   add_foreign_key "reviews", "shops"

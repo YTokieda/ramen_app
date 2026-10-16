@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     resources :menu_items, only: [:new, :create]
     resources :reviews, only: [:create, :destroy] do
       resource :review_reply, only: [:create]
+      resource :reaction, only: [:create, :destroy], controller: "review_reactions"
     end
     
     resources :verifications, only: [:new, :create]

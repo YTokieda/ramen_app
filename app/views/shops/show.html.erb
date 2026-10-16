@@ -236,7 +236,7 @@
 
 <% if @reviews.any? %>
   <% @reviews.each do |review| %>
-    <div class="review">
+    <div class="review" id="review-<%= review.id %>">
       <p>
         <strong><%= review.user.name %></strong>
       </p>
@@ -285,6 +285,29 @@
       <p>
         <%= t("shops.show.posted_on", date: review.created_at.strftime("%Y/%m/%d")) %>
       </p>
+
+      <% helpful_count = @reaction_counts[review.id].to_i %>
+      <div class="review-reactions">
+        <% if logged_in? && current_user != review.user %>
+          <% if @my_reacted_review_ids.include?(review.id) %>
+            <%= button_to shop_review_reaction_path(@shop, review), method: :delete,
+                          class: "reaction-button reaction-button--on",
+                          form: { class: "reaction-form" },
+                          aria: { pressed: true, label: t("shops.show.helpful_undo") } do %>
+              👍 <%= t("shops.show.helpful") %> <span class="reaction-count"><%= helpful_count %></span>
+            <% end %>
+          <% else %>
+            <%= button_to shop_review_reaction_path(@shop, review),
+                          class: "reaction-button",
+                          form: { class: "reaction-form" },
+                          aria: { pressed: false } do %>
+              👍 <%= t("shops.show.helpful") %> <span class="reaction-count"><%= helpful_count %></span>
+            <% end %>
+          <% end %>
+        <% elsif helpful_count.positive? %>
+          <span class="reaction-summary">👍 <%= t("shops.show.helpful_count", count: helpful_count) %></span>
+        <% end %>
+      </div>
 
       <% if current_user == review.user %>
         <%= link_to "削除",

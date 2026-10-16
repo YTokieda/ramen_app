@@ -109,6 +109,9 @@ ja:
       owner_reply: 店舗からの返信
       review_image: 口コミ画像
       posted_on: 投稿日：%{date}
+      helpful: 参考になった
+      helpful_undo: 「参考になった」を取り消す
+      helpful_count: "%{count}人が参考になったと言っています"
       back: 店舗一覧に戻る
   inquiries:
     title: お問い合わせ

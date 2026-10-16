@@ -5,6 +5,13 @@ module ShopShowData
 
   def prepare_shop_show_data
     @reviews = @shop.reviews
+    @reaction_counts = ReviewReaction.where(review_id: @reviews.select(:id)).group(:review_id).count
+    @my_reacted_review_ids =
+      if logged_in?
+        current_user.review_reactions.where(review_id: @reviews.select(:id)).pluck(:review_id).to_set
+      else
+        Set.new
+      end
     @menu_items = @shop.menu_items
 
     approved_verifications =

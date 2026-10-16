@@ -966,3 +966,43 @@ $ribbon-red-dark: #A82A20;
   background: $theme-red-light;
   border-color: #F5C2BE;
 }
+
+/* review reactions */
+
+.review-reactions {
+  margin: 4px 0 8px;
+}
+
+.reaction-form {
+  display: inline;
+}
+
+.reaction-button {
+  border: 1px solid #E3C9AE;
+  background: #fff;
+  color: $theme-ink;
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: 0.9em;
+}
+
+.reaction-button:hover,
+.reaction-button:focus {
+  background: $theme-orange-light;
+}
+
+.reaction-button--on {
+  background: $theme-orange-light;
+  border-color: $theme-orange-dark;
+  color: $theme-orange-dark;
+  font-weight: bold;
+}
+
+.reaction-count {
+  margin-left: 4px;
+}
+
+.reaction-summary {
+  color: #7A6250;
+  font-size: 0.9em;
+}
