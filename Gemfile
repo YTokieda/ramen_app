@@ -44,3 +44,7 @@ end
 group :production do
   gem "pg", "1.3.5"
 end
+
+# 本番のエラーを知らせる（SENTRY_DSN を設定したときだけ動く）
+gem "sentry-ruby", "~> 7.1"
+gem "sentry-rails", "~> 7.1"
