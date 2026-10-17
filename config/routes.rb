@@ -37,6 +37,10 @@ Rails.application.routes.draw do
     to: "verification_evidence_files#show",
     as: :verification_evidence_file
 
+  get "users/:user_id/avatar",
+      to: "user_avatars#show",
+      as: :user_avatar
+
   get "reviews/:review_id/images/:id",
       to: "review_images#show",
       as: :review_image

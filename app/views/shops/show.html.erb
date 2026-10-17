@@ -261,7 +261,8 @@
 <% if @reviews.any? %>
   <% @reviews.each do |review| %>
     <div class="review" id="review-<%= review.id %>">
-      <p>
+      <p class="review-author">
+        <%= user_avatar(review.user, size: 36) %>
         <strong><%= review.user.name %></strong>
       </p>
 

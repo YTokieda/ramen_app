@@ -1006,3 +1006,53 @@ $ribbon-red-dark: #A82A20;
   color: #7A6250;
   font-size: 0.9em;
 }
+
+/* profile images */
+
+.avatar {
+  display: inline-block;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: middle;
+  background: #FFF1E3;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px #F0D9C0;
+  flex-shrink: 0;
+}
+
+.avatar--initial {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #F2A65A;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.review-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-avatar {
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.avatar-field {
+  margin: 10px 0 15px;
+}
+
+.avatar-field-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.avatar-remove {
+  font-weight: normal;
+}

@@ -5,6 +5,10 @@ class User < ApplicationRecord
     has_many :shop_submissions, dependent: :destroy
     has_many :verifications
     has_many :review_reactions, dependent: :destroy
+    # プロフィール画像（口コミなどに表示される）
+    has_one_attached :avatar
+    AVATAR_TYPES = %w[image/jpeg image/png image/webp].freeze
+    AVATAR_MAX_SIZE = 5.megabytes
 
     attr_accessor :remember_token, :activation_token, :reset_token
     before_save   :downcase_email

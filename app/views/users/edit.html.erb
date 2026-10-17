@@ -11,6 +11,22 @@
                        placeholder: "例：卵アレルギーの子の親" %>
       <p class="form-hint">口コミなどに表示されます。本名やメールアドレスは入力しないでください。</p>
 
+      <div class="avatar-field" data-controller="avatar-resize">
+        <%= f.label :avatar, "プロフィール画像（任意・公開されます）" %>
+        <div class="avatar-field-row">
+          <span data-avatar-resize-target="current"><%= user_avatar(@user, size: 72) %></span>
+          <img data-avatar-resize-target="preview" class="avatar" width="72" height="72" alt="" hidden>
+          <%= f.file_field :avatar, accept: "image/jpeg,image/png,image/webp",
+                           data: { avatar_resize_target: "input", action: "change->avatar-resize#resize" } %>
+        </div>
+        <p class="form-hint">写真やイラストを設定できます（JPEG・PNG・WebP）。口コミなどでニックネームの横に表示されます。顔写真など、個人が特定できる画像は避けることをおすすめします。</p>
+        <% if @user.avatar.attached? %>
+          <label class="avatar-remove">
+            <%= check_box_tag "user[remove_avatar]", "1", false %> 画像を削除する
+          </label>
+        <% end %>
+      </div>
+
       <%= f.label :email, "メールアドレス" %>
       <%= f.email_field :email, class: 'form-control', autocomplete: "email" %>
 

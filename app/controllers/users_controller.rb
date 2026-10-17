@@ -50,7 +50,25 @@ class UsersController < ApplicationController
   
   def update
     @user = User.find(params[:id])
-    if @user.update(user_params)
+    avatar = params.dig(:user, :avatar).presence
+    avatar = nil unless avatar.respond_to?(:tempfile)
+    remove_avatar = params.dig(:user, :remove_avatar) == "1"
+
+    @user.assign_attributes(user_params)
+    if avatar && (avatar.size > User::AVATAR_MAX_SIZE ||
+                  !UploadContentTypeValidator.valid_upload?(avatar, allowed_types: User::AVATAR_TYPES))
+      @user.errors.add(:avatar, "はJPEG・PNG・WebP形式で5MB以下の画像を選んでください")
+      render 'edit', status: :unprocessable_entity and return
+    end
+
+    if avatar
+      # 写真は公開されるので、撮影場所などの情報を消してから保存する
+      ImageMetadataStripper.strip_upload!(avatar)
+      @user.avatar = avatar
+    end
+
+    if @user.save
+      @user.avatar.purge_later if remove_avatar && avatar.nil? && @user.avatar.attached?
       flash[:success] = "アカウント情報を更新しました。"
       redirect_to @user
     else

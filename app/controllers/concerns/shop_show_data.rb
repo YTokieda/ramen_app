@@ -4,7 +4,7 @@ module ShopShowData
   private
 
   def prepare_shop_show_data
-    @reviews = @shop.reviews
+    @reviews = @shop.reviews.includes(user: { avatar_attachment: :blob })
     @reaction_counts = ReviewReaction.where(review_id: @reviews.select(:id)).group(:review_id).count
     @my_reacted_review_ids =
       if logged_in?

@@ -2,6 +2,7 @@
 <% own_page = current_user?(@user) %>
 
 <div class="profile-header">
+  <div class="profile-avatar"><%= user_avatar(@user, size: 88) %></div>
   <h1><%= own_page ? "マイページ" : "#{@user.name}さんのページ" %></h1>
   <p class="profile-meta">
     ニックネーム：<strong><%= @user.name %></strong>
@@ -10,7 +11,7 @@
   </p>
   <% if own_page %>
     <p>
-      <%= link_to "ニックネーム・パスワードを変更", edit_user_path(@user), class: "btn btn-default btn-sm" %>
+      <%= link_to "プロフィール画像・ニックネームなどを変更", edit_user_path(@user), class: "btn btn-default btn-sm" %>
       <%= link_to "店舗情報を投稿する", new_shop_submission_path, class: "btn btn-default btn-sm" %>
     </p>
     <p class="form-hint">「口コミ」はほかの人にも公開されます。下の「投稿の状況」はあなただけに表示されます。</p>
