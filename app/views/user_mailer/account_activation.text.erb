@@ -2,6 +2,7 @@
 
 <%= site_name %>にご登録ありがとうございます。
 下のリンクを開いて、アカウントを有効にしてください。
+リンクの有効期限は24時間です。
 
 <%= edit_account_activation_url(@user.activation_token, email: @user.email) %>
 

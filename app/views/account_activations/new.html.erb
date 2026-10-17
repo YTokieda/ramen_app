@@ -1,0 +1,15 @@
+<% provide(:title, "確認メールの再送") %>
+<h1>確認メールの再送</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3 card auth-card">
+    <p>会員登録したメールアドレスを入力してください。アカウントを有効にするためのリンクをもう一度お送りします。</p>
+    <p class="form-hint">届かない場合は、迷惑メールフォルダもご確認ください。送信元は ramen-guide@tokworks.jp です。</p>
+    <%= form_with(url: account_activations_path, scope: :account_activation) do |f| %>
+      <%= f.label :email, "メールアドレス" %>
+      <%= f.email_field :email, class: 'form-control', autocomplete: "email", required: true %>
+
+      <%= f.submit "確認メールを再送する", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

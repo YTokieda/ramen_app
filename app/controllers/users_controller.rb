@@ -36,7 +36,7 @@ class UsersController < ApplicationController
     end
     if @user.save
       @user.send_activation_email
-      flash[:info] = "確認メールを送信しました。メール内のリンクを開いて、登録を完了してください。"
+      flash[:info] = "確認メールを送信しました。24時間以内にメール内のリンクを開いて、登録を完了してください。"
       redirect_to root_url
     else
       

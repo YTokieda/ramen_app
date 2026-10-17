@@ -70,9 +70,22 @@ class User < ApplicationRecord
     update_attribute(:activated_at, Time.zone.now)
   end
 
+  ACTIVATION_PERIOD = 24.hours
+
   # 有効化用のメールを送信する
   def send_activation_email
     UserMailer.account_activation(self).deliver_now
+  end
+
+  # 新しい有効化リンクを作り直して送る（前のリンクは使えなくなる）
+  def resend_activation_email
+    create_activation_digest
+    update_columns(activation_digest: activation_digest, activation_sent_at: activation_sent_at)
+    send_activation_email
+  end
+
+  def activation_expired?
+    activation_sent_at.nil? || activation_sent_at < ACTIVATION_PERIOD.ago
   end
 
   # パスワード再設定の属性を設定する
@@ -106,6 +119,7 @@ class User < ApplicationRecord
     def create_activation_digest
       self.activation_token  = User.new_token
       self.activation_digest = User.digest(activation_token)
+      self.activation_sent_at = Time.zone.now
     end
     
 end

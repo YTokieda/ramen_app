@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_10_17_050000) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_17_060000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -159,6 +159,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_17_050000) do
     t.string "reset_digest"
     t.datetime "reset_sent_at"
     t.datetime "withdrawn_at"
+    t.datetime "activation_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

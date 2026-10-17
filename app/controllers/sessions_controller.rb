@@ -18,9 +18,9 @@ class SessionsController < ApplicationController
         redirect_to forwarding_url || root_url
       else
         message  = "アカウントが有効になっていません。"
-        message += "登録確認メールのリンクを開いてください。"
+        message += "登録確認メールのリンクを開くか、ここから確認メールを再送してください。"
         flash[:warning] = message
-        redirect_to root_url
+        redirect_to new_account_activation_path
       end
     else
       flash.now[:danger] = 'メールアドレスまたはパスワードが正しくありません。'
