@@ -30,7 +30,8 @@ class Admin::ShopSubmissionsController < ApplicationController
           shop = Shop.new(
             name: @shop_submission.name,
             address: @shop_submission.address,
-            description: @shop_submission.description
+            description: @shop_submission.description,
+            website_url: @shop_submission.website_url
           )
   
           shop.save!

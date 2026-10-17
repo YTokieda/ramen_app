@@ -97,6 +97,7 @@ ja:
       no_info: 表示できる承認済みの卵情報はありません。
       no_result: 条件に一致する店舗はありませんでした。
     show:
+      website: 公式サイト・SNS（外部サイト）
       menu: メニュー
       no_menu: メニュー情報はまだ登録されていません。
       cooking_environment: 調理環境

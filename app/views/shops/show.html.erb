@@ -13,6 +13,13 @@
   <% if @shop.description.present? %>
     <p><%= @shop.description %></p>
   <% end %>
+
+  <% if @shop.website_url.present? %>
+    <p class="shop-website">
+      <%= link_to t("shops.show.website"), @shop.website_url,
+                  target: "_blank", rel: "noopener noreferrer nofollow" %>
+    </p>
+  <% end %>
 </div>
 
 <p class="home-notice"><%= t("safety_notice") %></p>

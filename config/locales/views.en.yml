@@ -99,6 +99,7 @@ en:
       no_info: No reviewed egg information yet.
       no_result: No shops matched your search.
     show:
+      website: Official website / social media (external site)
       menu: Menu
       no_menu: No menu items have been added yet.
       cooking_environment: Kitchen environment

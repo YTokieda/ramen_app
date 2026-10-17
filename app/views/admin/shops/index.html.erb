@@ -22,6 +22,7 @@
               <% end %>
             </td>
             <td>
+              <%= link_to "編集", edit_admin_shop_path(shop), class: "btn btn-default btn-sm" %>
               <% if shop.hidden? %>
                 <%= button_to "再公開する", unhide_admin_shop_path(shop), method: :patch,
                               class: "btn btn-default btn-sm" %>

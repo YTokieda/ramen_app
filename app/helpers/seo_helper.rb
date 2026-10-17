@@ -56,6 +56,7 @@ module SeoHelper
       "servesCuisine" => "Ramen",
       "url" => canonical_base_url + shop_path(shop)
     }
+    data["sameAs"] = shop.website_url if shop.website_url.present?
     tag.script(data.to_json.html_safe, type: "application/ld+json")
   end
 

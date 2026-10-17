@@ -22,6 +22,7 @@ ja:
         name: 店舗名
         address: 住所
         description: 店舗説明
+        website_url: 公式サイト・SNSのURL
       menu_item:
         name: メニュー名
         description: 説明
@@ -38,6 +39,7 @@ ja:
         name: 店舗名
         address: 住所
         description: 店舗説明
+        website_url: 公式サイト・SNSのURL
       shop_owner:
         user_id: ユーザー
         business_license: 営業許可証など

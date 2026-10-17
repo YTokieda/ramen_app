@@ -29,6 +29,11 @@
     <%= f.text_area :description %>
   </div>
 
+  <div>
+    <%= f.label :website_url, "公式サイト・SNSのURL（任意）" %>
+    <%= f.url_field :website_url, placeholder: "https://" %>
+  </div>
+
   <%= f.submit "店舗情報を送信する" %>
 
 <% end %>

@@ -1,0 +1,36 @@
+<% provide(:title, "店舗情報の編集") %>
+<h1>店舗情報の編集</h1>
+
+<p><%= link_to "店舗の管理に戻る", admin_shops_path %></p>
+
+<% if @shop.errors.any? %>
+  <ul>
+    <% @shop.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @shop, url: admin_shop_path(@shop), method: :patch do |f| %>
+  <div>
+    <%= f.label :name, "店舗名" %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :address, "住所" %>
+    <%= f.text_field :address %>
+  </div>
+
+  <div>
+    <%= f.label :description, "店舗説明" %>
+    <%= f.text_area :description %>
+  </div>
+
+  <div>
+    <%= f.label :website_url, "公式サイト・SNSのURL（任意）" %>
+    <%= f.url_field :website_url, placeholder: "https://" %>
+  </div>
+
+  <%= f.submit "店舗情報を更新する" %>
+<% end %>

@@ -22,6 +22,6 @@ class ShopSubmissionsController < ApplicationController
 
   def shop_submission_params
     params.require(:shop_submission)
-          .permit(:name, :address, :description)
+          .permit(:name, :address, :description, :website_url)
   end
 end

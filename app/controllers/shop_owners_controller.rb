@@ -86,7 +86,8 @@ class ShopOwnersController < ApplicationController
     params.require(:shop).permit(
       :name,
       :address,
-      :description
+      :description,
+      :website_url
     )
   end
   
