@@ -30,6 +30,9 @@
       <%= f.label :email, "メールアドレス" %>
       <%= f.email_field :email, class: 'form-control', autocomplete: "email" %>
 
+      <%= f.label :current_password, "今のパスワード（メールアドレスやパスワードを変更するときだけ）" %>
+      <%= f.password_field :current_password, class: 'form-control', autocomplete: "current-password" %>
+
       <p class="form-hint">パスワードを変更しない場合は、下の2つは空欄のままにしてください。</p>
       <%= f.label :password, "パスワード" %>
       <%= f.password_field :password, class: 'form-control', autocomplete: "new-password" %>

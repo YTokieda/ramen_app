@@ -55,6 +55,14 @@ class UsersController < ApplicationController
     remove_avatar = params.dig(:user, :remove_avatar) == "1"
 
     @user.assign_attributes(user_params)
+
+    # メールアドレスやパスワードを変えるときは、乗っ取り対策として今のパスワードを確かめる
+    if (@user.will_save_change_to_email? || user_params[:password].present?) &&
+       !User.find(@user.id).authenticate(params.dig(:user, :current_password).to_s)
+      @user.errors.add(:base, "メールアドレスやパスワードを変更するには、今のパスワードを正しく入力してください")
+      render 'edit', status: :unprocessable_entity and return
+    end
+
     if avatar && (avatar.size > User::AVATAR_MAX_SIZE ||
                   !UploadContentTypeValidator.valid_upload?(avatar, allowed_types: User::AVATAR_TYPES))
       @user.errors.add(:avatar, "はJPEG・PNG・WebP形式で5MB以下の画像を選んでください")
