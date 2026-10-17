@@ -109,6 +109,32 @@ class User < ApplicationRecord
     withdrawn_at.present?
   end
 
+  WITHDRAWN_NAME = "退会したユーザー".freeze
+
+  # 退会：個人に結びつく情報は消し、公開済みの卵情報だけを投稿者が分からない形で残す
+  def withdraw!
+    transaction do
+      reviews.destroy_all
+      review_reactions.destroy_all
+      shop_owners.destroy_all
+      shop_submissions.destroy_all
+      Inquiry.where(user_id: id).update_all(user_id: nil)
+      avatar.purge if avatar.attached?
+      update_columns(
+        name: WITHDRAWN_NAME,
+        email: "withdrawn-#{id}-#{SecureRandom.hex(6)}@invalid.example",
+        password_digest: User.digest(User.new_token),
+        remember_digest: User.digest(User.new_token),
+        activation_digest: nil,
+        reset_digest: nil,
+        reset_sent_at: nil,
+        activated: false,
+        admin: false,
+        withdrawn_at: Time.zone.now
+      )
+    end
+  end
+
   
   private
     # メールアドレスをすべて小文字にする

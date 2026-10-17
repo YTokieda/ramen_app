@@ -1,0 +1,24 @@
+<% provide(:title, "退会") %>
+<h1>退会</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3 card auth-card">
+    <p>退会すると、次のようになります。元に戻すことはできません。</p>
+    <ul>
+      <li>アカウントが削除され、ログインできなくなります。</li>
+      <li>あなたの口コミ、リアクション、プロフィール画像、店舗情報の提供、店舗オーナー申請（提出書類を含む）は削除されます。</li>
+      <li>運営が確認して公開した卵の情報は、ほかの利用者のために残します。投稿者名は「<%= User::WITHDRAWN_NAME %>」になり、あなたと分からない形になります。</li>
+      <li>同じメールアドレスで、あらためて会員登録できます。</li>
+    </ul>
+
+    <%= form_with(url: withdrawal_path, scope: :withdrawal,
+                  data: { turbo_confirm: "本当に退会しますか？この操作は取り消せません。" }) do |f| %>
+      <%= f.label :password, "確認のため、今のパスワードを入力してください" %>
+      <%= f.password_field :password, class: "form-control", autocomplete: "current-password", required: true %>
+
+      <%= f.submit "退会する", class: "btn btn-danger" %>
+    <% end %>
+
+    <p class="auth-links"><%= link_to "やめる（アカウント設定に戻る）", edit_user_path(current_user) %></p>
+  </div>
+</div>

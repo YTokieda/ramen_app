@@ -77,8 +77,9 @@ class UsersController < ApplicationController
   end
   
   def destroy
-    User.find(params[:id]).destroy
-    flash[:success] = "ユーザーを削除しました。"
+    # 卵情報などの記録を残すため、削除ではなく退会と同じ扱いにする
+    User.find(params[:id]).withdraw!
+    flash[:success] = "ユーザーを退会扱いにしました。"
     redirect_to users_url, status: :see_other
   end
   
