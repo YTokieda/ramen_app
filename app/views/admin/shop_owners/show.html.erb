@@ -21,6 +21,25 @@
 </p>
 
 <p>
+  <strong>申請者の氏名：</strong>
+  <%= @shop_owner.applicant_name.presence || "（未入力）" %>
+  <% if @shop_owner.role_label %>（<%= @shop_owner.role_label %>）<% end %>
+</p>
+
+<p>
+  <strong>お店の電話番号：</strong>
+  <% if @shop_owner.shop_phone.present? %>
+    <%= link_to @shop_owner.shop_phone, "tel:#{@shop_owner.shop_phone}" %>
+  <% else %>
+    （未入力）
+  <% end %>
+</p>
+
+<p class="form-hint">
+  承認の前に、この番号がお店の公式サイトや地図サービスに載っている番号と同じか確かめ、お店に電話して申請者を確認してください。
+</p>
+
+<p>
   <strong>ステータス：</strong>
   <%= @shop_owner.status %>
 </p>
@@ -31,6 +50,8 @@
     <%= link_to "営業許可証をダウンロード",
             admin_shop_owner_business_license_path(@shop_owner) %>
   </p>
+<% elsif @shop_owner.reviewed_at %>
+  <p>店舗確認資料は、審査から<%= ShopOwner::LICENSE_RETENTION.in_days.to_i %>日がたったため削除しました。</p>
 <% else %>
   <p>店舗確認資料は提出されていません。</p>
 <% end %>

@@ -145,6 +145,9 @@ class ShopOwnersControllerTest < ActionDispatch::IntegrationTest
              params: {
                shop_owner: {
                  shop_id: @shop.id,
+                 applicant_name: "山田太郎",
+                 applicant_role: "owner",
+                 shop_phone: "03-1234-5678",
                  business_license: upload
                }
              }
@@ -181,6 +184,9 @@ class ShopOwnersControllerTest < ActionDispatch::IntegrationTest
              params: {
                shop_owner: {
                  shop_id: @shop.id,
+                 applicant_name: "山田太郎",
+                 applicant_role: "owner",
+                 shop_phone: "03-1234-5678",
                  business_license: upload
                }
              }
@@ -214,6 +220,9 @@ class ShopOwnersControllerTest < ActionDispatch::IntegrationTest
              params: {
                shop_owner: {
                  shop_id: @shop.id,
+                 applicant_name: "山田太郎",
+                 applicant_role: "owner",
+                 shop_phone: "03-1234-5678",
                  business_license: upload
                }
              }
@@ -226,5 +235,33 @@ class ShopOwnersControllerTest < ActionDispatch::IntegrationTest
     end
   end
   
-end
 
+  test "owner application requires name, role, shop phone and a license" do
+    log_in_as(@user)
+    assert_no_difference "ShopOwner.count" do
+      post shop_owners_path, params: { shop_owner: { shop_id: @shop.id } }
+    end
+    assert_response :unprocessable_entity
+    assert_match "申請者のお名前", response.body
+    assert_match "お店の電話番号", response.body
+  end
+
+  test "full-width phone numbers are accepted" do
+    owner = ShopOwner.new(shop_phone: "０３－１２３４－５６７８")
+    assert_equal "03-1234-5678", owner.shop_phone
+  end
+
+  test "licenses are purged 90 days after review but the application stays" do
+    owner = ShopOwner.new(user: @user, shop: @shop, status: "approved", reviewed_at: 91.days.ago)
+    owner.business_license.attach(io: StringIO.new("%PDF-1.4"), filename: "l.pdf", content_type: "application/pdf")
+    owner.save!
+    recent = ShopOwner.new(user: users(:lana), shop: @shop, status: "rejected", reviewed_at: 10.days.ago)
+    recent.business_license.attach(io: StringIO.new("%PDF-1.4"), filename: "l.pdf", content_type: "application/pdf")
+    recent.save!
+
+    ShopOwner.purge_expired_licenses!
+    assert_not owner.reload.business_license.attached?
+    assert recent.reload.business_license.attached?
+    assert ShopOwner.exists?(owner.id)
+  end
+end

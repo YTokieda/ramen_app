@@ -16,10 +16,12 @@ class ShopOwnersController < ApplicationController
     @shop = find_shop(params[:shop_owner][:shop_id])
   
     @shop_owner = current_user.shop_owners.build(
-      shop: @shop
+      shop: @shop,
+      **params.require(:shop_owner).permit(:applicant_name, :applicant_role, :shop_phone).to_h.symbolize_keys
     )
   
-    upload = params[:shop_owner][:business_license]
+    upload = params[:shop_owner][:business_license].presence
+    upload = nil unless upload.respond_to?(:tempfile)
   
     @shop_owner.business_license = upload
   
@@ -37,7 +39,7 @@ class ShopOwnersController < ApplicationController
       )
     end
   
-    if !invalid_upload && @shop_owner.save
+    if !invalid_upload && @shop_owner.save(context: :application)
       flash[:success] = "店舗オーナー申請を送信しました"
       redirect_to @shop
     else

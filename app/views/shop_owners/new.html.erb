@@ -23,17 +23,42 @@
 
   <%= f.hidden_field :shop_id,
                      value: @shop.id %>
-  <div>
-    <%= f.label :business_license,
-                "店舗確認資料" %>
-    <%= f.file_field :business_license %>
-  </div>
 
-  <p>
-    営業許可証など、店舗との関係を確認できる資料を
-    アップロードできます。
+  <p class="form-hint">
+    なりすまし防止のため、次の項目はすべて必須です。入力内容は運営だけが確認し、サイトには表示しません。
   </p>
 
-  <%= f.submit "オーナー申請を送信する" %>
+  <div>
+    <%= f.label :applicant_name, "申請者のお名前（本名）" %>
+    <%= f.text_field :applicant_name, maxlength: 50, required: true, autocomplete: "name",
+                     class: "form-control" %>
+  </div>
+
+  <div>
+    <%= f.label :applicant_role, "お店での立場" %>
+    <%= f.select :applicant_role, ShopOwner::ROLES.map { |key, label| [label, key] },
+                 { include_blank: "選んでください" }, { required: true, class: "form-control" } %>
+  </div>
+
+  <div>
+    <%= f.label :shop_phone, "お店の電話番号" %>
+    <%= f.telephone_field :shop_phone, required: true, placeholder: "例：03-1234-5678",
+                          class: "form-control" %>
+    <p class="form-hint">
+      確認のため、運営からこの番号にお電話することがあります。個人の携帯ではなく、お店の番号を入力してください。
+    </p>
+  </div>
+
+  <div>
+    <%= f.label :business_license, "営業許可証など（画像またはPDF）" %>
+    <%= f.file_field :business_license, required: true,
+                     accept: "image/jpeg,image/png,image/webp,application/pdf" %>
+    <p class="form-hint">
+      保健所の営業許可証、または店名と申請者のお名前が分かる書類を添付してください（5MBまで）。
+      提出された書類は、審査が終わってから<%= ShopOwner::LICENSE_RETENTION.in_days.to_i %>日後に削除します。
+    </p>
+  </div>
+
+  <%= f.submit "オーナー申請を送信する", class: "btn btn-primary" %>
 
 <% end %>
