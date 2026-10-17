@@ -43,6 +43,9 @@ ja:
       shop_owner:
         user_id: ユーザー
         business_license: 営業許可証など
+        applicant_name: 申請者のお名前
+        applicant_role: お店での立場
+        shop_phone: お店の電話番号
       inquiry:
         category: お問い合わせの種類
         name: お名前

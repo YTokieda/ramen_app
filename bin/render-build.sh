@@ -13,5 +13,8 @@ bundle exec rails assets:clean
 # 未適用のマイグレーションだけを実行する（既存データは消えない）
 bundle exec rails db:migrate
 
+# 審査から90日たった店舗オーナーの営業許可証を削除する
+bundle exec rails shop_owners:purge_expired_licenses
+
 # ADMIN_EMAILS に書かれた登録済みユーザーを管理者にする（未設定なら何もしない）
 bundle exec rails admin:grant_from_env

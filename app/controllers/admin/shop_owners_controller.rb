@@ -3,6 +3,8 @@ class Admin::ShopOwnersController < ApplicationController
   before_action :admin_user
 
   def index
+    # 保管期間を過ぎた営業許可証を削除してから一覧を出す
+    ShopOwner.purge_expired_licenses!
     @shop_owners = ShopOwner.all
   end
 
@@ -17,7 +19,7 @@ class Admin::ShopOwnersController < ApplicationController
   
     @shop_owner.with_lock do
       if @shop_owner.status == "pending"
-        @shop_owner.update!(status: "approved")
+        @shop_owner.update!(status: "approved", reviewed_at: Time.current)
         
         AdminAuditLog.create!(
           admin_user: current_user,
@@ -49,7 +51,7 @@ class Admin::ShopOwnersController < ApplicationController
   
     @shop_owner.with_lock do
       if @shop_owner.status == "pending"
-        @shop_owner.update!(status: "rejected")
+        @shop_owner.update!(status: "rejected", reviewed_at: Time.current)
         
         AdminAuditLog.create!(
           admin_user: current_user,
