@@ -24,5 +24,6 @@ class ModerationMailer < ApplicationMailer
     result(user: user, **args).deliver_now
   rescue StandardError => e
     Rails.logger.error("[ModerationMailer] #{e.class}: #{e.message}")
+    Sentry.capture_exception(e) if defined?(Sentry) && Sentry.initialized?
   end
 end
