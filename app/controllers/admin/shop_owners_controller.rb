@@ -33,6 +33,7 @@ class Admin::ShopOwnersController < ApplicationController
     end
   
     if processed
+      notify_result(approved: true)
       flash[:success] = "店舗オーナー申請を承認しました"
     else
       flash[:danger] = "この申請はすでに処理されています"
@@ -64,6 +65,7 @@ class Admin::ShopOwnersController < ApplicationController
     end
   
     if processed
+      notify_result(approved: false)
       flash[:success] = "店舗オーナー申請を却下しました"
     else
       flash[:danger] = "この申請はすでに処理されています"
@@ -73,5 +75,11 @@ class Admin::ShopOwnersController < ApplicationController
   end
 
   private
+
+  def notify_result(approved:)
+    ModerationMailer.notify(user: @shop_owner.user, kind: "shop_owner", approved: approved,
+                            subject_name: @shop_owner.shop.name,
+                            link_url: approved ? dashboard_shop_owners_url(locale: nil) : user_url(@shop_owner.user, locale: nil))
+  end
 
 end

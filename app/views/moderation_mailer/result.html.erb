@@ -1,0 +1,18 @@
+<p><%= @user.name %> さん</p>
+
+<p><%= site_name %>をご利用いただき、ありがとうございます。</p>
+
+<% if @approved %>
+  <% case @kind when "shop_submission" %>
+    <p>ご提供いただいた店舗情報「<%= @subject_name %>」を承認し、サイトに掲載しました。</p>
+  <% when "verification" %>
+    <p>ご提供いただいた卵情報（<%= @subject_name %>）を承認し、店舗ページに掲載しました。</p>
+  <% when "shop_owner" %>
+    <p>「<%= @subject_name %>」の店舗オーナー申請を承認しました。ヘッダーの「店舗管理」から、店舗情報やメニューを編集できます。</p>
+  <% end %>
+<% else %>
+  <p>ご提供いただいた<%= @kind_label %>（<%= @subject_name %>）を確認しましたが、今回は掲載（承認）を見送らせていただきました。</p>
+  <p>内容を確認できる資料を添えて、あらためて投稿していただくこともできます。ご不明な点はお問い合わせフォームからご連絡ください。</p>
+<% end %>
+
+<p><%= link_to @link_url, @link_url %></p>

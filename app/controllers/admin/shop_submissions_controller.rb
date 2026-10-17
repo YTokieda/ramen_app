@@ -57,6 +57,10 @@ class Admin::ShopSubmissionsController < ApplicationController
   
     case result
     when :approved
+      created_shop = Shop.find_by(name: @shop_submission.name, address: @shop_submission.address)
+      ModerationMailer.notify(user: @shop_submission.user, kind: "shop_submission", approved: true,
+                              subject_name: @shop_submission.name,
+                              link_url: created_shop ? shop_url(created_shop, locale: nil) : root_url(locale: nil))
       flash[:success] = "店舗情報を承認し、店舗を登録しました"
       redirect_to admin_shop_submissions_path
   
@@ -98,6 +102,9 @@ class Admin::ShopSubmissionsController < ApplicationController
     end
   
     if processed
+      ModerationMailer.notify(user: @shop_submission.user, kind: "shop_submission", approved: false,
+                              subject_name: @shop_submission.name,
+                              link_url: user_url(@shop_submission.user, locale: nil))
       flash[:success] = "店舗情報を却下しました"
     else
       flash[:danger] = "この申請はすでに処理されています"

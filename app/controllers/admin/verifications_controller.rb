@@ -35,6 +35,7 @@ class Admin::VerificationsController < ApplicationController
     end
   
     if processed
+      notify_result(approved: true)
       flash[:success] = "卵情報を承認しました。"
     else
       flash[:danger] = "この卵情報はすでに処理されています"
@@ -64,6 +65,7 @@ class Admin::VerificationsController < ApplicationController
     end
   
     if processed
+      notify_result(approved: false)
       flash[:success] = "卵情報を却下しました。"
     else
       flash[:danger] = "この卵情報はすでに処理されています"
@@ -73,6 +75,14 @@ class Admin::VerificationsController < ApplicationController
   end
   
   private
+
+  def notify_result(approved:)
+    shop = @verification.shop
+    name = [shop.name, @verification.menu_item&.name].compact.join("・")
+    ModerationMailer.notify(user: @verification.user, kind: "verification", approved: approved,
+                            subject_name: name,
+                            link_url: approved ? shop_url(shop, locale: nil) : user_url(@verification.user, locale: nil))
+  end
 
   def set_verification
     @verification = Verification.find(params[:id])
