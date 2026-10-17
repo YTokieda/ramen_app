@@ -61,7 +61,8 @@ class BrevoDeliveryTest < ActiveSupport::TestCase
     assert_equal "test-key", request["api-key"]
 
     payload = JSON.parse(request.body)
-    assert_equal "y.tokieda@gmail.com", payload["sender"]["email"]
+    assert_equal "ramen-guide@tokworks.jp", payload["sender"]["email"]
+    assert_equal "Tamago free", payload["sender"]["name"]
     assert_equal [{ "email" => @user.email }], payload["to"]
     assert_equal "【Tamago free】アカウントの有効化", payload["subject"]
     assert_match @user.activation_token, payload["htmlContent"]

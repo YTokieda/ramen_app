@@ -14,9 +14,7 @@ class BrevoDelivery
 
   def deliver!(message)
     payload = {
-      sender: {
-        email: message.from.first
-      },
+      sender: sender_for(message),
       to: message.to.map { |email| { email: email } },
       subject: message.subject
     }
@@ -52,5 +50,14 @@ class BrevoDelivery
     end
 
     response
+  end
+
+  private
+
+  def sender_for(message)
+    sender = { email: message.from.first }
+    name = message[:from]&.display_names&.first
+    sender[:name] = name if name.present?
+    sender
   end
 end

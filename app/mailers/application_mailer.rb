@@ -1,6 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
   helper ApplicationHelper
-  default from: "y.tokieda@gmail.com"
+  default from: email_address_with_name("ramen-guide@tokworks.jp", ApplicationHelper::SITE_NAME)
   layout "mailer"
 
   # メール内のURLは日本語ページ（接頭辞なし）にし、
