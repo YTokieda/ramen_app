@@ -17,6 +17,15 @@
   </div>
 
   <div>
+    <%= f.label :prefecture, t("shops.index.prefecture") %>
+    <%= f.select :prefecture,
+      [[t("shops.index.all"), ""]] +
+        @prefecture_counts.map { |name, count| ["#{Prefecture.label(name)}（#{count}）", name] },
+      { selected: @prefecture },
+      { class: "form-control" } %>
+  </div>
+
+  <div>
     <%= f.label :egg_status, t("shops.index.egg_status") %>
     <%= f.select :egg_status,
       [

@@ -10,11 +10,15 @@ class ShopsController < ApplicationController
   
     @egg_status = "" unless allowed_egg_statuses.include?(@egg_status)
     @category = "" unless allowed_categories.include?(@category)
+    @prefecture = params[:prefecture].to_s
+    @prefecture = "" unless Prefecture::NAMES.include?(@prefecture)
+    @prefecture_counts = Shop.prefecture_counts
   
     @shops = Shop.search(
       keyword: @keyword,
       egg_status: @egg_status,
-      category: @category
+      category: @category,
+      prefecture: @prefecture
     )
     
     @verification_summaries = Shop.latest_verification_groups

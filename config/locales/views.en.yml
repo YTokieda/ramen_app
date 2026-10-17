@@ -78,6 +78,7 @@ en:
       title: Find ramen shops
       keyword: Shop name or address
       keyword_placeholder: "e.g. Shinagawa, 品川"
+      prefecture: Prefecture
       egg_status: Egg information
       category: Category
       all: All
@@ -100,6 +101,7 @@ en:
       no_result: No shops matched your search.
     show:
       website: Official website / social media (external site)
+      map: View map
       menu: Menu
       no_menu: No menu items have been added yet.
       cooking_environment: Kitchen environment

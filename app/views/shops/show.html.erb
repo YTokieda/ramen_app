@@ -8,7 +8,11 @@
 <% end %>
 <div class="shop-header">
   <h1><%= @shop.name %></h1>
-  <p class="shop-address"><%= @shop.address %></p>
+  <p class="shop-address">
+    <%= @shop.address %>
+    <%= link_to t("shops.show.map"), @shop.map_url, target: "_blank", rel: "noopener noreferrer",
+                class: "shop-map-link" %>
+  </p>
 
   <% if @shop.description.present? %>
     <p><%= @shop.description %></p>

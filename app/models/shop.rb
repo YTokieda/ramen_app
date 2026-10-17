@@ -13,6 +13,19 @@ class Shop < ApplicationRecord
     
     validates :name, uniqueness: { scope: :address, message: "この店舗はすでに登録されています" }
 
+    before_save { self.prefecture = Prefecture.from_address(address) }
+
+    # 店舗がある都道府県と件数（JIS の順）
+    def self.prefecture_counts
+      visible.where.not(prefecture: nil).group(:prefecture).count
+             .sort_by { |name, _| Prefecture.order_index(name) }
+    end
+
+    # Google マップで店舗を探すURL（APIキー不要）
+    def map_url
+      "https://www.google.com/maps/search/?api=1&query=#{ERB::Util.url_encode("#{name} #{address}")}"
+    end
+
     # 運営が非公開にした店舗は、一般の利用者には見せない
     scope :visible, -> { where(hidden_at: nil) }
 
@@ -20,8 +33,9 @@ class Shop < ApplicationRecord
       hidden_at.present?
     end
     
-    def self.search(keyword:, egg_status:, category:)
+    def self.search(keyword:, egg_status:, category:, prefecture: nil)
       shops = visible
+      shops = shops.where(prefecture: prefecture) if prefecture.present?
     
       # 店舗名・住所による検索
       if keyword.present?

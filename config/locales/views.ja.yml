@@ -76,6 +76,7 @@ ja:
       title: ラーメン店を探す
       keyword: 店舗名・住所
       keyword_placeholder: 例：品川
+      prefecture: 都道府県
       egg_status: 卵情報
       category: 確認項目
       all: すべて
@@ -98,6 +99,7 @@ ja:
       no_result: 条件に一致する店舗はありませんでした。
     show:
       website: 公式サイト・SNS（外部サイト）
+      map: 地図で見る
       menu: メニュー
       no_menu: メニュー情報はまだ登録されていません。
       cooking_environment: 調理環境
