@@ -4,7 +4,7 @@ class LegalAndLocaleTest < ActionDispatch::IntegrationTest
   test "privacy policy shows operator and contact" do
     get privacy_path
     assert_response :success
-    assert_select "title", "プライバシーポリシー | Tamago free"
+    assert_select "title", "プライバシーポリシー | タマフリー"
     assert_match "TOK Works", response.body
     assert_select "a[href=?]", "mailto:ramen-guide@tokworks.jp"
     assert_match "外国にある事業者", response.body
@@ -32,7 +32,9 @@ class LegalAndLocaleTest < ActionDispatch::IntegrationTest
     get "/en"
     assert_response :success
     assert_select "html[lang=en]"
-    assert_select ".ribbon", "Ramen shop guide for people with egg allergies"
+    assert_select ".ribbon", "Egg allergy ramen guide"
+    assert_select "a#logo .logo-main", "TAMA-FREE"
+    assert_select "title", /TAMA-FREE/
     assert_select ".locale-switch a[href=?]", "/"
     # 英語ページ内のリンクは英語のまま
     assert_select "a[href=?]", "/en/shops"
