@@ -5,10 +5,10 @@ ja:
     colon: "："
     sep: "・"
   site:
-    name: タマフリー
+    name: たまナビ
     tagline: 卵アレルギーの方向けのラーメン屋ガイド
     ribbon: 卵アレルギーの方向けのラーメン屋ガイド
-    main: タマフリー
+    main: たまナビ
     switch_to: English
     switch_locale: en
   nav:
@@ -138,7 +138,7 @@ ja:
       privacy: 個人情報・退会について
       other: その他
   seo:
-    default_description: タマフリーは卵アレルギーの方向けのラーメン屋ガイドです。麺・スープ・トッピング・調理環境の卵の使用状況を、確認日と情報源つきで探せます。
+    default_description: たまナビは卵アレルギーの方向けのラーメン屋ガイドです。麺・スープ・トッピング・調理環境の卵の使用状況を、確認日と情報源つきで探せます。
     shops_description: 卵アレルギーの方向けに、ラーメン店の卵の使用状況を一覧で探せます。卵不使用の確認があるお店で絞り込みもできます。
     shop_lead: "%{name}（%{address}）の卵アレルギー情報。"
     shop_egg_free: "卵不使用を確認：%{items}。"
