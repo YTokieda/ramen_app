@@ -5,24 +5,24 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   test "should get home" do
     get root_path
     assert_response :success
-    assert_select "title", "みんなのラーメン | 卵アレルギーの方向けのラーメン屋ガイド"
+    assert_select "title", "たまナビ | 卵アレルギーの方向けのラーメン屋ガイド"
   end
 
   test "should get help" do
     get help_path
     assert_response :success
-    assert_select "title", "ヘルプ | みんなのラーメン"
+    assert_select "title", "ヘルプ | たまナビ"
   end
 
   test "should get about" do
     get about_path
     assert_response :success
-    assert_select "title", "このサイトについて | みんなのラーメン"
+    assert_select "title", "このサイトについて | たまナビ"
   end
 
   test "should get contact" do
     get contact_path
     assert_response :success
-    assert_select "title", "お問い合わせ | みんなのラーメン"
+    assert_select "title", "お問い合わせ | たまナビ"
   end
 end

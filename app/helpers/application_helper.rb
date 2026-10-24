@@ -1,5 +1,5 @@
 module ApplicationHelper
-  SITE_NAME = "みんなのラーメン".freeze
+  SITE_NAME = "たまナビ".freeze
   SITE_NAME_EN = "EGG ALLERGY RAMEN GUIDE".freeze
   OPERATOR_NAME = "TOK Works".freeze
   CONTACT_EMAIL = "ramen-guide@tokworks.jp".freeze

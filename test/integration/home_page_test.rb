@@ -8,7 +8,7 @@ class HomePageTest < ActionDispatch::IntegrationTest
     assert_select ".home-notice", /安全を保証するものではありません/
     assert_select "a[href=?]", signup_path
     assert_select "a#logo .logo-ribbon", "卵アレルギーの方向けのラーメン屋ガイド"
-    assert_select "a#logo .logo-main", "みんなのラーメン"
+    assert_select "a#logo .logo-main", "たまナビ"
     assert_select "a#logo img.logo-icon"
   end
 
