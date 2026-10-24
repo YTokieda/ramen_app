@@ -443,6 +443,12 @@ span.image {
   }
 }
 
+.home-cta-catch {
+  font-size: 1.15em;
+  font-weight: bold;
+  color: $theme-green;
+}
+
 @media (max-width: 767px) {
   #logo {
     font-size: 1.2em;
