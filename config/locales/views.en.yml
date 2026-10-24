@@ -7,10 +7,10 @@ en:
     colon: ": "
     sep: " · "
   site:
-    name: Tamago free
+    name: Tama-Navi
     tagline: Ramen shop guide for people with egg allergies
-    ribbon: Ramen shop guide for people with egg allergies
-    main: Tamago free
+    ribbon: Egg allergy ramen guide
+    main: Tama-Navi
     switch_to: 日本語
     switch_locale: ja
   nav:
@@ -149,7 +149,7 @@ en:
         email: Email address
         body: Message
   seo:
-    default_description: Tamago free is a ramen shop guide for people with egg allergies. Check whether noodles, soup, toppings and kitchens use egg, with the date and source of each check.
+    default_description: Tama-Navi is a ramen shop guide for people with egg allergies. Check whether noodles, soup, toppings and kitchens use egg, with the date and source of each check.
     shops_description: Browse ramen shops by egg use, and filter for shops with confirmed egg-free menus.
     shop_lead: "Egg allergy information for %{name} (%{address})."
     shop_egg_free: "Confirmed egg-free: %{items}."
