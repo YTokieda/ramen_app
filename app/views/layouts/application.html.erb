@@ -34,6 +34,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Zen+Maru+Gothic:wght@700&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <% if Rails.env.production? %>
+      <!-- Cloudflare Web Analytics（Cookieを使わないアクセス解析） -->
+      <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "c257d93b3af7462a877fe5837b0e8608"}'></script>
+    <% end %>
   </head>
   <body>
     <%= render 'layouts/header' %>
