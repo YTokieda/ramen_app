@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "up" => "rails/health#show", as: :rails_health_check
   get "/robots.txt",  to: "seo_files#robots", format: false
   get "/sitemap.xml", to: "seo_files#sitemap", defaults: { format: :xml }, format: false
 

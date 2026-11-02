@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
 
   before_action :redirect_to_canonical_host
+  before_action :require_site_password
   around_action :switch_locale
 
   # CANONICAL_HOST（例：ramen.tokworks.jp）が設定されていれば、
@@ -12,6 +13,20 @@ class ApplicationController < ActionController::Base
 
     redirect_to "#{request.protocol}#{canonical}#{request.fullpath}",
                 status: :moved_permanently, allow_other_host: true
+  end
+
+  # SITE_BASIC_AUTH（例：ramen:secret）が設定されていれば、サイト全体に
+  # パスワードをかけて非公開にし、検索エンジンにも登録させない
+  def require_site_password
+    credentials = ENV["SITE_BASIC_AUTH"].presence
+    return if credentials.nil?
+
+    response.headers["X-Robots-Tag"] = "noindex, nofollow"
+    expected_name, expected_password = credentials.split(":", 2)
+    authenticate_or_request_with_http_basic("tamanavi") do |name, password|
+      ActiveSupport::SecurityUtils.secure_compare(name, expected_name.to_s) &
+        ActiveSupport::SecurityUtils.secure_compare(password, expected_password.to_s)
+    end
   end
 
   # 日本語は接頭辞なし、英語は /en/... で表示する
